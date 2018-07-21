@@ -1,0 +1,72 @@
+﻿<Page
+    x:Class="LoraIntern.VisualData"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:Charting="using:WinRTXamlToolkit.Controls.DataVisualization.Charting"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:LoraIntern"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" RequestedTheme="Light">
+
+    <Grid Background="White">
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="7.5*"/>
+            <ColumnDefinition Width="7.5*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Charting:Chart Grid.Column="1" x:Name="dustChart" Title="Dust(kg/m^3)" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="0" RequestedTheme="Light" >
+            <Charting:LineSeries Title="Hank" IndependentValuePath="Name" DependentValuePath="Amount" IsSelectionEnabled="True" RequestedTheme="Light"/>
+        </Charting:Chart>
+
+        <Charting:Chart Grid.Column="1" x:Name="uvChart" Title="UV(mW/m^2)" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="2" RequestedTheme="Light" >
+            <Charting:LineSeries Title="Hank" IndependentValuePath="Name" DependentValuePath="Amount" IsSelectionEnabled="True" RequestedTheme="Light"/>
+        </Charting:Chart>
+
+        <Charting:Chart Grid.Column="1" x:Name="temperatureChart" Title="Temperature(°C)" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="4" RequestedTheme="Light" >
+            <Charting:LineSeries Title="Hank" IndependentValuePath="Name" DependentValuePath="Amount" IsSelectionEnabled="True" RequestedTheme="Light"/>
+        </Charting:Chart>
+
+        <Charting:Chart Grid.Column="2" x:Name="pressureChart" Title="Pressure(Pa)" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="0" RequestedTheme="Light" >
+            <Charting:LineSeries Title="Hank" IndependentValuePath="Name" DependentValuePath="Amount" IsSelectionEnabled="True" RequestedTheme="Light"/>
+        </Charting:Chart>
+
+        <Charting:Chart Grid.Column="2" x:Name="humidityChart" Title="Humidity(%)" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="2" RequestedTheme="Light" >
+            <Charting:LineSeries Title="Hank" IndependentValuePath="Name" DependentValuePath="Amount" IsSelectionEnabled="True" RequestedTheme="Light"/>
+        </Charting:Chart>
+
+        <Charting:Chart Grid.Column="2" x:Name="altitudeChart" Title="Altitude(m)" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="4" RequestedTheme="Light" >
+            <Charting:LineSeries Title="Hank" IndependentValuePath="Name" DependentValuePath="Amount" IsSelectionEnabled="True" RequestedTheme="Light"/>
+        </Charting:Chart>
+
+        <Button Grid.Column="0" x:Name="Connection" Grid.Row="0" Click="Connection_Click" Content="&#xE80F;" FontFamily="Segoe MDL2 Assets" Background="#FFC4F5FF" FontSize="72" HorizontalAlignment="Stretch" VerticalAlignment="Top" RequestedTheme="Light"/>
+
+        <Button Grid.Row="0" Grid.RowSpan="5" Grid.Column="3" x:Name="Next" HorizontalAlignment="Stretch" VerticalAlignment="Center" Click="Next_Click" Content="&#xE72A;" FontFamily="Segoe MDL2 Assets" Background="#FFC4F5FF" FontSize="72"/>
+        <Button Grid.Row="0" Grid.RowSpan="5" Grid.Column="0" x:Name="Back" HorizontalAlignment="Stretch" VerticalAlignment="Center" Content="&#xE72B;" FontFamily="Segoe MDL2 Assets" Background="#FFC4F5FF" FontSize="72" Click="Back_Click"/>
+        <Grid Grid.Row="6" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="6*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="5*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBox Grid.Column="0" x:Name="TypeDate" Text="" FontSize="36" VerticalAlignment="Stretch" PlaceholderText="Search Date (dd/mm/yy)" />
+            <Button Grid.Column="1" x:Name="SearchDate" Content="&#xE721;" FontFamily="Segoe MDL2 Assets" Background="#FFC4F5FF" FontSize="24" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="SearchDate_Click"/>
+        </Grid>
+    </Grid>
+</Page>
