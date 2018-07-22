@@ -6,9 +6,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using WinRTXamlToolkit.Controls.DataVisualization.Charting;
 
-
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
-
 namespace LoraIntern
 {
     public sealed partial class VisualData : Page
@@ -230,14 +227,14 @@ namespace LoraIntern
 
         }
 
-        private static void DisplaySqlErrors(SqlException exception)
+        private async static void DisplaySqlErrors(SqlException exception)
         {
             for (int i = 0; i < exception.Errors.Count; i++)
             {
-                Console.WriteLine("Index #" + i + "\n" +
-                    "Error: " + exception.Errors[i].ToString() + "\n");
+                MessageDialog popup = new MessageDialog("Index #" + i + "\n" +
+                    "Error: " + exception.Errors[i].ToString() + "\n", "Wrong DateTime Format");
+                await popup.ShowAsync();
             }
-            Console.ReadLine();
         }
 
         private void Connection_Click(object sender, RoutedEventArgs e)
@@ -245,7 +242,7 @@ namespace LoraIntern
             this.Frame.Navigate(typeof(LoraIntern.MainPage));
         }
 
-        private void Next_Click(object sender, RoutedEventArgs e)
+        private async void Next_Click(object sender, RoutedEventArgs e)
         {
             readnumberofrows();
             if (end<norows)
@@ -256,11 +253,12 @@ namespace LoraIntern
             }
             else
             {
-                MessageDialog popup = new MessageDialog("No more data to load");
+                MessageDialog popup = new MessageDialog("No more data to load!");
+                await popup.ShowAsync();
             }
         }
 
-        private void Back_Click(object sender, RoutedEventArgs e)
+        private async void Back_Click(object sender, RoutedEventArgs e)
         {
             if (start>0)
             {
@@ -271,10 +269,11 @@ namespace LoraIntern
             else
             {
                 MessageDialog popup = new MessageDialog("You have reached the end!");
+                await popup.ShowAsync();
             }
         }
 
-        private void SearchDate_Click(object sender, RoutedEventArgs e)
+        private async void SearchDate_Click(object sender, RoutedEventArgs e)
         {
             if (TypeDate.Text!=null)
             {
@@ -287,8 +286,14 @@ namespace LoraIntern
                 catch (Exception ex)
                 {
 
-                    MessageDialog popup = new MessageDialog(ex.ToString());
+                    MessageDialog popup = new MessageDialog(ex.ToString(),"Wrong DateTime Format");
+                    await popup.ShowAsync();
                 }
+            }
+            else
+            {
+                MessageDialog popup = new MessageDialog("Please Enter a Date or Time", "No Entry");
+                await popup.ShowAsync();
             }
         }
 
@@ -393,7 +398,6 @@ namespace LoraIntern
             (pressureChart.Series[0] as LineSeries).ItemsSource = pressrecords;
             (humidityChart.Series[0] as LineSeries).ItemsSource = humrecords;
             (altitudeChart.Series[0] as LineSeries).ItemsSource = altrecords;
-
         }
     }
 }
