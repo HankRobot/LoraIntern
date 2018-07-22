@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -330,7 +331,7 @@ namespace LoraIntern
                             //Debug.WriteLine("Lul",time);
                             //Debug.WriteLine("lal", date.ToShortDateString());
                             time = time.Remove(time.LastIndexOf("/")) + "(" + reader.GetDateTime(3).ToString("HH:mm") + ")";
-                            if (reader.GetDateTime(3).ToShortDateString()==date.ToShortDateString() && dustrecords.Count<13)
+                            if (reader.GetDateTime(3)>=date && dustrecords.Count<13)
                             {
                                 dustrecords.Add(new dustRecords()
                                 {
@@ -369,7 +370,7 @@ namespace LoraIntern
                                 });
                             }
 
-                            if (reader.GetDateTime(3).ToShortDateString() == date.ToShortDateString())
+                            if (reader.GetDateTime(3) >= date)
                             {
                                 counter += 1;
                                 lastrow = reader.GetValue(0);
@@ -386,6 +387,10 @@ namespace LoraIntern
 
             start += Convert.ToInt32(lastrow)-counter+1;
             end += Convert.ToInt32(lastrow)-counter+1;
+            Debug.WriteLine(Convert.ToInt32(lastrow),"This is the last row");
+            Debug.WriteLine(counter,"This is counter");
+            Debug.WriteLine(start,"This is start");
+            Debug.WriteLine(end,"this is end");
 
             (dustChart.Series[0] as LineSeries).ItemsSource = dustrecords;
             (uvChart.Series[0] as LineSeries).ItemsSource = uvrecords;

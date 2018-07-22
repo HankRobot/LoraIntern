@@ -65,7 +65,7 @@
                 <RowDefinition Height="5*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <TextBox Grid.Column="0" x:Name="TypeDate" Text="" FontSize="36" VerticalAlignment="Stretch" PlaceholderText="Search Date (dd/mm/yy)" />
+            <TextBox Grid.Column="0" x:Name="TypeDate" Text="" FontSize="36" VerticalAlignment="Stretch" PlaceholderText="Search Time (dd/mm/yy hh:mm)" />
             <Button Grid.Column="1" x:Name="SearchDate" Content="&#xE721;" FontFamily="Segoe MDL2 Assets" Background="#FFC4F5FF" FontSize="24" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="SearchDate_Click"/>
         </Grid>
     </Grid>
