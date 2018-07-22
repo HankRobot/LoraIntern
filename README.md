@@ -1,4 +1,4 @@
-# Introduction
+# Introduction :laughing:
 Hey guys Hank here! This project is for Dr Pu's Lora Internet of Things Network Internship Project! If you have any questions please ask!
 
 # Our Goal (just saying it for now)
@@ -19,4 +19,4 @@ To commit sensor data from client to server to cloud using Lora RFM-Shield + Ard
 # Contribute (Will write this when I am finishing my internship)
 1. 
 
-#HAPPY CODING!!! <3 
+#HAPPY CODING!!! :heart:
