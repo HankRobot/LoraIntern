@@ -65,7 +65,7 @@
                 <TextBlock TextWrapping="Wrap" Text="Temperature:" FontSize="24" Height="45" RequestedTheme="Light"/>
                 <TextBlock TextWrapping="Wrap" Text="Pressure:" FontSize="24" TextAlignment="Center" Height="45" VerticalAlignment="Top" Padding="0" HorizontalAlignment="Left" RequestedTheme="Light"/>
                 <TextBlock TextWrapping="Wrap" Text="Humidity:" FontSize="24" TextAlignment="Center" Height="45" HorizontalAlignment="Left" RequestedTheme="Light"/>
-                <TextBlock TextWrapping="Wrap" Text="Altitude:" Height="45" FontSize="24" HorizontalAlignment="Left" Width="129" RequestedTheme="Light"/>
+                <TextBlock TextWrapping="Wrap" Text="RSSI:" Height="45" FontSize="24" HorizontalAlignment="Left" Width="129" RequestedTheme="Light"/>
             </StackPanel>
             <StackPanel Grid.Column="1" VerticalAlignment="Stretch" FocusVisualPrimaryBrush="White" FocusVisualSecondaryBrush="#99000000" Background="#FF48AED4" BorderBrush="Black" RequestedTheme="Light">
                 <TextBlock x:Name="transmissiont" TextWrapping="Wrap" Text="No.0" Height="45" FontSize="24" TextAlignment="Center"/>
@@ -76,7 +76,7 @@
                 <TextBlock x:Name="tempt" TextWrapping="Wrap" Text="0°C" FontSize="24" Height="45" TextAlignment="Center"/>
                 <TextBlock x:Name="presst" TextWrapping="Wrap" Text="0Pa" FontSize="24" TextAlignment="Center" Height="45"/>
                 <TextBlock x:Name="humt" HorizontalAlignment="Center" TextWrapping="Wrap" Text="0%" VerticalAlignment="Center" FontSize="24" Width="218" Height="45" TextAlignment="Center"/>
-                <TextBlock x:Name="altt" TextWrapping="Wrap" Text="0m" Height="44" TextAlignment="Center" FontSize="24" HorizontalAlignment="Center" Width="218" VerticalAlignment="Center"/>
+                <TextBlock x:Name="RSSIt" TextWrapping="Wrap" Text="0" Height="44" TextAlignment="Center" FontSize="24" HorizontalAlignment="Center" Width="218" VerticalAlignment="Center"/>
             </StackPanel>
         </Grid>
 

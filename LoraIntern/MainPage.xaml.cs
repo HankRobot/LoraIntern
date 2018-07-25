@@ -29,7 +29,7 @@ namespace LoraIntern
         public string temp { get; set; }
         public string press { get; set; }
         public string hum { get; set; }
-        public string alt { get; set; }
+        public string RSSI { get; set; }
 
         //these are variables for sending data to query
         public int setter;
@@ -40,7 +40,7 @@ namespace LoraIntern
         public double tempn = 0;
         public double pressn = 0;
         public double humn = 0;
-        public double altn = 0;
+        public double RSSIn = 0;
 
 
         private ObservableCollection<DeviceInformation> listOfDevices;
@@ -54,6 +54,10 @@ namespace LoraIntern
             comPortInput.IsEnabled = false;
             listOfDevices = new ObservableCollection<DeviceInformation>();
             ListAvailablePorts();
+            //Visualize.IsEnabled = false;
+            ///raspberry pi takes forever to load datasets
+            ///and also the serial write stops 
+            ///its processing when u visualize data
         }
 
         /// <summary>
@@ -281,7 +285,7 @@ namespace LoraIntern
                     temp = received.Remove(received.LastIndexOf("c") + 1).Remove(0, received.IndexOf("b") + 1).Replace("c", "°C");
                     press = received.Remove(received.IndexOf("p") + 2).Remove(0, received.LastIndexOf("c") + 2).Replace("p", "P");
                     hum = received.Remove(received.IndexOf("%") + 1).Remove(0, received.IndexOf("p") + 3);
-                    alt = received.Remove(0, received.IndexOf("%") + 2);
+                    RSSI = received.Remove(0, received.IndexOf("%") + 2).Replace("m","");
 
                     //this counter is to verify the number of transmission is changing and transmission is true for the sql to upload data
                     string number = transmission.Remove(0, 3);
@@ -296,7 +300,7 @@ namespace LoraIntern
                     tempt.Text = temp;
                     presst.Text = press;
                     humt.Text = hum;
-                    altt.Text = alt;
+                    RSSIt.Text = RSSI;
 
                     //convert all of them to numbers so I can upload them to SQL
                     transn = setter;
@@ -308,7 +312,7 @@ namespace LoraIntern
                     tempn = Convert.ToDouble(temp.Remove(temp.Length - 2));
                     pressn = Convert.ToDouble(press.Remove(press.Length - 2));
                     humn = Convert.ToDouble(hum.Remove(hum.Length - 1));
-                    altn = Convert.ToDouble(alt.Remove(alt.Length - 1));
+                    RSSIn = Convert.ToDouble(RSSI);
 
                     status.Text = "bytes read successfully!";
                     sendQuerytoSql();
@@ -379,7 +383,7 @@ namespace LoraIntern
             string sendQuery = String.Format(
                 "INSERT INTO LORA_TABLE (ID, Trans , TimeSubmit, Dust, UV, Temp, Pressure, Humidity, Altitude) " +
                 "VALUES ({0},{1},{2},{3},{4},{5},{6},{7},{8});"
-                ,("'"+id+"'"),transn,"'"+daten+"'",dustn,uvn,tempn,pressn,humn,altn);
+                ,("'"+id+"'"),transn,"'"+daten+"'",dustn,uvn,tempn,pressn,humn,RSSIn);
 
             //Debug.WriteLine(sendQuery,"This is the test for query");
 
