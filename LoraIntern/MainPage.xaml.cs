@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Data.SqlTypes;
+using System.Diagnostics;
 
 namespace LoraIntern
 {
@@ -41,7 +42,6 @@ namespace LoraIntern
         public double pressn = 0;
         public double humn = 0;
         public double RSSIn = 0;
-
 
         private ObservableCollection<DeviceInformation> listOfDevices;
         private CancellationTokenSource ReadCancellationTokenSource;
@@ -272,20 +272,19 @@ namespace LoraIntern
                 UInt32 bytesRead = await loadAsyncTask;
                 if (bytesRead > 0)
                 {
-
                     // Starts string manipulation to receive the infos
                     rcvdText.Text = dataReaderObject.ReadString(bytesRead);
                     string received = rcvdText.Text;
 
-                    transmission = received.Remove(received.IndexOf("f") - 1);
-                    id = received.Remove(received.IndexOf("d") - 1).Remove(0, received.IndexOf("m") + 2);
-                    date = received.Remove(received.IndexOf("k") - 5).Remove(0, received.IndexOf("m") + 2 + id.Length + 2);
-                    dust = received.Remove(received.IndexOf("k") + 6).Remove(0, received.IndexOf("d") + date.Length + 1);
-                    uv = received.Remove(received.IndexOf("w") + 6).Remove(0, received.IndexOf("k") + 6).Replace("w", "W");
-                    temp = received.Remove(received.LastIndexOf("c") + 1).Remove(0, received.IndexOf("b") + 1).Replace("c", "°C");
-                    press = received.Remove(received.IndexOf("p") + 2).Remove(0, received.LastIndexOf("c") + 2).Replace("p", "P");
-                    hum = received.Remove(received.IndexOf("%") + 1).Remove(0, received.IndexOf("p") + 3);
-                    RSSI = received.Remove(0, received.IndexOf("%") + 2).Replace("m","");
+                    transmission = received.Remove(received.IndexOf('f') - 1);
+                    id = received.Remove(received.IndexOf('d') - 1).Remove(0, received.IndexOf('m') + 2);
+                    date = received.Remove(received.IndexOf('k') - 5).Remove(0, received.IndexOf('m') + 2 + id.Length + 2);
+                    dust = received.Remove(received.IndexOf('k') + 6).Remove(0, received.IndexOf('d') + date.Length + 1);
+                    uv = received.Remove(received.IndexOf('w') + 6).Remove(0, received.IndexOf('k') + 6).Replace('w', 'W');
+                    temp = received.Remove(received.LastIndexOf('c') + 1).Remove(0, received.IndexOf('b') + 1).Replace("c", "°C");
+                    press = received.Remove(received.IndexOf('p') + 2).Remove(0, received.LastIndexOf('c') + 2).Replace('p', 'P');
+                    hum = received.Remove(received.IndexOf('%') + 1).Remove(0, received.IndexOf('p') + 3);
+                    RSSI = received.Remove(0, received.IndexOf('%') + 2).Replace('m',' ');
 
                     //this counter is to verify the number of transmission is changing and transmission is true for the sql to upload data
                     string number = transmission.Remove(0, 3);
@@ -312,7 +311,7 @@ namespace LoraIntern
                     tempn = Convert.ToDouble(temp.Remove(temp.Length - 2));
                     pressn = Convert.ToDouble(press.Remove(press.Length - 2));
                     humn = Convert.ToDouble(hum.Remove(hum.Length - 1));
-                    RSSIn = Convert.ToDouble(RSSI);
+                    RSSIn = Convert.ToDouble(RSSI.Remove(RSSI.Length-1));
 
                     status.Text = "bytes read successfully!";
                     sendQuerytoSql();
@@ -385,7 +384,7 @@ namespace LoraIntern
                 "VALUES ({0},{1},{2},{3},{4},{5},{6},{7},{8});"
                 ,("'"+id+"'"),transn,"'"+daten+"'",dustn,uvn,tempn,pressn,humn,RSSIn);
 
-            //Debug.WriteLine(sendQuery,"This is the test for query");
+            Debug.WriteLine(sendQuery,"This is the test for query");
 
             cb.DataSource = "lorawan-hank.database.windows.net";
             cb.UserID = "Hank";

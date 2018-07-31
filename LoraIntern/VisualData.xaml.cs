@@ -11,7 +11,7 @@ namespace LoraIntern
     public sealed partial class VisualData : Page
     {
         public int start = 0; //the first row to start iterate
-        public int end = 30;  //the last row after iteration
+        public int end = 59;  //the last row after iteration
         public int norows;    //total number of rows in the server
 
         SqlConnectionStringBuilder cb = new SqlConnectionStringBuilder();
@@ -230,7 +230,7 @@ namespace LoraIntern
 
         public void LoadChartContents()
         {
-            string retrieve = String.Format("select * from (select Row_Number() over (order by TIMESUBMIT) as RowIndex, * from LORA_TABLE) as Sub Where Sub.RowIndex >= {0} and Sub.RowIndex <= {1};",start,end*2);
+            string retrieve = String.Format("select * from (select Row_Number() over (order by TIMESUBMIT) as RowIndex, * from LORA_TABLE) as Sub Where Sub.RowIndex >= {0} and Sub.RowIndex <= {1};",start,end);
 
             //list for client "HANK"
             List<dustRecords> dustrecords = new List<dustRecords>();
@@ -267,10 +267,8 @@ namespace LoraIntern
                         while (reader.Read())
                         {
                             DateTime time = reader.GetDateTime(3);
-                            if (dustrecords.Count<31)
-                            {
-                                CurrentDate.Text = time.ToShortDateString();
-                                if (reader.GetString(1) == "HANK")
+                            CurrentDate.Text = time.ToShortDateString();
+                            if (reader.GetString(1) == "HANK")
                                 {
                                     dustrecords.Add(new dustRecords()
                                     {
@@ -308,7 +306,7 @@ namespace LoraIntern
                                         Amount = reader.GetValue(9)
                                     });
                                 }
-                                if (reader.GetString(1) == "LORA")
+                            if (reader.GetString(1) == "LORA")
                                 {
                                     dustrecords1.Add(new dustRecords1()
                                     {
@@ -346,7 +344,6 @@ namespace LoraIntern
                                         Amount = reader.GetValue(9)
                                     });
                                 }
-                            } 
                         }
                     }
                 }
@@ -393,8 +390,8 @@ namespace LoraIntern
             readnumberofrows();
             if (end<norows)
             {
-                start += 28;
-                end += 28;
+                start += 59;
+                end += 59;
                 LoadChartContents();
             }
             else
@@ -408,8 +405,8 @@ namespace LoraIntern
         {
             if (start>0)
             {
-                start -= 28;
-                end -= 28;
+                start -= 59;
+                end -= 59;
                 LoadChartContents();
             }
             else
@@ -446,7 +443,7 @@ namespace LoraIntern
         private void findsqlDate(DateTime date)
         {
             start = 0;
-            end = 30;
+            end = 59;
             object lastrow = 0;
             int counter = 0;
 
