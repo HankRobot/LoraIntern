@@ -21,6 +21,8 @@ namespace LoraIntern
             this.InitializeComponent();
             readnumberofrows();
             LoadChartContents();
+            DateTime today = System.DateTime.Now.Date;
+            findsqlDate(today);
         }
 
         //variable class for Hank client

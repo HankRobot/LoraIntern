@@ -54,7 +54,7 @@ namespace LoraIntern
             comPortInput.IsEnabled = false;
             listOfDevices = new ObservableCollection<DeviceInformation>();
             ListAvailablePorts();
-            //Visualize.IsEnabled = false;
+            ///Visualize.IsEnabled = false;
             ///raspberry pi takes forever to load datasets
             ///and also the serial write stops 
             ///its processing when u visualize data
@@ -275,23 +275,23 @@ namespace LoraIntern
                     // Starts string manipulation to receive the infos
                     rcvdText.Text = dataReaderObject.ReadString(bytesRead);
                     string received = rcvdText.Text;
-                    //check the number of bytes the string has
-                    Debug.WriteLine(System.Text.Encoding.Unicode.GetByteCount(received));
-                    if (System.Text.Encoding.Unicode.GetByteCount(received)<300)
+                    string[] transmissions = received.Split("No.",StringSplitOptions.RemoveEmptyEntries);
+
+                    foreach (var word in transmissions)
                     {
-                        transmission = received.Remove(received.IndexOf('f') - 1);
-                        id = received.Remove(received.IndexOf('d') - 1).Remove(0, received.IndexOf('m') + 2);
-                        date = received.Remove(received.IndexOf('k') - 5).Remove(0, received.IndexOf('m') + 2 + id.Length + 2);
-                        dust = received.Remove(received.IndexOf('k') + 6).Remove(0, received.IndexOf('d') + date.Length + 1);
-                        uv = received.Remove(received.IndexOf('w') + 6).Remove(0, received.IndexOf('k') + 6).Replace('w', 'W');
-                        temp = received.Remove(received.LastIndexOf('c') + 1).Remove(0, received.IndexOf('b') + 1).Replace("c", "°C");
-                        press = received.Remove(received.IndexOf('p') + 2).Remove(0, received.LastIndexOf('c') + 2).Replace('p', 'P');
-                        hum = received.Remove(received.IndexOf('%') + 1).Remove(0, received.IndexOf('p') + 3);
-                        RSSI = received.Remove(0, received.IndexOf('%') + 2).Replace('m', ' ');
+                        Debug.WriteLine(word);
+                        transmission = word.Remove(word.IndexOf('f') - 1);
+                        id = word.Remove(word.IndexOf('d') - 1).Remove(0, word.IndexOf('m') + 2);
+                        date = word.Remove(word.IndexOf('k') - 5).Remove(0, word.IndexOf('m') + 2 + id.Length + 2);
+                        dust = word.Remove(word.IndexOf('k') + 6).Remove(0, word.IndexOf('d') + date.Length + 1);
+                        uv = word.Remove(word.IndexOf('w') + 6).Remove(0, word.IndexOf('k') + 6).Replace('w', 'W');
+                        temp = word.Remove(word.LastIndexOf('c') + 1).Remove(0, word.IndexOf('b') + 1).Replace("c", "°C");
+                        press = word.Remove(word.IndexOf('p') + 2).Remove(0, word.LastIndexOf('c') + 2).Replace('p', 'P');
+                        hum = word.Remove(word.IndexOf('%') + 1).Remove(0, word.IndexOf('p') + 3);
+                        RSSI = word.Remove(0, word.IndexOf('%') + 2).Replace('m', ' ');
 
                         //this counter is to verify the number of transmission is changing and transmission is true for the sql to upload data
-                        string number = transmission.Remove(0, 3);
-                        setter = Int32.Parse(number);
+                        setter = Int32.Parse(transmission);
 
                         //Update all the received infos to the labels
                         transmissiont.Text = transmission;
@@ -319,12 +319,6 @@ namespace LoraIntern
                         status.Text = "bytes read successfully!";
                         sendQuerytoSql();
                     }
-                    else
-                    {
-                        status.Text = "Large Byte detected,reading again...";
-                        rcvdText.Text = dataReaderObject.ReadString(bytesRead);
-                    }
-                    
                 }
             }
         }
