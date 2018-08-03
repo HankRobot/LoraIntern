@@ -275,46 +275,56 @@ namespace LoraIntern
                     // Starts string manipulation to receive the infos
                     rcvdText.Text = dataReaderObject.ReadString(bytesRead);
                     string received = rcvdText.Text;
+                    //check the number of bytes the string has
+                    Debug.WriteLine(System.Text.Encoding.Unicode.GetByteCount(received));
+                    if (System.Text.Encoding.Unicode.GetByteCount(received)<300)
+                    {
+                        transmission = received.Remove(received.IndexOf('f') - 1);
+                        id = received.Remove(received.IndexOf('d') - 1).Remove(0, received.IndexOf('m') + 2);
+                        date = received.Remove(received.IndexOf('k') - 5).Remove(0, received.IndexOf('m') + 2 + id.Length + 2);
+                        dust = received.Remove(received.IndexOf('k') + 6).Remove(0, received.IndexOf('d') + date.Length + 1);
+                        uv = received.Remove(received.IndexOf('w') + 6).Remove(0, received.IndexOf('k') + 6).Replace('w', 'W');
+                        temp = received.Remove(received.LastIndexOf('c') + 1).Remove(0, received.IndexOf('b') + 1).Replace("c", "°C");
+                        press = received.Remove(received.IndexOf('p') + 2).Remove(0, received.LastIndexOf('c') + 2).Replace('p', 'P');
+                        hum = received.Remove(received.IndexOf('%') + 1).Remove(0, received.IndexOf('p') + 3);
+                        RSSI = received.Remove(0, received.IndexOf('%') + 2).Replace('m', ' ');
 
-                    transmission = received.Remove(received.IndexOf('f') - 1);
-                    id = received.Remove(received.IndexOf('d') - 1).Remove(0, received.IndexOf('m') + 2);
-                    date = received.Remove(received.IndexOf('k') - 5).Remove(0, received.IndexOf('m') + 2 + id.Length + 2);
-                    dust = received.Remove(received.IndexOf('k') + 6).Remove(0, received.IndexOf('d') + date.Length + 1);
-                    uv = received.Remove(received.IndexOf('w') + 6).Remove(0, received.IndexOf('k') + 6).Replace('w', 'W');
-                    temp = received.Remove(received.LastIndexOf('c') + 1).Remove(0, received.IndexOf('b') + 1).Replace("c", "°C");
-                    press = received.Remove(received.IndexOf('p') + 2).Remove(0, received.LastIndexOf('c') + 2).Replace('p', 'P');
-                    hum = received.Remove(received.IndexOf('%') + 1).Remove(0, received.IndexOf('p') + 3);
-                    RSSI = received.Remove(0, received.IndexOf('%') + 2).Replace('m',' ');
+                        //this counter is to verify the number of transmission is changing and transmission is true for the sql to upload data
+                        string number = transmission.Remove(0, 3);
+                        setter = Int32.Parse(number);
 
-                    //this counter is to verify the number of transmission is changing and transmission is true for the sql to upload data
-                    string number = transmission.Remove(0, 3);
-                    setter = Int32.Parse(number);
+                        //Update all the received infos to the labels
+                        transmissiont.Text = transmission;
+                        idt.Text = id;
+                        datet.Text = date;
+                        dustt.Text = dust;
+                        uvt.Text = uv;
+                        tempt.Text = temp;
+                        presst.Text = press;
+                        humt.Text = hum;
+                        RSSIt.Text = RSSI;
 
-                    //Update all the received infos to the labels
-                    transmissiont.Text = transmission;
-                    idt.Text = id;
-                    datet.Text = date;
-                    dustt.Text = dust;
-                    uvt.Text = uv;
-                    tempt.Text = temp;
-                    presst.Text = press;
-                    humt.Text = hum;
-                    RSSIt.Text = RSSI;
+                        //convert all of them to numbers so I can upload them to SQL
+                        transn = setter;
+                        // id is a string, no need change number
+                        daten = Convert.ToDateTime(date);
 
-                    //convert all of them to numbers so I can upload them to SQL
-                    transn = setter;
-                    // id is a string, no need change number
-                    daten = Convert.ToDateTime(date);
+                        dustn = Convert.ToDouble(dust.Remove(dust.Length - 6));
+                        uvn = Convert.ToDouble(uv.Remove(uv.Length - 7));
+                        tempn = Convert.ToDouble(temp.Remove(temp.Length - 2));
+                        pressn = Convert.ToDouble(press.Remove(press.Length - 2));
+                        humn = Convert.ToDouble(hum.Remove(hum.Length - 1));
+                        RSSIn = Convert.ToDouble(RSSI.Remove(RSSI.Length - 1));
+
+                        status.Text = "bytes read successfully!";
+                        sendQuerytoSql();
+                    }
+                    else
+                    {
+                        status.Text = "Large Byte detected,reading again...";
+                        rcvdText.Text = dataReaderObject.ReadString(bytesRead);
+                    }
                     
-                    dustn = Convert.ToDouble(dust.Remove(dust.Length-6));
-                    uvn = Convert.ToDouble(uv.Remove(uv.Length - 7));
-                    tempn = Convert.ToDouble(temp.Remove(temp.Length - 2));
-                    pressn = Convert.ToDouble(press.Remove(press.Length - 2));
-                    humn = Convert.ToDouble(hum.Remove(hum.Length - 1));
-                    RSSIn = Convert.ToDouble(RSSI.Remove(RSSI.Length-1));
-
-                    status.Text = "bytes read successfully!";
-                    sendQuerytoSql();
                 }
             }
         }
