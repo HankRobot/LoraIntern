@@ -1,22 +1,17 @@
-# Introduction :laughing:
-Hey guys Hank here! This project is for Dr Pu's Lora Internet of Things Network Internship Project! If you have any questions please ask!
-
-# Our Goal (just saying it for now)
-To commit sensor data from client to server to cloud using Lora RFM-Shield + Arduino, Raspberry Pi and Azure SQL Database!
+# This is the Arduino Code for Lora Server and Client :laughing:
+This codes are to be uploaded to your Arduino, and is not part of the C# project. Please do not mix them. (Read documentation before proceeding)
 
 # Getting Started
-1.	Download the zip code of this file, then extract it.
-1.  Alternatively you can fork this project and open in Visual Studios and use the Team Explorer in Visual Studios to help you clone the entire project.
-2.	Once finished, right click LoraIntern file and select "open in visual studios". Then go View->Solution Explorer and double click the LoraIntern.sln file.
-3.	The solution viewer will change, and a Solution 'LoraIntern'(1 project) should appear. Right click it and press Build Solution.
+1. Make sure you have attached the required sensors to the Arduino clients in the documentation, otherwise your clients won't work. 
+2. Client_Sensor.ino and Client_Sensor1.ino have different ids for Lora, hence they are independent clients. rf95_server.ino is the code for the Arduino Server which will be attached to the Raspberry Pi 3B+.
+3. Upload the codes via Arduino IDE to the respective arduinos, and check Serial Monitor, you should see them communicating.
 
 # Build and Test
-1. Select x64 for your Debug Target anf then click Debug(the green play button). If your code works, it should work on your raspberry pi too.
-2. To run it on your Raspbery Pi, you need to have your rpi flashed with Windows Iot Core -> https://developer.microsoft.com/en-us/windows/iot/downloads
-3. After flashing it, when Windows Iot Core is fully loaded, go back to Visual Studios on your computer and select ARM, select Remote Machine, and click the green play button again(it should ask for the device's ip address)
-4. Wait, remote device usually takes a longer time :)
+1. The clients are meant to sent sensor data every 5 minutes, but you can edit them for debugging purposes(at the last line there is a delay. adjust that to your needs)
+2. Every transmission, the red LEDs will light up, if the leds are flashing, that means the server is not receiving the transmission and the clients are attempting to send per flash.
+3. Make sure your Lora_ID is in CAPSLOCK and is different than other clients.
 
 # Contribute (Will write this when I am finishing my internship)
 1. 
 
-#HAPPY CODING!!! :heart:
+#ONCE AGAIN, HAPPY CODING!!! :heart:
