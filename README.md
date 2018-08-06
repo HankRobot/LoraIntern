@@ -1,8 +1,8 @@
 # Introduction :laughing:
 Hey guys Hank here! This project is for Dr Pu's Lora Internet of Things Network Internship Project! If you have any questions please ask!
 
-# Our Goal (just saying it for now)
-To commit sensor data from client to server to cloud using Lora RFM-Shield + Arduino, Raspberry Pi and Azure SQL Database!
+# There are two projects here, Arduino Code and Raspberry PI Gateway
+The folder Arduino Code contains the code for Arduino, please check the README folder inside it! As for the gateway, continue reading the details below.
 
 # Getting Started
 1.	Download the zip code of this file, then extract it.
