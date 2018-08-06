@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2035
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoraIntern", "LoraIntern\LoraIntern.csproj", "{48A63B54-9C5C-4200-B720-3A83283AA137}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaspberryPiGateway", "LoraIntern\RaspberryPiGateway.csproj", "{48A63B54-9C5C-4200-B720-3A83283AA137}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
