@@ -207,7 +207,6 @@ void BMEread()
 
 void loop()
 {
-  digitalWrite(3,HIGH);
 	bool send_status = false;
 	Serial.println("Sending to rf95_server");
 	UVread();
