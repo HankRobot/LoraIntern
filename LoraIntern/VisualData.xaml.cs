@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -22,6 +23,7 @@ namespace LoraIntern
             readnumberofrows();
             LoadChartContents();
             DateTime today = System.DateTime.Now.Date;
+            Debug.WriteLine("This is the date today!",today.ToShortDateString());
             findsqlDate(today);
         }
 
@@ -425,7 +427,7 @@ namespace LoraIntern
                 try
                 {
                     DateTime sqlDatetime = Convert.ToDateTime(TypeDate.Text);
-                    //Debug.WriteLine(sqlDatetime.ToShortDateString(),"It worked!");
+                    Debug.WriteLine(sqlDatetime.ToShortDateString(),"It worked!");
                     findsqlDate(sqlDatetime);
                 }
                 catch (Exception ex)
@@ -449,8 +451,11 @@ namespace LoraIntern
             object lastrow = 0;
             int counter = 0;
 
-            string retrieve = String.Format("select * from (select Row_Number() over (order by TIMESUBMIT) as RowIndex, * from LORA_TABLE) as Sub Where Sub.RowIndex >= {0} and Sub.RowIndex <= {1};", 0, norows);
-
+            //string retrieve = String.Format("select * from (select Row_Number() over (order by TIMESUBMIT) as RowIndex, * from LORA_TABLE) as Sub Where Sub.RowIndex >= {0} and Sub.RowIndex <= {1};", 0, norows);
+            string retrieve = String.Format("SET ROWCOUNT 60; select * from(select Row_Number() over (order by TIMESUBMIT) as RowIndex, * from LORA_TABLE) " +
+                "as Sub where TimeSubmit between '{0}' and '{0} 23:59:59';", DateTime.Parse(date.ToShortDateString()).ToString("MM-dd-yyyy"));
+            Debug.WriteLine("interesting", retrieve);
+            
             //list for client "HANK"
             List<dustRecords> dustrecords = new List<dustRecords>();
             List<uvRecords> uvrecords = new List<uvRecords>();
