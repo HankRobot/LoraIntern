@@ -54,7 +54,9 @@ namespace LoraIntern
             comPortInput.IsEnabled = false;
             listOfDevices = new ObservableCollection<DeviceInformation>();
             ListAvailablePorts();
-            Email.EmailSend("Lora Rpi Gateway Restart","Your Lora Gateway just started");
+            //Email.EmailSend("Lora Rpi Gateway Restart","Your Lora Gateway just started");
+            //disabled email sending for desktop, don't want annoying emails for every launch of debug
+
             ///Visualize.IsEnabled = false;
             ///raspberry pi takes forever to load datasets
             ///and also the serial write stops 

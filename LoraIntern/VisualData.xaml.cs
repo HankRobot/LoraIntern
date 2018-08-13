@@ -15,90 +15,19 @@ namespace LoraIntern
         public int end = 59;  //the last row after iteration
         public int norows;    //total number of rows in the server
 
-        SqlConnectionStringBuilder cb = new SqlConnectionStringBuilder();
+        SqlConnectionStringBuilder sql = new SqlConnectionStringBuilder();
 
         public VisualData()
         {
             this.InitializeComponent();
             readnumberofrows();
-            LoadChartContents();
             DateTime today = System.DateTime.Now.Date;
             Debug.WriteLine("This is the date today!",today.ToShortDateString());
             findsqlDate(today);
         }
 
-        //variable class for Hank client
-        public class dustRecords
-        {
-            public DateTime Name
-            {
-                get;
-                set;
-            }
-
-            public object Amount
-            {
-                get;
-                set;
-            }
-        }
-        public class uvRecords
-        {
-            public DateTime Name
-            {
-                get;
-                set;
-            }
-
-            public object Amount
-            {
-                get;
-                set;
-            }
-        }
-        public class tempRecords
-        {
-            public DateTime Name
-            {
-                get;
-                set;
-            }
-
-            public object Amount
-            {
-                get;
-                set;
-            }
-        }
-        public class pressRecords
-        {
-            public DateTime Name
-            {
-                get;
-                set;
-            }
-
-            public object Amount
-            {
-                get;
-                set;
-            }
-        }
-        public class humRecords
-        {
-            public DateTime Name
-            {
-                get;
-                set;
-            }
-
-            public object Amount
-            {
-                get;
-                set;
-            }
-        }
-        public class RSSIRecords
+        //variable and data type class for Lora Client
+        public class SensorData
         {
             public DateTime Name
             {
@@ -113,103 +42,17 @@ namespace LoraIntern
             }
         }
 
-        //variable class for LORA client
-        public class dustRecords1
-        {
-            public DateTime Name
-            {
-                get;
-                set;
-            }
-
-            public object Amount
-            {
-                get;
-                set;
-            }
-        }
-        public class uvRecords1
-        {
-            public DateTime Name
-            {
-                get;
-                set;
-            }
-
-            public object Amount
-            {
-                get;
-                set;
-            }
-        }
-        public class tempRecords1
-        {
-            public DateTime Name
-            {
-                get;
-                set;
-            }
-
-            public object Amount
-            {
-                get;
-                set;
-            }
-        }
-        public class pressRecords1
-        {
-            public DateTime Name
-            {
-                get;
-                set;
-            }
-
-            public object Amount
-            {
-                get;
-                set;
-            }
-        }
-        public class humRecords1
-        {
-            public DateTime Name
-            {
-                get;
-                set;
-            }
-
-            public object Amount
-            {
-                get;
-                set;
-            }
-        }
-        public class RSSIRecords1
-        {
-            public DateTime Name
-            {
-                get;
-                set;
-            }
-
-            public object Amount
-            {
-                get;
-                set;
-            }
-        }
-
-
+        //number of rows the SQL table currently has
         public void readnumberofrows()
         {
             string retrieve = "SELECT COUNT(*) FROM LORA_TABLE";
 
-            cb.DataSource = "lorawan-hank.database.windows.net";
-            cb.UserID = "Hank";
-            cb.Password = "Lorawan1234";
-            cb.InitialCatalog = "LoraWan Database";
+            sql.DataSource = "lorawan-hank.database.windows.net";
+            sql.UserID = "Hank";
+            sql.Password = "Lorawan1234";
+            sql.InitialCatalog = "LoraWan Database";
 
-            using (SqlConnection sqlConn = new SqlConnection(cb.ConnectionString))
+            using (SqlConnection sqlConn = new SqlConnection(sql.ConnectionString))
             {
                 SqlCommand sqlCommand = new SqlCommand(retrieve, sqlConn);
                 try
@@ -232,33 +75,34 @@ namespace LoraIntern
             }
         }
 
+        //load the graphs of sensor data collected
         public void LoadChartContents()
         {
             string retrieve = String.Format("select * from (select Row_Number() over (order by TIMESUBMIT) as RowIndex, * from LORA_TABLE) as Sub Where Sub.RowIndex >= {0} and Sub.RowIndex <= {1};",start,end);
 
             //list for client "HANK"
-            List<dustRecords> dustrecords = new List<dustRecords>();
-            List<uvRecords> uvrecords = new List<uvRecords>();
-            List<tempRecords> temprecords = new List<tempRecords>();
-            List<pressRecords> pressrecords = new List<pressRecords>();
-            List<humRecords> humrecords = new List<humRecords>();
-            List<RSSIRecords> RSSIrecords = new List<RSSIRecords>();
+            List<SensorData> dustrecords = new List<SensorData>();
+            List<SensorData> uvrecords = new List<SensorData>();
+            List<SensorData> temprecords = new List<SensorData>();
+            List<SensorData> pressrecords = new List<SensorData>();
+            List<SensorData> humrecords = new List<SensorData>();
+            List<SensorData> RSSIrecords = new List<SensorData>();
 
             //list for client "LORA"
-            List<dustRecords1> dustrecords1 = new List<dustRecords1>();
-            List<uvRecords1> uvrecords1 = new List<uvRecords1>();
-            List<tempRecords1> temprecords1 = new List<tempRecords1>();
-            List<pressRecords1> pressrecords1 = new List<pressRecords1>();
-            List<humRecords1> humrecords1 = new List<humRecords1>();
-            List<RSSIRecords1> RSSIrecords1 = new List<RSSIRecords1>();
-
+            List<SensorData> dustrecords1 = new List<SensorData>();
+            List<SensorData> uvrecords1 = new List<SensorData>();
+            List<SensorData> temprecords1 = new List<SensorData>();
+            List<SensorData> pressrecords1 = new List<SensorData>();
+            List<SensorData> humrecords1 = new List<SensorData>();
+            List<SensorData> RSSIrecords1 = new List<SensorData>();
+            
             //build conenction string
-            cb.DataSource = "lorawan-hank.database.windows.net";
-            cb.UserID = "Hank";
-            cb.Password = "Lorawan1234";
-            cb.InitialCatalog = "LoraWan Database";
+            sql.DataSource = "lorawan-hank.database.windows.net";
+            sql.UserID = "Hank";
+            sql.Password = "Lorawan1234";
+            sql.InitialCatalog = "LoraWan Database";
 
-            using (SqlConnection sqlConn = new SqlConnection(cb.ConnectionString))
+            using (SqlConnection sqlConn = new SqlConnection(sql.ConnectionString))
             {
                 SqlCommand sqlCommand = new SqlCommand(retrieve, sqlConn);
                 try
@@ -274,37 +118,37 @@ namespace LoraIntern
                             CurrentDate.Text = time.ToShortDateString();
                             if (reader.GetString(1) == "HANK")
                                 {
-                                    dustrecords.Add(new dustRecords()
+                                    dustrecords.Add(new SensorData()
                                     {
                                         Name = time,
                                         Amount = reader.GetValue(4)
                                     });
 
-                                    uvrecords.Add(new uvRecords()
+                                    uvrecords.Add(new SensorData()
                                     {
                                         Name = time,
                                         Amount = reader.GetValue(5)
                                     });
 
-                                    temprecords.Add(new tempRecords()
+                                    temprecords.Add(new SensorData()
                                     {
                                         Name = time,
                                         Amount = reader.GetValue(6)
                                     });
 
-                                    pressrecords.Add(new pressRecords()
+                                    pressrecords.Add(new SensorData()
                                     {
                                         Name = time,
                                         Amount = reader.GetValue(7)
                                     });
 
-                                    humrecords.Add(new humRecords()
+                                    humrecords.Add(new SensorData()
                                     {
                                         Name = time,
                                         Amount = reader.GetValue(8)
                                     });
 
-                                    RSSIrecords.Add(new RSSIRecords()
+                                    RSSIrecords.Add(new SensorData()
                                     {
                                         Name = time,
                                         Amount = reader.GetValue(9)
@@ -312,37 +156,37 @@ namespace LoraIntern
                                 }
                             if (reader.GetString(1) == "LORA")
                                 {
-                                    dustrecords1.Add(new dustRecords1()
+                                    dustrecords1.Add(new SensorData()
                                     {
                                         Name = time,
                                         Amount = reader.GetValue(4)
                                     });
 
-                                    uvrecords1.Add(new uvRecords1()
+                                    uvrecords1.Add(new SensorData()
                                     {
                                         Name = time,
                                         Amount = reader.GetValue(5)
                                     });
 
-                                    temprecords1.Add(new tempRecords1()
+                                    temprecords1.Add(new SensorData()
                                     {
                                         Name = time,
                                         Amount = reader.GetValue(6)
                                     });
 
-                                    pressrecords1.Add(new pressRecords1()
+                                    pressrecords1.Add(new SensorData()
                                     {
                                         Name = time,
                                         Amount = reader.GetValue(7)
                                     });
 
-                                    humrecords1.Add(new humRecords1()
+                                    humrecords1.Add(new SensorData()
                                     {
                                         Name = time,
                                         Amount = reader.GetValue(8)
                                     });
 
-                                    RSSIrecords1.Add(new RSSIRecords1()
+                                    RSSIrecords1.Add(new SensorData()
                                     {
                                         Name = time,
                                         Amount = reader.GetValue(9)
@@ -374,6 +218,7 @@ namespace LoraIntern
 
         }
 
+        //display sql errors and display it on screen
         private async static void DisplaySqlErrors(SqlException exception)
         {
             for (int i = 0; i < exception.Errors.Count; i++)
@@ -383,12 +228,9 @@ namespace LoraIntern
                 await popup.ShowAsync();
             }
         }
-
-        private void Connection_Click(object sender, RoutedEventArgs e)
-        {
-            this.Frame.Navigate(typeof(LoraIntern.MainPage));
-        }
-
+        
+        //function for next page button for next extra sets of sensor data to display
+        //on graph
         private async void Next_Click(object sender, RoutedEventArgs e)
         {
             readnumberofrows();
@@ -405,6 +247,7 @@ namespace LoraIntern
             }
         }
 
+        //back page button
         private async void Back_Click(object sender, RoutedEventArgs e)
         {
             if (start>0)
@@ -420,6 +263,7 @@ namespace LoraIntern
             }
         }
 
+        //function for searching 
         private async void SearchDate_Click(object sender, RoutedEventArgs e)
         {
             if (TypeDate.Text!=null)
@@ -444,6 +288,7 @@ namespace LoraIntern
             }
         }
 
+        //function for search date and retrieve sensor data from server
         private void findsqlDate(DateTime date)
         {
             start = 0;
@@ -457,28 +302,28 @@ namespace LoraIntern
             Debug.WriteLine("interesting", retrieve);
             
             //list for client "HANK"
-            List<dustRecords> dustrecords = new List<dustRecords>();
-            List<uvRecords> uvrecords = new List<uvRecords>();
-            List<tempRecords> temprecords = new List<tempRecords>();
-            List<pressRecords> pressrecords = new List<pressRecords>();
-            List<humRecords> humrecords = new List<humRecords>();
-            List<RSSIRecords> RSSIrecords = new List<RSSIRecords>();
+            List<SensorData> dustrecords = new List<SensorData>();
+            List<SensorData> uvrecords = new List<SensorData>();
+            List<SensorData> temprecords = new List<SensorData>();
+            List<SensorData> pressrecords = new List<SensorData>();
+            List<SensorData> humrecords = new List<SensorData>();
+            List<SensorData> RSSIrecords = new List<SensorData>();
 
             //list for client "LORA"
-            List<dustRecords1> dustrecords1 = new List<dustRecords1>();
-            List<uvRecords1> uvrecords1 = new List<uvRecords1>();
-            List<tempRecords1> temprecords1 = new List<tempRecords1>();
-            List<pressRecords1> pressrecords1 = new List<pressRecords1>();
-            List<humRecords1> humrecords1 = new List<humRecords1>();
-            List<RSSIRecords1> RSSIrecords1 = new List<RSSIRecords1>();
+            List<SensorData> dustrecords1 = new List<SensorData>();
+            List<SensorData> uvrecords1 = new List<SensorData>();
+            List<SensorData> temprecords1 = new List<SensorData>();
+            List<SensorData> pressrecords1 = new List<SensorData>();
+            List<SensorData> humrecords1 = new List<SensorData>();
+            List<SensorData> RSSIrecords1 = new List<SensorData>();
 
             //build conenction string
-            cb.DataSource = "lorawan-hank.database.windows.net";
-            cb.UserID = "Hank";
-            cb.Password = "Lorawan1234";
-            cb.InitialCatalog = "LoraWan Database";
+            sql.DataSource = "lorawan-hank.database.windows.net";
+            sql.UserID = "Hank";
+            sql.Password = "Lorawan1234";
+            sql.InitialCatalog = "LoraWan Database";
 
-            using (SqlConnection sqlConn = new SqlConnection(cb.ConnectionString))
+            using (SqlConnection sqlConn = new SqlConnection(sql.ConnectionString))
             {
                 SqlCommand sqlCommand = new SqlCommand(retrieve, sqlConn);
                 try
@@ -499,37 +344,37 @@ namespace LoraIntern
                                 CurrentDate.Text = time.ToShortDateString();
                                 if (reader.GetString(1) == "HANK")
                                 {
-                                    dustrecords.Add(new dustRecords()
+                                    dustrecords.Add(new SensorData()
                                     {
                                         Name = time,
                                         Amount = reader.GetValue(4)
                                     });
 
-                                    uvrecords.Add(new uvRecords()
+                                    uvrecords.Add(new SensorData()
                                     {
                                         Name = time,
                                         Amount = reader.GetValue(5)
                                     });
 
-                                    temprecords.Add(new tempRecords()
+                                    temprecords.Add(new SensorData()
                                     {
                                         Name = time,
                                         Amount = reader.GetValue(6)
                                     });
 
-                                    pressrecords.Add(new pressRecords()
+                                    pressrecords.Add(new SensorData()
                                     {
                                         Name = time,
                                         Amount = reader.GetValue(7)
                                     });
 
-                                    humrecords.Add(new humRecords()
+                                    humrecords.Add(new SensorData()
                                     {
                                         Name = time,
                                         Amount = reader.GetValue(8)
                                     });
 
-                                    RSSIrecords.Add(new RSSIRecords()
+                                    RSSIrecords.Add(new SensorData()
                                     {
                                         Name = time,
                                         Amount = reader.GetValue(9)
@@ -537,37 +382,37 @@ namespace LoraIntern
                                 }
                                 if (reader.GetString(1) == "LORA")
                                 {
-                                    dustrecords1.Add(new dustRecords1()
+                                    dustrecords1.Add(new SensorData()
                                     {
                                         Name = time,
                                         Amount = reader.GetValue(4)
                                     });
 
-                                    uvrecords1.Add(new uvRecords1()
+                                    uvrecords1.Add(new SensorData()
                                     {
                                         Name = time,
                                         Amount = reader.GetValue(5)
                                     });
 
-                                    temprecords1.Add(new tempRecords1()
+                                    temprecords1.Add(new SensorData()
                                     {
                                         Name = time,
                                         Amount = reader.GetValue(6)
                                     });
 
-                                    pressrecords1.Add(new pressRecords1()
+                                    pressrecords1.Add(new SensorData()
                                     {
                                         Name = time,
                                         Amount = reader.GetValue(7)
                                     });
 
-                                    humrecords1.Add(new humRecords1()
+                                    humrecords1.Add(new SensorData()
                                     {
                                         Name = time,
                                         Amount = reader.GetValue(8)
                                     });
 
-                                    RSSIrecords1.Add(new RSSIRecords1()
+                                    RSSIrecords1.Add(new SensorData()
                                     {
                                         Name = time,
                                         Amount = reader.GetValue(9)
@@ -606,6 +451,12 @@ namespace LoraIntern
             (pressureChart.Series[1] as LineSeries).ItemsSource = pressrecords1;
             (humidityChart.Series[1] as LineSeries).ItemsSource = humrecords1;
             (RSSIChart.Series[1] as LineSeries).ItemsSource = RSSIrecords1;
+        }
+
+        //function for going back to main page
+        private void Connection_Click(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(LoraIntern.MainPage));
         }
     }
 }
