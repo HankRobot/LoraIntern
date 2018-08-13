@@ -46,7 +46,7 @@ namespace LoraIntern
         private ObservableCollection<DeviceInformation> listOfDevices;
         private CancellationTokenSource ReadCancellationTokenSource;
 
-        SqlConnectionStringBuilder cb = new SqlConnectionStringBuilder();
+        SqlConnectionStringBuilder sql = new SqlConnectionStringBuilder();
 
         public MainPage()
         { 
@@ -400,12 +400,12 @@ namespace LoraIntern
 
             Debug.WriteLine(sendQuery,"This is the test for query");
 
-            cb.DataSource = "lorawan-hank.database.windows.net";
-            cb.UserID = "Hank";
-            cb.Password = "Lorawan1234";
-            cb.InitialCatalog = "LoraWan Database";
+            sql.DataSource = "lorawan-hank.database.windows.net";
+            sql.UserID = "Hank";
+            sql.Password = "Lorawan1234";
+            sql.InitialCatalog = "LoraWan Database";
 
-            using (SqlConnection sqlConn = new SqlConnection(cb.ConnectionString))
+            using (SqlConnection sqlConn = new SqlConnection(sql.ConnectionString))
             {
                 SqlCommand sqlCommand = new SqlCommand(sendQuery, sqlConn);          //Place your query here, not the sqlConn
                 try
