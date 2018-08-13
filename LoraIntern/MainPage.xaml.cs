@@ -54,6 +54,7 @@ namespace LoraIntern
             comPortInput.IsEnabled = false;
             listOfDevices = new ObservableCollection<DeviceInformation>();
             ListAvailablePorts();
+            Email.EmailSend("Lora Rpi Gateway Restart","Your Lora Gateway just started");
             ///Visualize.IsEnabled = false;
             ///raspberry pi takes forever to load datasets
             ///and also the serial write stops 
@@ -87,6 +88,7 @@ namespace LoraIntern
             catch (Exception ex)
             {
                 status.Text = ex.Message;
+                Email.EmailSend("Status Exception on Lora Rpi Gateway", status.Text);
             }
         }
 
@@ -149,6 +151,7 @@ namespace LoraIntern
             {
                 status.Text = ex.Message;
                 comPortInput.IsEnabled = true;
+                Email.EmailSend("Status Exception on Lora Rpi Gateway", status.Text);
             }
         }
 
@@ -202,6 +205,7 @@ namespace LoraIntern
             {
                 status.Text = ex.Message;
                 comPortInput.IsEnabled = true;
+                Email.EmailSend("Status Exception on Lora Rpi Gateway", status.Text);
             }
         }
 
@@ -229,11 +233,13 @@ namespace LoraIntern
             catch (TaskCanceledException tce)
             {
                 status.Text = "Reading task was cancelled, closing device and cleaning up";
+                Email.EmailSend("Status Exception on Lora Rpi Gateway", status.Text);
                 CloseDevice();
             }
             catch (Exception ex)
             {
                 status.Text = ex.Message;
+                Email.EmailSend("Status Exception on Lora Rpi Gateway", status.Text);
             }
             finally
             {
@@ -376,9 +382,11 @@ namespace LoraIntern
             catch (Exception ex)
             {
                 status.Text = ex.Message;
+                Email.EmailSend("Status Exception on Lora Rpi Gateway", status.Text);
             }
         }
 
+        //send sensor data to sql server
         private void sendQuerytoSql()
         {
             //for testign
@@ -411,16 +419,19 @@ namespace LoraIntern
             }
         }
 
-        private static void DisplaySqlErrors(SqlException exception)                //This is for catching errors in case they show up :)
+        //This is for catching sql errors in case they show up :)
+        private void DisplaySqlErrors(SqlException exception)
         {
             for (int i = 0; i < exception.Errors.Count; i++)
             {
                 Console.WriteLine("Index #" + i + "\n" +
                     "Error: " + exception.Errors[i].ToString() + "\n");
             }
-            Console.ReadLine();
+            label1.Text = Console.ReadLine();
+            Email.EmailSend("SQL Status Exception on Lora Rpi Gateway", label1.Text);
         }
 
+        //go to next page
         private void Visualize_Click(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate(typeof(LoraIntern.VisualData));
