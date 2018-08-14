@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using LightBuzz.SMTP;
 using Windows.ApplicationModel.Email;
 
@@ -22,6 +18,7 @@ namespace LoraIntern
                     emailMessage.To.Add(new EmailRecipient("thc1n17@soton.ac.uk"));
                     emailMessage.Subject = title;
                     emailMessage.Body = message;
+                    emailMessage.Importance = EmailImportance.High;
 
                     await client.SendMailAsync(emailMessage);
                 }

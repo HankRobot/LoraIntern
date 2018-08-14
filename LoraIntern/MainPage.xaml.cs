@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Data.SqlTypes;
 using System.Diagnostics;
+using Windows.System;
 
 namespace LoraIntern
 {
@@ -90,7 +91,8 @@ namespace LoraIntern
             catch (Exception ex)
             {
                 status.Text = ex.Message;
-                Email.EmailSend("Status Exception on Lora Rpi Gateway", status.Text);
+                Email.EmailSend("Status Exception on Lora Rpi Gateway, the Rpi will try restarting the App", status.Text);
+                await Windows.ApplicationModel.Core.CoreApplication.RequestRestartAsync("-fastInit -level 1 -foo");
             }
         }
 
@@ -153,7 +155,8 @@ namespace LoraIntern
             {
                 status.Text = ex.Message;
                 comPortInput.IsEnabled = true;
-                Email.EmailSend("Status Exception on Lora Rpi Gateway", status.Text);
+                Email.EmailSend("Status Exception on Lora Rpi Gateway, the Rpi will try restarting the App", status.Text);
+                await Windows.ApplicationModel.Core.CoreApplication.RequestRestartAsync("-fastInit -level 1 -foo");
             }
         }
 
@@ -207,7 +210,8 @@ namespace LoraIntern
             {
                 status.Text = ex.Message;
                 comPortInput.IsEnabled = true;
-                Email.EmailSend("Status Exception on Lora Rpi Gateway", status.Text);
+                Email.EmailSend("Status Exception on Lora Rpi Gateway, the Rpi will try restarting the App", status.Text);
+                await Windows.ApplicationModel.Core.CoreApplication.RequestRestartAsync("-fastInit -level 1 -foo");
             }
         }
 
@@ -241,7 +245,8 @@ namespace LoraIntern
             catch (Exception ex)
             {
                 status.Text = ex.Message;
-                Email.EmailSend("Status Exception on Lora Rpi Gateway", status.Text);
+                Email.EmailSend("Status Exception on Lora Rpi Gateway, the Rpi will try restarting the App", status.Text);
+                await Windows.ApplicationModel.Core.CoreApplication.RequestRestartAsync("-fastInit -level 1 -foo");
             }
             finally
             {
@@ -372,7 +377,7 @@ namespace LoraIntern
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void closeDevice_Click(object sender, RoutedEventArgs e)
+        private async void closeDevice_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -384,7 +389,8 @@ namespace LoraIntern
             catch (Exception ex)
             {
                 status.Text = ex.Message;
-                Email.EmailSend("Status Exception on Lora Rpi Gateway", status.Text);
+                Email.EmailSend("Status Exception on Lora Rpi Gateway, the Rpi will try restarting the App", status.Text);
+                await Windows.ApplicationModel.Core.CoreApplication.RequestRestartAsync("-fastInit -level 1 -foo");
             }
         }
 
@@ -422,7 +428,7 @@ namespace LoraIntern
         }
 
         //This is for catching sql errors in case they show up :)
-        private void DisplaySqlErrors(SqlException exception)
+        private async void DisplaySqlErrors(SqlException exception)
         {
             for (int i = 0; i < exception.Errors.Count; i++)
             {
@@ -430,7 +436,8 @@ namespace LoraIntern
                     "Error: " + exception.Errors[i].ToString() + "\n");
             }
             label1.Text = Console.ReadLine();
-            Email.EmailSend("SQL Status Exception on Lora Rpi Gateway", label1.Text);
+            Email.EmailSend("SQL Status Exception on Lora Rpi Gateway, the Rpi will try restarting the App", label1.Text);
+            await Windows.ApplicationModel.Core.CoreApplication.RequestRestartAsync("-fastInit -level 1 -foo");
         }
 
         //go to next page
