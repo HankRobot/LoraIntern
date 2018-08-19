@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using LightBuzz.SMTP;
 using Windows.ApplicationModel.Email;
 
@@ -7,10 +8,12 @@ namespace LoraIntern
 {
     class Email
     {
-        public async static void EmailSend(string title,string message)
+        public async static Task EmailSend(string title,string message)
         {
             try
             {
+                Windows.UI.ViewManagement.ApplicationView.GetForCurrentView();
+
                 using (SmtpClient client = new SmtpClient("smtp-mail.outlook.com", 587, false, "thc1n17@soton.ac.uk", "loYhuilam0323"))
                 {
                     EmailMessage emailMessage = new EmailMessage();
@@ -28,6 +31,10 @@ namespace LoraIntern
 
                 Debug.WriteLine(ex, "Email Error Status");
             }
+        }
+
+        public void collectEventlogs()
+        {
         }
     }
 }
