@@ -33,8 +33,11 @@ namespace LoraIntern
             }
         }
 
-        public void collectEventlogs()
+        public async void collectEventlogs()
         {
+            Windows.Storage.StorageFolder storageFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
+            Windows.Storage.StorageFile sampleFile = await storageFolder.GetFileAsync("sample.txt");
+            await Windows.Storage.FileIO.WriteTextAsync(sampleFile, "Swift as a shadow");
         }
     }
 }
