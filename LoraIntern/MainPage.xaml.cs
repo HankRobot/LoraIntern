@@ -76,6 +76,7 @@ namespace LoraIntern
                 if (!isdesktop)
                 {
                     await GetLogging.EmailSendLogs("Lora Gateway has started.", String.Format("Rpi Started on {0}", DateTime.Now));
+                    GetLogging.WriteLogs("This is a test");
                 }
                 string aqs = SerialDevice.GetDeviceSelector();
                 var dis = await DeviceInformation.FindAllAsync(aqs);
