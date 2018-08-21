@@ -9,7 +9,7 @@ using Windows.Storage.Streams;
 
 namespace LoraIntern
 {
-    class Logging
+    class GetLogging
     {
         public async static Task EmailSendLogs(string title,string message)
         {
@@ -31,7 +31,6 @@ namespace LoraIntern
             }
             catch (Exception ex)
             {
-
                 Debug.WriteLine(ex, "Email Error Status");
             }
         }
@@ -42,8 +41,8 @@ namespace LoraIntern
             var externalDrives = await removableDevices.GetFoldersAsync();
             var drive0 = externalDrives[0];
 
-            var testFolder = await drive0.CreateFolderAsync("Logs");
-            var testFile = await testFolder.CreateFileAsync("Logs.txt");
+            var testFolder = await drive0.CreateFolderAsync("RpiLogs");
+            var testFile = await testFolder.CreateFileAsync(String.Format("Logs{0}.txt",DateTime.Now));
 
             var byteArray = new byte[] { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07 };
             using (var sourceStream = new MemoryStream(byteArray).AsRandomAccessStream())
