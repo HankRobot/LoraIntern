@@ -76,7 +76,7 @@ namespace LoraIntern
             {
                 if (!isdesktop)
                 {
-                    await Email.EmailSend("Lora Gateway has started.", String.Format("Rpi Started on {0}", DateTime.Now));
+                    await Logging.EmailSendLogs("Lora Gateway has started.", String.Format("Rpi Started on {0}", DateTime.Now));
                 }
                 string aqs = SerialDevice.GetDeviceSelector();
                 var dis = await DeviceInformation.FindAllAsync(aqs);
@@ -98,7 +98,7 @@ namespace LoraIntern
                 status.Text = ex.Message;
                 if (!isdesktop)
                 {
-                    await Email.EmailSend("Status Exception on Lora Rpi Gateway, the Rpi will try restarting the App", status.Text);
+                    await Logging.EmailSendLogs("Status Exception on Lora Rpi Gateway, the Rpi will try restarting the App", status.Text);
                     await Windows.ApplicationModel.Core.CoreApplication.RequestRestartAsync("-fastInit -level 1 -foo");      
                 }
             }
@@ -163,7 +163,7 @@ namespace LoraIntern
             {
                 status.Text = ex.Message;
                 comPortInput.IsEnabled = true;
-                Email.EmailSend("Status Exception on Lora Rpi Gateway, the Rpi will try restarting the App", status.Text);
+                Logging.EmailSendLogs("Status Exception on Lora Rpi Gateway, the Rpi will try restarting the App", status.Text);
                 await Windows.ApplicationModel.Core.CoreApplication.RequestRestartAsync("-fastInit -level 1 -foo");
             }
         }
@@ -220,7 +220,7 @@ namespace LoraIntern
                 comPortInput.IsEnabled = true;
                 if (!isdesktop)
                 {
-                    await Email.EmailSend("Status Exception on Lora Rpi Gateway, the Rpi will try restarting the App", status.Text + String.Format("\n{0}", rcvdText.Text));
+                    await Logging.EmailSendLogs("Status Exception on Lora Rpi Gateway, the Rpi will try restarting the App", status.Text + String.Format("\n{0}", rcvdText.Text));
                     await Windows.ApplicationModel.Core.CoreApplication.RequestRestartAsync("-fastInit -level 1 -foo");
                 }
             }
@@ -252,7 +252,7 @@ namespace LoraIntern
                 status.Text = "Reading task was cancelled, closing device and cleaning up";
                 if (!isdesktop)
                 {
-                    await Email.EmailSend("Status Exception on Lora Rpi Gateway", status.Text);
+                    await Logging.EmailSendLogs("Status Exception on Lora Rpi Gateway", status.Text);
                 }
                 CloseDevice();
             }
@@ -261,7 +261,7 @@ namespace LoraIntern
                 status.Text = ex.Message;
                 if (!isdesktop)
                 {
-                    await Email.EmailSend("Status Exception on Lora Rpi Gateway, the Rpi will try restarting the App", status.Text + String.Format("\n{0}",rcvdText.Text));
+                    await Logging.EmailSendLogs("Status Exception on Lora Rpi Gateway, the Rpi will try restarting the App", status.Text + String.Format("\n{0}",rcvdText.Text));
                     await Windows.ApplicationModel.Core.CoreApplication.RequestRestartAsync("-fastInit -level 1 -foo");
                 }
             }
@@ -409,7 +409,7 @@ namespace LoraIntern
                 if (!isdesktop)
                 {
                     Console.WriteLine("bool");
-                    await Email.EmailSend("Status Exception on Lora Rpi Gateway, the Rpi will try restarting the App", status.Text);
+                    await Logging.EmailSendLogs("Status Exception on Lora Rpi Gateway, the Rpi will try restarting the App", status.Text);
                     await Windows.ApplicationModel.Core.CoreApplication.RequestRestartAsync("-fastInit -level 1 -foo");
                 }
             }
@@ -460,7 +460,7 @@ namespace LoraIntern
             }
             if (!isdesktop)
             {
-                await Email.EmailSend("Status Exception on Lora Rpi Gateway, the Rpi will try restarting the App", label1.Text);
+                await Logging.EmailSendLogs("Status Exception on Lora Rpi Gateway, the Rpi will try restarting the App", label1.Text);
                 await Windows.ApplicationModel.Core.CoreApplication.RequestRestartAsync("-fastInit -level 1 -foo");
             }
         }

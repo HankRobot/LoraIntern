@@ -26,6 +26,9 @@
     <Capability Name="internetClient" />
     <uap:Capability Name="enterpriseAuthentication" />
     <iot:Capability Name="systemManagement" />
+    <uap:Capability Name="videosLibrary" />
+    <uap:Capability Name="picturesLibrary" />
+    <uap:Capability Name="musicLibrary" />
     <DeviceCapability Name="serialcommunication">
       <Device Id="any">
         <Function Type="name:serialPort" />

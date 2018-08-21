@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using System.Threading.Tasks;
 using LightBuzz.SMTP;
 using Windows.ApplicationModel.Email;
+using Windows.Storage;
+using Windows.Storage.Streams;
 
 namespace LoraIntern
 {
-    class Email
+    class Logging
     {
-        public async static Task EmailSend(string title,string message)
+        public async static Task EmailSendLogs(string title,string message)
         {
             try
             {
@@ -33,11 +36,23 @@ namespace LoraIntern
             }
         }
 
-        public async void collectEventlogs()
+        public async void WriteLogs()
         {
-            Windows.Storage.StorageFolder storageFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
-            Windows.Storage.StorageFile sampleFile = await storageFolder.GetFileAsync("sample.txt");
-            await Windows.Storage.FileIO.WriteTextAsync(sampleFile, "Swift as a shadow");
+            var removableDevices = KnownFolders.RemovableDevices;
+            var externalDrives = await removableDevices.GetFoldersAsync();
+            var drive0 = externalDrives[0];
+
+            var testFolder = await drive0.CreateFolderAsync("Logs");
+            var testFile = await testFolder.CreateFileAsync("Logs.txt");
+
+            var byteArray = new byte[] { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07 };
+            using (var sourceStream = new MemoryStream(byteArray).AsRandomAccessStream())
+            {
+                using (var destinationStream = (await testFile.OpenAsync(FileAccessMode.ReadWrite)).GetOutputStreamAt(0))
+                {
+                    await RandomAccessStream.CopyAndCloseAsync(sourceStream, destinationStream);
+                }
+            }
         }
     }
 }
