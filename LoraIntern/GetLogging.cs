@@ -44,16 +44,7 @@ namespace LoraIntern
             var testFolder = await drive0.GetFolderAsync("RpiLogs");
             var testFile = await testFolder.GetFileAsync("Logs.txt");
 
-            await FileIO.WriteTextAsync(testFile,exception + " " + DateTime.Now);
-
-            //var byteArray = new byte[] { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07 };
-            //using (var sourceStream = new MemoryStream(byteArray).AsRandomAccessStream())
-            //{
-            //    using (var destinationStream = (await testFile.OpenAsync(FileAccessMode.ReadWrite)).GetOutputStreamAt(0))
-            //    {
-            //        await RandomAccessStream.CopyAndCloseAsync(sourceStream, destinationStream);
-            //    }
-            //}
+            await FileIO.AppendTextAsync(testFile, System.Environment.NewLine + "[" + DateTime.Now + "] " + exception);
         }
     }
 }
