@@ -22,7 +22,7 @@ namespace LoraIntern
         DataReader dataReaderObject = null;
 
         //set this to false if you are running on rpi
-        public bool isdesktop = false;
+        public bool isdesktop = true;
 
         //these are variables for displaying the data
         public string transmission { get; set; }
@@ -76,7 +76,6 @@ namespace LoraIntern
                 if (!isdesktop)
                 {
                     await GetLogging.EmailSendLogs("Lora Gateway has started.", String.Format("Rpi Started on {0}", DateTime.Now));
-                    GetLogging.WriteLogs("This is a test");
                 }
                 string aqs = SerialDevice.GetDeviceSelector();
                 var dis = await DeviceInformation.FindAllAsync(aqs);
@@ -163,7 +162,7 @@ namespace LoraIntern
             {
                 status.Text = ex.Message;
                 comPortInput.IsEnabled = true;
-                GetLogging.EmailSendLogs("Status Exception on Lora Rpi Gateway, the Rpi will try restarting the App", status.Text);
+                await GetLogging.EmailSendLogs("Status Exception on Lora Rpi Gateway, the Rpi will try restarting the App", status.Text);
                 await Windows.ApplicationModel.Core.CoreApplication.RequestRestartAsync("-fastInit -level 1 -foo");
             }
         }
@@ -347,6 +346,12 @@ namespace LoraIntern
                         RSSIn = Convert.ToDouble(RSSI.Remove(RSSI.Length - 1));
 
                         status.Text = "bytes read successfully!";
+
+                        if (!isdesktop)
+                        {
+                            await GetLogging.WritetoTxtFile(transmission + id + date + dust + uv + temp + press + hum + RSSI);
+                        }
+
                         sendQuerytoSql();
                     }
                 }

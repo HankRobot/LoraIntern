@@ -11,7 +11,7 @@
     <Page.Resources>
         <CollectionViewSource x:Name="DeviceListSource"/>
     </Page.Resources>
-    
+
     <Grid Background="White">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -34,8 +34,8 @@
 
         <TextBlock Text="Sql Status:" Grid.Row="5" Grid.Column="2" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" RequestedTheme="Light"/>
         <TextBox x:Name="label1" Grid.Row="5" Grid.Column="3" TextWrapping="Wrap" IsReadOnly="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" BorderBrush="White" FontSize="24" RequestedTheme="Dark"/>
-        
-        <TextBlock x:Name="pageTitle" Text="Lora Server" HorizontalAlignment="Stretch" VerticalAlignment="Center" FontSize="48" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="3" TextAlignment="Center" RequestedTheme="Light"/>
+
+        <TextBlock x:Name="pageTitle" Text="    Raspberry Pi Lora Gateway " HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="48" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4" TextAlignment="Center" RequestedTheme="Light"/>
 
         <TextBlock Text="Read Data:" FontSize="24" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Stretch" TextAlignment="Center" VerticalAlignment="Center" RequestedTheme="Light" FocusVisualPrimaryBrush="#FF48AED4" FocusVisualSecondaryBrush="#FF48AED4" SelectionHighlightColor="#FF48AED4"/>
         <TextBox x:Name="rcvdText" RequestedTheme="Dark" FontSize="16" IsReadOnly="True" Text="Your Serial writes here" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3"/>

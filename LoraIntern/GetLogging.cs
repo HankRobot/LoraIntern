@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.Tracing;
 using System.IO;
 using System.Threading.Tasks;
 using LightBuzz.SMTP;
@@ -35,16 +37,16 @@ namespace LoraIntern
             }
         }
 
-        public async static void WriteLogs(string exception)
+        public async static Task WritetoTxtFile(string message)
         {
             var removableDevices = KnownFolders.RemovableDevices;
             var externalDrives = await removableDevices.GetFoldersAsync();
             var drive0 = externalDrives[0];
 
             var testFolder = await drive0.GetFolderAsync("RpiLogs");
-            var testFile = await testFolder.GetFileAsync("Logs.txt");
+            var testFile = await testFolder.GetFileAsync("Logs.txt");   
 
-            await FileIO.AppendTextAsync(testFile, System.Environment.NewLine + "[" + DateTime.Now + "] " + exception);
+            await FileIO.AppendTextAsync(testFile, System.Environment.NewLine + "[" + DateTime.Now + "] " + message);
         }
     }
 }
