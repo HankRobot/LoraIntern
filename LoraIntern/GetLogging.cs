@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Diagnostics.Tracing;
-using System.IO;
 using System.Threading.Tasks;
 using LightBuzz.SMTP;
 using Windows.ApplicationModel.Email;
 using Windows.Storage;
-using Windows.Storage.Streams;
 
 namespace LoraIntern
 {
@@ -43,10 +39,9 @@ namespace LoraIntern
             var externalDrives = await removableDevices.GetFoldersAsync();
             var drive0 = externalDrives[0];
 
-            var testFolder = await drive0.GetFolderAsync("RpiLogs");
-            var testFile = await testFolder.GetFileAsync("Logs.txt");   
-
-            await FileIO.AppendTextAsync(testFile, System.Environment.NewLine + "[" + DateTime.Now + "] " + message);
+            var testFolder = await drive0.CreateFolderAsync("RpiLogs");
+            var testFile = await testFolder.CreateFileAsync("Logs.txt");
+            await FileIO.AppendTextAsync(testFile,  "[" + DateTime.Now + "] " + message + System.Environment.NewLine);
         }
     }
 }

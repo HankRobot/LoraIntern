@@ -33,7 +33,7 @@
             <Charting:LineSeries Title="Lora" IndependentValuePath="Name" DependentValuePath="Amount" IsSelectionEnabled="True" RequestedTheme="Light"/>
         </Charting:Chart>
 
-        <Charting:Chart Grid.Column="1" x:Name="uvChart" Title="UV(mW/m^2)" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="2" RequestedTheme="Light" >
+        <Charting:Chart Grid.Column="1" x:Name="uvChart" Title="UV(mW/cm^2)" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="2" RequestedTheme="Light" >
             <Charting:LineSeries Title="Hank" IndependentValuePath="Name" DependentValuePath="Amount" IsSelectionEnabled="True" RequestedTheme="Light"/>
             <Charting:LineSeries Title="Lora" IndependentValuePath="Name" DependentValuePath="Amount" IsSelectionEnabled="True" RequestedTheme="Light"/>
         </Charting:Chart>

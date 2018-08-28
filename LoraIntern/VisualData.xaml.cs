@@ -78,7 +78,7 @@ namespace LoraIntern
         //load the graphs of sensor data collected
         public void LoadChartContents()
         {
-            string retrieve = String.Format("select * from (select Row_Number() over (order by TIMESUBMIT) as RowIndex, * from LORA_TABLE) as Sub Where Sub.RowIndex >= {0} and Sub.RowIndex <= {1};",start,end);
+            string retrieve = string.Format("select * from (select Row_Number() over (order by TIMESUBMIT) as RowIndex, * from LORA_TABLE) as Sub Where Sub.RowIndex >= {0} and Sub.RowIndex <= {1};",start,end);
 
             //list for client "HANK"
             List<SensorData> dustrecords = new List<SensorData>();

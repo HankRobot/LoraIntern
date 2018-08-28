@@ -54,11 +54,13 @@ namespace LoraIntern
         public MainPage()
         {
             this.InitializeComponent();
-            comPortInput.IsEnabled = false;
-            listOfDevices = new ObservableCollection<DeviceInformation>();
-            ListAvailablePorts();
-
-            ///Visualize.IsEnabled = false;
+            if (!isdesktop)
+            {
+                ListAvailablePorts();
+                Visualize.IsEnabled = false;
+                comPortInput.IsEnabled = false;
+                listOfDevices = new ObservableCollection<DeviceInformation>();
+            }
             ///raspberry pi takes forever to load datasets
             ///and also the serial write stops 
             ///its processing when u visualize data
@@ -75,7 +77,9 @@ namespace LoraIntern
             {
                 if (!isdesktop)
                 {
+                    Console.WriteLine("lul");
                     await GetLogging.EmailSendLogs("Lora Gateway has started.", String.Format("Rpi Started on {0}", DateTime.Now));
+                    await GetLogging.WritetoTxtFile("Lora Gateway has started");
                 }
                 string aqs = SerialDevice.GetDeviceSelector();
                 var dis = await DeviceInformation.FindAllAsync(aqs);
@@ -98,6 +102,7 @@ namespace LoraIntern
                 if (!isdesktop)
                 {
                     await GetLogging.EmailSendLogs("Status Exception on Lora Rpi Gateway, the Rpi will try restarting the App", status.Text);
+                    await GetLogging.WritetoTxtFile(status.Text);
                     await Windows.ApplicationModel.Core.CoreApplication.RequestRestartAsync("-fastInit -level 1 -foo");      
                 }
             }
@@ -163,6 +168,7 @@ namespace LoraIntern
                 status.Text = ex.Message;
                 comPortInput.IsEnabled = true;
                 await GetLogging.EmailSendLogs("Status Exception on Lora Rpi Gateway, the Rpi will try restarting the App", status.Text);
+                await GetLogging.WritetoTxtFile(status.Text);
                 await Windows.ApplicationModel.Core.CoreApplication.RequestRestartAsync("-fastInit -level 1 -foo");
             }
         }
@@ -220,6 +226,7 @@ namespace LoraIntern
                 if (!isdesktop)
                 {
                     await GetLogging.EmailSendLogs("Status Exception on Lora Rpi Gateway, the Rpi will try restarting the App", status.Text + String.Format("\n{0}", rcvdText.Text));
+                    await GetLogging.WritetoTxtFile(status.Text + String.Format("\n{0}", rcvdText.Text));
                     await Windows.ApplicationModel.Core.CoreApplication.RequestRestartAsync("-fastInit -level 1 -foo");
                 }
             }
@@ -252,6 +259,7 @@ namespace LoraIntern
                 if (!isdesktop)
                 {
                     await GetLogging.EmailSendLogs("Status Exception on Lora Rpi Gateway", status.Text);
+                    await GetLogging.WritetoTxtFile(status.Text);
                 }
                 CloseDevice();
             }
@@ -261,6 +269,7 @@ namespace LoraIntern
                 if (!isdesktop)
                 {
                     await GetLogging.EmailSendLogs("Status Exception on Lora Rpi Gateway, the Rpi will try restarting the App", status.Text + String.Format("\n{0}",rcvdText.Text));
+                    await GetLogging.WritetoTxtFile(status.Text + String.Format("\n{0}", rcvdText.Text));
                     await Windows.ApplicationModel.Core.CoreApplication.RequestRestartAsync("-fastInit -level 1 -foo");
                 }
             }
@@ -347,9 +356,10 @@ namespace LoraIntern
 
                         status.Text = "bytes read successfully!";
 
+                        //Add a pendrive into the rpi before running this code, otherwise an exception will be thrown
                         if (!isdesktop)
                         {
-                            await GetLogging.WritetoTxtFile(transmission + id + date + dust + uv + temp + press + hum + RSSI);
+                            await GetLogging.WritetoTxtFile(transmission + " " + id + " " + date + " " + dust + " " + uv + " " + temp + " " + press + " " + hum + " " + RSSI);
                         }
 
                         sendQuerytoSql();
@@ -415,13 +425,14 @@ namespace LoraIntern
                 {
                     Console.WriteLine("bool");
                     await GetLogging.EmailSendLogs("Status Exception on Lora Rpi Gateway, the Rpi will try restarting the App", status.Text);
+                    await GetLogging.WritetoTxtFile(status.Text);
                     await Windows.ApplicationModel.Core.CoreApplication.RequestRestartAsync("-fastInit -level 1 -foo");
                 }
             }
         }
 
         //send sensor data to sql server
-        private void sendQuerytoSql()
+        private async void sendQuerytoSql()
         {
             //for testign
             // INSERT INTO LORA_TABLE (ID, Trans , TimeSubmit, Dust, UV, Temp, Pressure, Humidity, Altitude) VALUES ('HANK',102,'2018/7/11 4:00',0.00,0.12,28.89,10000.67,56.78,43.26);
@@ -430,8 +441,11 @@ namespace LoraIntern
                 "VALUES ({0},{1},{2},{3},{4},{5},{6},{7},{8});"
                 ,("'"+id+"'"),transn,"'"+daten+"'",dustn,uvn,tempn,pressn,humn,RSSIn);
 
-            Debug.WriteLine(sendQuery,"This is the test for query");
-
+            if (!isdesktop)
+            {
+                await GetLogging.WritetoTxtFile("SQLQuery:" + sendQuery);
+            }
+            
             sql.DataSource = "lorawan-hank.database.windows.net";
             sql.UserID = "Hank";
             sql.Password = "Lorawan1234";
@@ -466,6 +480,7 @@ namespace LoraIntern
             if (!isdesktop)
             {
                 await GetLogging.EmailSendLogs("Status Exception on Lora Rpi Gateway, the Rpi will try restarting the App", label1.Text);
+                await GetLogging.WritetoTxtFile(label1.Text);
                 await Windows.ApplicationModel.Core.CoreApplication.RequestRestartAsync("-fastInit -level 1 -foo");
             }
         }
