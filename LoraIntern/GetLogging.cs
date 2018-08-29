@@ -54,5 +54,10 @@ namespace LoraIntern
                 await FileIO.AppendTextAsync(testFile, "[" + DateTime.Now + "] " + message + System.Environment.NewLine);
             }
         }
+
+        public async static Task DownloadCSV(List<VisualData.SensorData> sensorlist)
+        {
+            StorageFolder localFolder = ApplicationData.Current.LocalFolder;
+        }
     }
 }

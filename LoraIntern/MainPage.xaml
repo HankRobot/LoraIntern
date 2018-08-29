@@ -91,6 +91,6 @@
             </StackPanel>
         </Grid>
 
-        <Button x:Name="Visualize" Grid.Column="3" Grid.Row="10" Grid.ColumnSpan="2" FontSize="36" Content="Go to Visualize Data" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="Visualize_Click" RequestedTheme="Light"/>
+        <Button x:Name="Visualize" Grid.Column="3" Content="&#xE753;" FontFamily="Segoe MDL2 Assets" Grid.Row="10" Grid.ColumnSpan="2" FontSize="200"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="Visualize_Click" RequestedTheme="Light" Background="#3300D4E8"/>
     </Grid>
 </Page>

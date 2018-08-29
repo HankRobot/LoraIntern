@@ -22,7 +22,7 @@ namespace LoraIntern
         DataReader dataReaderObject = null;
 
         //set this to false if you are running on rpi
-        public bool isdesktop = false;
+        public bool isdesktop = true;
 
         public bool ejectpendrive = false;
 
