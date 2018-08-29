@@ -15,8 +15,11 @@
     <Grid Background="White">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="0.2*"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="0.2*"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="0.2*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="0.2*"/>
             <RowDefinition Height="*"/>
@@ -26,48 +29,55 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="0.2*"/>
         </Grid.ColumnDefinitions>
 
-        <TextBlock Text="Sql Status:" Grid.Row="5" Grid.Column="2" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" RequestedTheme="Light"/>
-        <TextBox x:Name="label1" Grid.Row="5" Grid.Column="3" TextWrapping="Wrap" IsReadOnly="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" BorderBrush="White" FontSize="24" RequestedTheme="Dark"/>
+        <Button x:Name="Eject" Grid.Column="0" Grid.Row="8" FontSize="24" Content="Eject Pendrive" HorizontalAlignment="Center" VerticalAlignment="Stretch" RequestedTheme="Light" Click="Eject_Click"/>
+        <TextBlock Text="USB Status:" Grid.Row="8" Grid.Column="1" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" RequestedTheme="Light"/>
+        <TextBox x:Name="USBLabel" Grid.Row="8" Grid.Column="2" TextWrapping="Wrap" IsReadOnly="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" BorderBrush="White" FontSize="16" RequestedTheme="Dark"/>
+        
+        <TextBlock Text="Sql Status:" Grid.Row="8" Grid.Column="3" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" RequestedTheme="Light"/>
+        <TextBox x:Name="sqlstatus" Grid.Row="8" Grid.Column="4" TextWrapping="Wrap" IsReadOnly="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" BorderBrush="White" FontSize="16" RequestedTheme="Dark"/>
 
-        <TextBlock x:Name="pageTitle" Text="    Raspberry Pi Lora Gateway " HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="48" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4" TextAlignment="Center" RequestedTheme="Light"/>
+        <TextBlock x:Name="pageTitle" Text="Raspberry Pi Lora Gateway " HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="48" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="6" TextAlignment="Center" RequestedTheme="Light"/>
 
-        <TextBlock Text="Read Data:" FontSize="24" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Stretch" TextAlignment="Center" VerticalAlignment="Center" RequestedTheme="Light" FocusVisualPrimaryBrush="#FF48AED4" FocusVisualSecondaryBrush="#FF48AED4" SelectionHighlightColor="#FF48AED4"/>
-        <TextBox x:Name="rcvdText" RequestedTheme="Dark" FontSize="16" IsReadOnly="True" Text="Your Serial writes here" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3"/>
+        <TextBlock Text="Read Data:" FontSize="24" Grid.Row="4" Grid.Column="0" HorizontalAlignment="Stretch" TextAlignment="Center" VerticalAlignment="Center" RequestedTheme="Light" FocusVisualPrimaryBrush="#FF48AED4" FocusVisualSecondaryBrush="#FF48AED4" SelectionHighlightColor="#FF48AED4"/>
+        <TextBox x:Name="rcvdText" RequestedTheme="Dark" FontSize="16" IsReadOnly="True" Text="Your Serial writes here" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="4"/>
 
-        <TextBlock Text ="Status:" FontSize="24" Grid.Row="5" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" RequestedTheme="Light" TextAlignment="Center" FocusVisualPrimaryBrush="#FF48AED4" FocusVisualSecondaryBrush="#FF48AED4" SelectionHighlightColor="#FF47314E"/>
-        <TextBox x:Name="status" Grid.Column="1" Grid.Row="5" TextWrapping="Wrap" IsReadOnly="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" BorderBrush="White" FontSize="24" RequestedTheme="Dark"/>
-
-        <TextBlock Text="Select Device:" FontSize="24" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" RequestedTheme="Light" FocusVisualPrimaryBrush="#FF48AED4" FocusVisualSecondaryBrush="#FF48AED4" SelectionHighlightColor="#FF48AED4"/>
-        <ListBox x:Name="ConnectDevices" ScrollViewer.HorizontalScrollMode="Enabled" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" ScrollViewer.HorizontalScrollBarVisibility="Visible" ItemsSource="{Binding Source={StaticResource DeviceListSource}}" Background="Gray" HorizontalAlignment="Left" RequestedTheme="Dark">
+        <TextBlock Text ="Raspberry Pi Status:" FontSize="24" Grid.Row="6" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" RequestedTheme="Light" TextAlignment="Center" FocusVisualPrimaryBrush="#FF48AED4" FocusVisualSecondaryBrush="#FF48AED4" SelectionHighlightColor="#FF47314E"/>
+        <TextBox x:Name="status" Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="4" TextWrapping="Wrap" IsReadOnly="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" BorderBrush="White" FontSize="24" RequestedTheme="Dark"/>
+        
+        <Image Grid.Row="10" Grid.Column="0" Source="Assets/trans.png"/>
+        
+        <TextBlock Text="Devices Available:" FontSize="24" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" RequestedTheme="Light" FocusVisualPrimaryBrush="#FF48AED4" FocusVisualSecondaryBrush="#FF48AED4" SelectionHighlightColor="#FF48AED4"/>
+        <ListBox x:Name="ConnectDevices" ScrollViewer.HorizontalScrollMode="Enabled" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="4" ScrollViewer.HorizontalScrollBarVisibility="Visible" ItemsSource="{Binding Source={StaticResource DeviceListSource}}" Background="Gray" HorizontalAlignment="Left" RequestedTheme="Dark">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Id}" />
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <Grid Grid.Row="7" Grid.Column="1">
+        <Grid Grid.Row="10" Grid.Column="1" Grid.ColumnSpan="2" Background="#FF48AED4">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width ="*"/>
                 <ColumnDefinition Width ="*"/>
             </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#FF48AED4" FocusVisualSecondaryBrush="#99000000" FocusVisualPrimaryBrush="Black" BorderBrush="Black" RequestedTheme="Light">
-                <TextBlock TextWrapping="Wrap" Text="Transmission:" FontSize="24" TextAlignment="Center" Height="45" HorizontalAlignment="Left" RequestedTheme="Light"/>
-                <TextBlock TextWrapping="Wrap" Text="Lora ID:" FontSize="24" TextAlignment="Center" Height="45" HorizontalAlignment="Left" RequestedTheme="Light"/>
-                <TextBlock TextWrapping="Wrap" Text="Time Submitted:" FontSize="24" TextAlignment="Center" Height="45" HorizontalAlignment="Left" SelectionHighlightColor="White" RequestedTheme="Light"/>
-                <TextBlock TextWrapping="Wrap" Text="Dust Reading:" FontSize="24" TextAlignment="Center" Height="45" HorizontalAlignment="Left" RequestedTheme="Light"/>
-                <TextBlock TextWrapping="Wrap" Text="UV Reading:" FontSize="24" TextAlignment="Center" Height="45" HorizontalAlignment="Left" RequestedTheme="Light"/>
-                <TextBlock TextWrapping="Wrap" Text="Temperature:" FontSize="24" Height="45" RequestedTheme="Light"/>
-                <TextBlock TextWrapping="Wrap" Text="Pressure:" FontSize="24" TextAlignment="Center" Height="45" VerticalAlignment="Top" Padding="0" HorizontalAlignment="Left" RequestedTheme="Light"/>
-                <TextBlock TextWrapping="Wrap" Text="Humidity:" FontSize="24" TextAlignment="Center" Height="45" HorizontalAlignment="Left" RequestedTheme="Light"/>
-                <TextBlock TextWrapping="Wrap" Text="RSSI:" Height="45" FontSize="24" HorizontalAlignment="Left" Width="129" RequestedTheme="Light"/>
+            <StackPanel Grid.Column="0" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="#FF48AED4" FocusVisualSecondaryBrush="#99000000" FocusVisualPrimaryBrush="Black" BorderBrush="Black" RequestedTheme="Light">
+                <TextBlock TextWrapping="Wrap" Text="   Transmission" FontSize="24" TextAlignment="Center" Height="45" HorizontalAlignment="Left" RequestedTheme="Light"/>
+                <TextBlock TextWrapping="Wrap" Text="   Lora ID" FontSize="24" TextAlignment="Center" Height="45" HorizontalAlignment="Left" RequestedTheme="Light"/>
+                <TextBlock TextWrapping="Wrap" Text="   Time Submitted" FontSize="24" TextAlignment="Center" Height="45" HorizontalAlignment="Left" SelectionHighlightColor="White" RequestedTheme="Light"/>
+                <TextBlock TextWrapping="Wrap" Text="   Dust Reading" FontSize="24" TextAlignment="Center" Height="45" HorizontalAlignment="Left" RequestedTheme="Light"/>
+                <TextBlock TextWrapping="Wrap" Text="   UV Reading" FontSize="24" TextAlignment="Center" Height="45" HorizontalAlignment="Left" RequestedTheme="Light"/>
+                <TextBlock TextWrapping="Wrap" Text="   Temperature" FontSize="24" Height="45" RequestedTheme="Light" HorizontalAlignment="Left"/>
+                <TextBlock TextWrapping="Wrap" Text="   Pressure" FontSize="24" TextAlignment="Center" Height="45" VerticalAlignment="Top" Padding="0" HorizontalAlignment="Left" RequestedTheme="Light"/>
+                <TextBlock TextWrapping="Wrap" Text="   Humidity" FontSize="24" TextAlignment="Center" Height="45" HorizontalAlignment="Left" RequestedTheme="Light"/>
+                <TextBlock TextWrapping="Wrap" Text="   RSSI" TextAlignment="Left" Height="45" FontSize="24" HorizontalAlignment="Left" Width="129" RequestedTheme="Light"/>
             </StackPanel>
-            <StackPanel Grid.Column="1" VerticalAlignment="Stretch" FocusVisualPrimaryBrush="White" FocusVisualSecondaryBrush="#99000000" Background="#FF48AED4" BorderBrush="Black" RequestedTheme="Light">
+            <StackPanel Grid.Column="1" VerticalAlignment="Center" FocusVisualPrimaryBrush="White" FocusVisualSecondaryBrush="#99000000" Background="#FF48AED4" BorderBrush="Black" RequestedTheme="Light">
                 <TextBlock x:Name="transmissiont" TextWrapping="Wrap" Text="No.0" Height="45" FontSize="24" TextAlignment="Center"/>
                 <TextBlock x:Name="idt" HorizontalAlignment="Center" TextWrapping="Wrap" Text="???" VerticalAlignment="Center" Height="45" FontSize="24" TextAlignment="Center"/>
                 <TextBlock x:Name="datet" HorizontalAlignment="Center" TextWrapping="Wrap" Text="???" VerticalAlignment="Center" FontSize="24" Width="218" Height="45" TextAlignment="Center"/>
@@ -80,9 +90,6 @@
             </StackPanel>
         </Grid>
 
-        <Button Grid.Column="1" Grid.Row="2" x:Name="comPortInput" Content="Connect" Click="comPortInput_Click" Width="190" Height="49" BorderThickness="10" HorizontalAlignment="Center" RequestedTheme="Light"/>
-        <Button Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="2" x:Name="closeDevice" Content="Disconnect" Click="closeDevice_Click" Width="190" HorizontalAlignment="Center" VerticalAlignment="Stretch" BorderThickness="10" Height="49" RequestedTheme="Light"/>
-
-        <Button x:Name="Visualize" Grid.Column="2" Grid.Row="7" Grid.ColumnSpan="2" FontSize="36" Content="Go to Visualize Data" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="Visualize_Click" RequestedTheme="Light"/>
+        <Button x:Name="Visualize" Grid.Column="3" Grid.Row="10" Grid.ColumnSpan="2" FontSize="36" Content="Go to Visualize Data" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="Visualize_Click" RequestedTheme="Light"/>
     </Grid>
 </Page>

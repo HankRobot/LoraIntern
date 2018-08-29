@@ -34,22 +34,25 @@ namespace LoraIntern
             }
         }
 
-        public async static Task WritetoTxtFile(string message)
+        public async static Task WritetoTxtFile(string message,bool ejectstatus)
         {
-            int i = 0;
-            StorageFolder externalDevices = KnownFolders.RemovableDevices;
-            IReadOnlyList<StorageFolder> externalDrives = await externalDevices.GetFoldersAsync();
-            StorageFolder drive0 = externalDrives[i];
-
-            while (drive0.Path.Contains("E:") && i<externalDrives.Count)
+            if (ejectstatus)
             {
-                i++;
-                drive0 = externalDrives[i];
-            }
+                int i = 0;
+                StorageFolder externalDevices = KnownFolders.RemovableDevices;
+                IReadOnlyList<StorageFolder> externalDrives = await externalDevices.GetFoldersAsync();
+                StorageFolder drive0 = externalDrives[i];
 
-            var testFolder = await drive0.CreateFolderAsync("RpiLogs", CreationCollisionOption.OpenIfExists);
-            var testFile = await testFolder.CreateFileAsync("Logs.txt", CreationCollisionOption.OpenIfExists);
-            await FileIO.AppendTextAsync(testFile,  "[" + DateTime.Now + "] " + message + System.Environment.NewLine);
+                while (drive0.Path.Contains("E:") && i < externalDrives.Count)
+                {
+                    i++;
+                    drive0 = externalDrives[i];
+                }
+
+                var testFolder = await drive0.CreateFolderAsync("RpiLogs", CreationCollisionOption.OpenIfExists);
+                var testFile = await testFolder.CreateFileAsync("Logs.txt", CreationCollisionOption.OpenIfExists);
+                await FileIO.AppendTextAsync(testFile, "[" + DateTime.Now + "] " + message + System.Environment.NewLine);
+            }
         }
     }
 }

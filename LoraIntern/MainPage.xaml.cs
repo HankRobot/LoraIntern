@@ -24,6 +24,8 @@ namespace LoraIntern
         //set this to false if you are running on rpi
         public bool isdesktop = false;
 
+        public bool ejectpendrive = false;
+
         //these are variables for displaying the data
         public string transmission { get; set; }
         public string id { get; set; }
@@ -58,7 +60,6 @@ namespace LoraIntern
             {
                 ListAvailablePorts();
                 Visualize.IsEnabled = false;
-                comPortInput.IsEnabled = false;
                 listOfDevices = new ObservableCollection<DeviceInformation>();
             }
             ///raspberry pi takes forever to load datasets
@@ -79,7 +80,7 @@ namespace LoraIntern
                 {
                     Console.WriteLine("lul");
                     await GetLogging.EmailSendLogs("Lora Gateway has started.", string.Format("Rpi Started on {0}", DateTime.Now));
-                    await GetLogging.WritetoTxtFile("Lora Gateway has started");
+                    await GetLogging.WritetoTxtFile("Lora Gateway has started",ejectpendrive);
                 }
                 string aqs = SerialDevice.GetDeviceSelector();
                 var dis = await DeviceInformation.FindAllAsync(aqs);
@@ -92,9 +93,8 @@ namespace LoraIntern
                 }
 
                 DeviceListSource.Source = listOfDevices;
-                comPortInput.IsEnabled = true;
                 ConnectDevices.SelectedIndex = 1;            //change this to connect to the index of the connected devices in the "Select Device:" list 
-                start_connection();
+                Start_Connection();
             }
             catch (Exception ex)
             {
@@ -102,22 +102,13 @@ namespace LoraIntern
                 if (!isdesktop)
                 {
                     await GetLogging.EmailSendLogs("Status Exception on Lora Rpi Gateway, the Rpi will try restarting the App", status.Text);
-                    await GetLogging.WritetoTxtFile(status.Text);
+                    await GetLogging.WritetoTxtFile(status.Text,ejectpendrive);
                     await Windows.ApplicationModel.Core.CoreApplication.RequestRestartAsync("-fastInit -level 1 -foo");      
                 }
             }
         }
 
-        /// <summary>
-        /// comPortInput_Click: Action to take when 'Connect' button is clicked
-        /// - Get the selected device index and use Id to create the SerialDevice object
-        /// - Configure default settings for the serial port
-        /// - Create the ReadCancellationTokenSource token
-        /// - Start listening on the serial port input
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private async void comPortInput_Click(object sender, RoutedEventArgs e)
+        private async void Start_Connection()
         {
             var selection = ConnectDevices.SelectedItems;
 
@@ -133,9 +124,6 @@ namespace LoraIntern
             {
                 serialPort = await SerialDevice.FromIdAsync(entry.Id);
                 if (serialPort == null) return;
-
-                // Disable the 'Connect' button 
-                comPortInput.IsEnabled = false;
 
                 // Configure serial settings
                 serialPort.ReadTimeout = TimeSpan.FromMilliseconds(1000);
@@ -166,67 +154,10 @@ namespace LoraIntern
             catch (Exception ex)
             {
                 status.Text = ex.Message;
-                comPortInput.IsEnabled = true;
-                await GetLogging.EmailSendLogs("Status Exception on Lora Rpi Gateway, the Rpi will try restarting the App", status.Text);
-                await GetLogging.WritetoTxtFile(status.Text);
-                await Windows.ApplicationModel.Core.CoreApplication.RequestRestartAsync("-fastInit -level 1 -foo");
-            }
-        }
-
-        private async void start_connection()
-        {
-            var selection = ConnectDevices.SelectedItems;
-
-            if (selection.Count <= 0)
-            {
-                status.Text = "Select a device and connect";
-                return;
-            }
-
-            DeviceInformation entry = (DeviceInformation)selection[0];
-
-            try
-            {
-                serialPort = await SerialDevice.FromIdAsync(entry.Id);
-                if (serialPort == null) return;
-
-                // Disable the 'Connect' button 
-                comPortInput.IsEnabled = false;
-
-                // Configure serial settings
-                serialPort.ReadTimeout = TimeSpan.FromMilliseconds(1000);
-                serialPort.BaudRate = 9600;
-                serialPort.Parity = SerialParity.None;
-                serialPort.StopBits = SerialStopBitCount.One;
-                serialPort.DataBits = 8;
-                serialPort.Handshake = SerialHandshake.None;
-
-                // Display configured settings
-                status.Text = "Serial port configured successfully: ";
-                status.Text += serialPort.BaudRate + "-";
-                status.Text += serialPort.DataBits + "-";
-                status.Text += serialPort.Parity.ToString() + "-";
-                status.Text += serialPort.StopBits;
-
-                // Set the RcvdText field to invoke the TextChanged callback
-                // The callback launches an async Read task to wait for data
-                rcvdText.Text = "Waiting for data...";
-
-                // Create cancellation token object to close I/O operations when closing the device
-                ReadCancellationTokenSource = new CancellationTokenSource();
-
-                // Enable 'WRITE' button to allow sending data
-
-                Listen();
-            }
-            catch (Exception ex)
-            {
-                status.Text = ex.Message;
-                comPortInput.IsEnabled = true;
                 if (!isdesktop)
                 {
                     await GetLogging.EmailSendLogs("Status Exception on Lora Rpi Gateway, the Rpi will try restarting the App", status.Text + String.Format("\n{0}", rcvdText.Text));
-                    await GetLogging.WritetoTxtFile(status.Text + String.Format("\n{0}", rcvdText.Text));
+                    await GetLogging.WritetoTxtFile(status.Text + String.Format("\n{0}", rcvdText.Text),ejectpendrive);
                     await Windows.ApplicationModel.Core.CoreApplication.RequestRestartAsync("-fastInit -level 1 -foo");
                 }
             }
@@ -259,7 +190,7 @@ namespace LoraIntern
                 if (!isdesktop)
                 {
                     await GetLogging.EmailSendLogs("Status Exception on Lora Rpi Gateway", status.Text);
-                    await GetLogging.WritetoTxtFile(status.Text);
+                    await GetLogging.WritetoTxtFile(status.Text,ejectpendrive);
                 }
                 CloseDevice();
             }
@@ -269,7 +200,7 @@ namespace LoraIntern
                 if (!isdesktop)
                 {
                     await GetLogging.EmailSendLogs("Status Exception on Lora Rpi Gateway, the Rpi will try restarting the App", status.Text + String.Format("\n{0}",rcvdText.Text));
-                    await GetLogging.WritetoTxtFile(status.Text + String.Format("\n{0}", rcvdText.Text));
+                    await GetLogging.WritetoTxtFile(status.Text + String.Format("\n{0}", rcvdText.Text),ejectpendrive);
                     await Windows.ApplicationModel.Core.CoreApplication.RequestRestartAsync("-fastInit -level 1 -foo");
                 }
             }
@@ -291,6 +222,7 @@ namespace LoraIntern
         /// <returns></returns>
         private async Task ReadAsync(CancellationToken cancellationToken)
         {
+
             Task<UInt32> loadAsyncTask;
 
             uint ReadBufferLength = 1024;
@@ -310,6 +242,8 @@ namespace LoraIntern
                 UInt32 bytesRead = await loadAsyncTask;
                 if (bytesRead > 0)
                 {
+                    status.Text = "Reading Bytes...";
+                    sqlstatus.Text = "Sending Data To Server...";
                     // Starts string manipulation to receive the infos
                     rcvdText.Text = dataReaderObject.ReadString(bytesRead);
                     string received = rcvdText.Text;
@@ -354,15 +288,18 @@ namespace LoraIntern
                         humn = Convert.ToDouble(hum.Remove(hum.Length - 1));
                         RSSIn = Convert.ToDouble(RSSI.Remove(RSSI.Length - 1));
 
-                        status.Text = "bytes read successfully!";
+                        status.Text = "Bytes read successfully!";
 
                         //Add a pendrive into the rpi before running this code, otherwise an exception will be thrown
                         if (!isdesktop)
                         {
-                            await GetLogging.WritetoTxtFile("Sent Data: "+ transmission + " " + id + " " + date + " " + dust + " " + uv + " " + temp + " " + press + " " + hum + " " + RSSI);
+                            USBLabel.Text = "Writing Logs";
+                            await GetLogging.WritetoTxtFile("Sent Data: "+ transmission + " " + id + " " + date + " " + dust + " " + uv + " " + temp + " " + press + " " + hum + " " + RSSI, ejectpendrive);
+                            USBLabel.Text = "Logs Written";
                         }
-
-                        sendQuerytoSql();
+                        
+                        SendQuerytoSql();
+                        sqlstatus.Text = "Data Sent!";
                     }
                 }
             }
@@ -396,43 +333,12 @@ namespace LoraIntern
             }
             serialPort = null;
 
-            comPortInput.IsEnabled = true;
             rcvdText.Text = "";
             listOfDevices.Clear();
         }
 
-        /// <summary>
-        /// closeDevice_Click: Action to take when 'Disconnect and Refresh List' is clicked on
-        /// - Cancel all read operations
-        /// - Close and dispose the SerialDevice object
-        /// - Enumerate connected devices
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private async void closeDevice_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                status.Text = "";
-                CancelReadTask();
-                CloseDevice();
-                ListAvailablePorts();
-            }
-            catch (Exception ex)
-            {
-                status.Text = ex.Message;
-                if (!isdesktop)
-                {
-                    Console.WriteLine("bool");
-                    await GetLogging.EmailSendLogs("Status Exception on Lora Rpi Gateway, the Rpi will try restarting the App", status.Text);
-                    await GetLogging.WritetoTxtFile(status.Text);
-                    await Windows.ApplicationModel.Core.CoreApplication.RequestRestartAsync("-fastInit -level 1 -foo");
-                }
-            }
-        }
-
         //send sensor data to sql server
-        private async void sendQuerytoSql()
+        private async void SendQuerytoSql()
         {
             //for testign
             // INSERT INTO LORA_TABLE (ID, Trans , TimeSubmit, Dust, UV, Temp, Pressure, Humidity, Altitude) VALUES ('HANK',102,'2018/7/11 4:00',0.00,0.12,28.89,10000.67,56.78,43.26);
@@ -443,7 +349,7 @@ namespace LoraIntern
 
             if (!isdesktop)
             {
-                await GetLogging.WritetoTxtFile("SQLQuery:" + sendQuery);
+                await GetLogging.WritetoTxtFile("SQLQuery:" + sendQuery, ejectpendrive);
             }
             
             sql.DataSource = "lorawan-hank.database.windows.net";
@@ -458,7 +364,7 @@ namespace LoraIntern
                 {
                     sqlConn.Open();
                     sqlCommand.ExecuteNonQuery();
-                    label1.Text = sqlConn.State.ToString();
+                    sqlstatus.Text = sqlConn.State.ToString();
                 }
                 catch (SqlException ex)
                 {
@@ -472,15 +378,15 @@ namespace LoraIntern
         {
             for (int i = 0; i < exception.Errors.Count; i++)
             {
-                label1.Text += "Index #" + i + "\n" +
+                sqlstatus.Text += "Index #" + i + "\n" +
                     "Error: " + exception.Errors[i].ToString() + "\n";
                 Debug.WriteLine("Index #" + i + "\n" +
                     "Error: " + exception.Errors[i].ToString() + "\n");
             }
             if (!isdesktop)
             {
-                await GetLogging.EmailSendLogs("Status Exception on Lora Rpi Gateway, the Rpi will try restarting the App", label1.Text);
-                await GetLogging.WritetoTxtFile(label1.Text);
+                await GetLogging.EmailSendLogs("Status Exception on Lora Rpi Gateway, the Rpi will try restarting the App", sqlstatus.Text);
+                await GetLogging.WritetoTxtFile(sqlstatus.Text, ejectpendrive);
                 await Windows.ApplicationModel.Core.CoreApplication.RequestRestartAsync("-fastInit -level 1 -foo");
             }
         }
@@ -489,6 +395,21 @@ namespace LoraIntern
         private void Visualize_Click(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate(typeof(LoraIntern.VisualData));
+        }
+
+        //ejects pendrive
+        private void Eject_Click(object sender, RoutedEventArgs e)
+        {
+            if (ejectpendrive)
+            {
+                ejectpendrive = false;
+                USBLabel.Text = "USB logging enabled, make sure you have a pendrive plugged in";
+            }
+            else
+            {
+                ejectpendrive = true;
+                USBLabel.Text = "You can now safely remove your pendrive";
+            }
         }
     }
 }
