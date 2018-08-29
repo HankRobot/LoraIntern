@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:LoraIntern"
+    xmlns:gif="using:XamlAnimatedGif"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
@@ -50,8 +51,8 @@
 
         <TextBlock Text ="Raspberry Pi Status:" FontSize="24" Grid.Row="6" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" RequestedTheme="Light" TextAlignment="Center" FocusVisualPrimaryBrush="#FF48AED4" FocusVisualSecondaryBrush="#FF48AED4" SelectionHighlightColor="#FF47314E"/>
         <TextBox x:Name="status" Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="4" TextWrapping="Wrap" IsReadOnly="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" BorderBrush="White" FontSize="24" RequestedTheme="Dark"/>
-        
-        <Image Grid.Row="10" Grid.Column="0" Source="Assets/trans.png"/>
+
+        <Image Grid.Row="10" Grid.Column="0" gif:AnimationBehavior.SourceUri="Assets/giphy.gif"/>
         
         <TextBlock Text="Devices Available:" FontSize="24" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" RequestedTheme="Light" FocusVisualPrimaryBrush="#FF48AED4" FocusVisualSecondaryBrush="#FF48AED4" SelectionHighlightColor="#FF48AED4"/>
         <ListBox x:Name="ConnectDevices" ScrollViewer.HorizontalScrollMode="Enabled" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="4" ScrollViewer.HorizontalScrollBarVisibility="Visible" ItemsSource="{Binding Source={StaticResource DeviceListSource}}" Background="Gray" HorizontalAlignment="Left" RequestedTheme="Dark">
