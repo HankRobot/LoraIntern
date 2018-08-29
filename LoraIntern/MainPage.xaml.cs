@@ -22,7 +22,7 @@ namespace LoraIntern
         DataReader dataReaderObject = null;
 
         //set this to false if you are running on rpi
-        public bool isdesktop = true;
+        public bool isdesktop = false;
 
         //these are variables for displaying the data
         public string transmission { get; set; }
@@ -78,7 +78,7 @@ namespace LoraIntern
                 if (!isdesktop)
                 {
                     Console.WriteLine("lul");
-                    await GetLogging.EmailSendLogs("Lora Gateway has started.", String.Format("Rpi Started on {0}", DateTime.Now));
+                    await GetLogging.EmailSendLogs("Lora Gateway has started.", string.Format("Rpi Started on {0}", DateTime.Now));
                     await GetLogging.WritetoTxtFile("Lora Gateway has started");
                 }
                 string aqs = SerialDevice.GetDeviceSelector();
@@ -359,7 +359,7 @@ namespace LoraIntern
                         //Add a pendrive into the rpi before running this code, otherwise an exception will be thrown
                         if (!isdesktop)
                         {
-                            await GetLogging.WritetoTxtFile(transmission + " " + id + " " + date + " " + dust + " " + uv + " " + temp + " " + press + " " + hum + " " + RSSI);
+                            await GetLogging.WritetoTxtFile("Sent Data: "+ transmission + " " + id + " " + date + " " + dust + " " + uv + " " + temp + " " + press + " " + hum + " " + RSSI);
                         }
 
                         sendQuerytoSql();
@@ -474,7 +474,7 @@ namespace LoraIntern
             {
                 label1.Text += "Index #" + i + "\n" +
                     "Error: " + exception.Errors[i].ToString() + "\n";
-                Console.WriteLine("Index #" + i + "\n" +
+                Debug.WriteLine("Index #" + i + "\n" +
                     "Error: " + exception.Errors[i].ToString() + "\n");
             }
             if (!isdesktop)

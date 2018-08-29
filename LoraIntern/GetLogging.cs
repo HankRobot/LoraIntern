@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using LightBuzz.SMTP;
@@ -35,12 +36,19 @@ namespace LoraIntern
 
         public async static Task WritetoTxtFile(string message)
         {
-            var removableDevices = KnownFolders.RemovableDevices;
-            var externalDrives = await removableDevices.GetFoldersAsync();
-            var drive0 = externalDrives[0];
+            int i = 0;
+            StorageFolder externalDevices = KnownFolders.RemovableDevices;
+            IReadOnlyList<StorageFolder> externalDrives = await externalDevices.GetFoldersAsync();
+            StorageFolder drive0 = externalDrives[i];
 
-            var testFolder = await drive0.CreateFolderAsync("RpiLogs");
-            var testFile = await testFolder.CreateFileAsync("Logs.txt");
+            while (drive0.Path.Contains("E:") && i<externalDrives.Count)
+            {
+                i++;
+                drive0 = externalDrives[i];
+            }
+
+            var testFolder = await drive0.CreateFolderAsync("RpiLogs", CreationCollisionOption.OpenIfExists);
+            var testFile = await testFolder.CreateFileAsync("Logs.txt", CreationCollisionOption.OpenIfExists);
             await FileIO.AppendTextAsync(testFile,  "[" + DateTime.Now + "] " + message + System.Environment.NewLine);
         }
     }
