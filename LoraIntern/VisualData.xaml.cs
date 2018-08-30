@@ -470,7 +470,7 @@ namespace LoraIntern
             ProgressSave.IsActive = true;
             MessageDialog dialog = new MessageDialog("Saving Lora Datasets...");
             dialog.Commands.Add(new UICommand("Download This Page Only", null));
-            dialog.Commands.Add(new UICommand("Download the entire page", null));
+            dialog.Commands.Add(new UICommand("Download the entire database", null));
             dialog.DefaultCommandIndex = 0;
             dialog.CancelCommandIndex = 1;
             var cmd = await dialog.ShowAsync();
@@ -518,7 +518,7 @@ namespace LoraIntern
                 }
             }
 
-            if (cmd.Label == "Download the entire page")
+            if (cmd.Label == "Download the entire database")
             {
                 string retrieve = string.Format("select * from (select Row_Number() over (order by TIMESUBMIT) as RowIndex, * from LORA_TABLE) as Sub Where Sub.RowIndex >= {0} and Sub.RowIndex <= {1};", 0, norows);
 

@@ -68,10 +68,16 @@
             <TextBlock Grid.Column="1" Text=" Current Date:" FontSize="36" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
             <TextBlock x:Name="CurrentDate" Grid.Column="2" Text="" FontSize="36" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
         </Grid>
-
-        <Button Grid.Column="0" x:Name="Connection" Grid.Row="0" Click="Connection_Click" Content="&#xE80F;" FontFamily="Segoe MDL2 Assets" Background="#FFC4F5FF" FontSize="72" HorizontalAlignment="Stretch" VerticalAlignment="Top" RequestedTheme="Light"/>
-        <Button Grid.Column="0" x:Name="Save" Grid.Row="0"  Grid.RowSpan="2" Content="&#xE792;" FontFamily="Segoe MDL2 Assets" Background="#FFC4F5FF" FontSize="72" HorizontalAlignment="Stretch" VerticalAlignment="Center" RequestedTheme="Light" Click="Save_Click"/>
-        <ProgressRing x:Name="ProgressSave" Grid.Column="0" Grid.RowSpan="2" IsActive="False" Height="100" Width="100" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
+        <Grid Grid.Row="0" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Button x:Name="Connection" Grid.Row="0" Click="Connection_Click" Content="&#xE80F;" FontFamily="Segoe MDL2 Assets" Background="#FFC4F5FF" FontSize="72" HorizontalAlignment="Stretch" VerticalAlignment="Top" RequestedTheme="Light"/>
+            <Button x:Name="Save" Grid.Row="1" Content="&#xE792;" FontFamily="Segoe MDL2 Assets" Background="#FFC4F5FF" FontSize="72" HorizontalAlignment="Stretch" VerticalAlignment="Center" RequestedTheme="Light" Click="Save_Click"/>
+            <ProgressRing x:Name="ProgressSave" Grid.Row="1" IsActive="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        </Grid>
+        
 
         <Button Grid.Row="0" Grid.RowSpan="5" Grid.Column="3" x:Name="Next" HorizontalAlignment="Stretch" VerticalAlignment="Center" Click="Next_Click" Content="&#xE72A;" FontFamily="Segoe MDL2 Assets" Background="#FFC4F5FF" FontSize="72"/>
         <Button Grid.Row="0" Grid.RowSpan="5" Grid.Column="0" x:Name="Back" HorizontalAlignment="Stretch" VerticalAlignment="Center" Content="&#xE72B;" FontFamily="Segoe MDL2 Assets" Background="#FFC4F5FF" FontSize="72" Click="Back_Click"/>
