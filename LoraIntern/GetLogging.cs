@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using LightBuzz.SMTP;
 using Windows.ApplicationModel.Email;
 using Windows.Storage;
+using Windows.Storage.Pickers;
+using Windows.UI.Popups;
 
 namespace LoraIntern
 {
@@ -55,9 +57,30 @@ namespace LoraIntern
             }
         }
 
-        public async static Task DownloadCSV(List<VisualData.SensorData> sensorlist)
+        public async static Task DownloadCSV(List<string> message)
         {
-            StorageFolder localFolder = ApplicationData.Current.LocalFolder;
+            FileSavePicker picker = new FileSavePicker();
+            picker.FileTypeChoices.Add("file style", new string[] { ".csv" });
+            picker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
+            picker.SuggestedFileName = "LoraGateWayDatasets";
+            StorageFile file = await picker.PickSaveFileAsync();
+            
+            if (file != null)
+            {
+                string labels = string.Format("Lora ID,Transmission No,Time Submitted,Dust(kg/m^-3),UV Reading(mW/cm^-2),Temperature(°C),Pressure(Pa),Humidty(%),RSSI");
+                await FileIO.AppendTextAsync(file, labels + System.Environment.NewLine);
+                foreach (var item in message)
+                {
+                    await FileIO.AppendTextAsync(file, item + System.Environment.NewLine);
+                }
+                MessageDialog popup = new MessageDialog("Datasets downloaded", "Your CSV file is ready");
+                await popup.ShowAsync();
+            }
+            else
+            {
+                MessageDialog popup = new MessageDialog("Dataset Download Aborted", "Dataset Download Aborted");
+                await popup.ShowAsync();
+            }
         }
     }
 }

@@ -70,8 +70,8 @@
         </Grid>
 
         <Button Grid.Column="0" x:Name="Connection" Grid.Row="0" Click="Connection_Click" Content="&#xE80F;" FontFamily="Segoe MDL2 Assets" Background="#FFC4F5FF" FontSize="72" HorizontalAlignment="Stretch" VerticalAlignment="Top" RequestedTheme="Light"/>
-        <Button Grid.Column="0" x:Name="Save" Grid.Row="0" Content="&#xE792;" FontFamily="Segoe MDL2 Assets" Background="#FFC4F5FF" FontSize="72" HorizontalAlignment="Stretch" VerticalAlignment="Center" RequestedTheme="Light" Click="Save_Click"/>
-        
+        <Button Grid.Column="0" x:Name="Save" Grid.Row="0"  Grid.RowSpan="2" Content="&#xE792;" FontFamily="Segoe MDL2 Assets" Background="#FFC4F5FF" FontSize="72" HorizontalAlignment="Stretch" VerticalAlignment="Center" RequestedTheme="Light" Click="Save_Click"/>
+        <ProgressRing x:Name="ProgressSave" Grid.Column="0" Grid.RowSpan="2" IsActive="False" Height="100" Width="100" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
 
         <Button Grid.Row="0" Grid.RowSpan="5" Grid.Column="3" x:Name="Next" HorizontalAlignment="Stretch" VerticalAlignment="Center" Click="Next_Click" Content="&#xE72A;" FontFamily="Segoe MDL2 Assets" Background="#FFC4F5FF" FontSize="72"/>
         <Button Grid.Row="0" Grid.RowSpan="5" Grid.Column="0" x:Name="Back" HorizontalAlignment="Stretch" VerticalAlignment="Center" Content="&#xE72B;" FontFamily="Segoe MDL2 Assets" Background="#FFC4F5FF" FontSize="72" Click="Back_Click"/>

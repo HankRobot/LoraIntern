@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.IO;
+using Windows.Foundation.Metadata;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -16,6 +17,7 @@ namespace LoraIntern
         public int end = 59;  //the last row after iteration
         public int norows;    //total number of rows in the server
         public DateTime usersearch;
+        public bool filepicked;
 
         SqlConnectionStringBuilder sql = new SqlConnectionStringBuilder();
 
@@ -464,143 +466,102 @@ namespace LoraIntern
 
         private async void Save_Click(object sender, RoutedEventArgs e)
         {
-            string retrieve = string.Format("select * from (select Row_Number() over (order by TIMESUBMIT) as RowIndex, * from LORA_TABLE) as Sub Where Sub.RowIndex >= {0} and Sub.RowIndex <= {1};", start, end);
+            filepicked = false;
+            ProgressSave.IsActive = true;
+            MessageDialog dialog = new MessageDialog("Saving Lora Datasets...");
+            dialog.Commands.Add(new UICommand("Download This Page Only", null));
+            dialog.Commands.Add(new UICommand("Download the entire page", null));
+            dialog.DefaultCommandIndex = 0;
+            dialog.CancelCommandIndex = 1;
+            var cmd = await dialog.ShowAsync();
 
-            //list for client "HANK"
-            List<SensorData> dustrecords = new List<SensorData>();
-            List<SensorData> uvrecords = new List<SensorData>();
-            List<SensorData> temprecords = new List<SensorData>();
-            List<SensorData> pressrecords = new List<SensorData>();
-            List<SensorData> humrecords = new List<SensorData>();
-            List<SensorData> RSSIrecords = new List<SensorData>();
-
-            //list for client "LORA"
-            List<SensorData> dustrecords1 = new List<SensorData>();
-            List<SensorData> uvrecords1 = new List<SensorData>();
-            List<SensorData> temprecords1 = new List<SensorData>();
-            List<SensorData> pressrecords1 = new List<SensorData>();
-            List<SensorData> humrecords1 = new List<SensorData>();
-            List<SensorData> RSSIrecords1 = new List<SensorData>();
-
-            //build conenction string
-            sql.DataSource = "lorawan-hank.database.windows.net";
-            sql.UserID = "Hank";
-            sql.Password = "Lorawan1234";
-            sql.InitialCatalog = "LoraWan Database";
-
-            using (SqlConnection sqlConn = new SqlConnection(sql.ConnectionString))
+            if (cmd.Label == "Download This Page Only")
             {
-                SqlCommand sqlCommand = new SqlCommand(retrieve, sqlConn);
-                try
+                string retrieve = string.Format("select * from (select Row_Number() over (order by TIMESUBMIT) as RowIndex, * from LORA_TABLE) as Sub Where Sub.RowIndex >= {0} and Sub.RowIndex <= {1};", start, end);
+
+                List<string> datasets = new List<string>();
+
+                //build connection string
+                sql.DataSource = "lorawan-hank.database.windows.net";
+                sql.UserID = "Hank";
+                sql.Password = "Lorawan1234";
+                sql.InitialCatalog = "LoraWan Database";
+
+                using (SqlConnection sqlConn = new SqlConnection(sql.ConnectionString))
                 {
-                    sqlConn.Open();
-                    sqlCommand.ExecuteNonQuery();
-                    SqlDataReader reader = sqlCommand.ExecuteReader();
-                    if (reader.HasRows)
+                    SqlCommand sqlCommand = new SqlCommand(retrieve, sqlConn);
+                    try
                     {
-                        while (reader.Read())
+                        sqlConn.Open();
+                        sqlCommand.ExecuteNonQuery();
+                        SqlDataReader reader = sqlCommand.ExecuteReader();
+                        if (reader.HasRows)
                         {
-                            DateTime time = reader.GetDateTime(3);
-                            CurrentDate.Text = time.ToShortDateString();
-                            if (reader.GetString(1) == "HANK")
+                            while (reader.Read())
                             {
-                                dustrecords.Add(new SensorData()
-                                {
-                                    Name = time,
-                                    Amount = reader.GetValue(4)
-                                });
+                                DateTime time = reader.GetDateTime(3);
 
-                                uvrecords.Add(new SensorData()
-                                {
-                                    Name = time,
-                                    Amount = reader.GetValue(5)
-                                });
+                                string dataset = string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8}",
+                                    reader.GetString(1), reader.GetValue(2), time, reader.GetValue(4), reader.GetValue(5),
+                                    reader.GetValue(6), reader.GetValue(7), reader.GetValue(8), reader.GetValue(9));
 
-                                temprecords.Add(new SensorData()
-                                {
-                                    Name = time,
-                                    Amount = reader.GetValue(6)
-                                });
-
-                                pressrecords.Add(new SensorData()
-                                {
-                                    Name = time,
-                                    Amount = reader.GetValue(7)
-                                });
-
-                                humrecords.Add(new SensorData()
-                                {
-                                    Name = time,
-                                    Amount = reader.GetValue(8)
-                                });
-
-                                RSSIrecords.Add(new SensorData()
-                                {
-                                    Name = time,
-                                    Amount = reader.GetValue(9)
-                                });
-                            }
-                            if (reader.GetString(1) == "LORA")
-                            {
-                                dustrecords1.Add(new SensorData()
-                                {
-                                    Name = time,
-                                    Amount = reader.GetValue(4)
-                                });
-
-                                uvrecords1.Add(new SensorData()
-                                {
-                                    Name = time,
-                                    Amount = reader.GetValue(5)
-                                });
-
-                                temprecords1.Add(new SensorData()
-                                {
-                                    Name = time,
-                                    Amount = reader.GetValue(6)
-                                });
-
-                                pressrecords1.Add(new SensorData()
-                                {
-                                    Name = time,
-                                    Amount = reader.GetValue(7)
-                                });
-
-                                humrecords1.Add(new SensorData()
-                                {
-                                    Name = time,
-                                    Amount = reader.GetValue(8)
-                                });
-
-                                RSSIrecords1.Add(new SensorData()
-                                {
-                                    Name = time,
-                                    Amount = reader.GetValue(9)
-                                });
+                                datasets.Add(dataset);
                             }
                         }
                     }
+                    catch (SqlException ex)
+                    {
+                        DisplaySqlErrors(ex);
+                    }
+                    sqlConn.Close();
+                    await GetLogging.DownloadCSV(datasets);
                 }
-                catch (SqlException ex)
-                {
-                    DisplaySqlErrors(ex);
-                }
-                sqlConn.Close();
             }
 
-            await GetLogging.DownloadCSV(dustrecords);
-            await GetLogging.DownloadCSV(uvrecords);
-            await GetLogging.DownloadCSV(temprecords);
-            await GetLogging.DownloadCSV(pressrecords);
-            await GetLogging.DownloadCSV(humrecords);
-            await GetLogging.DownloadCSV(RSSIrecords);
+            if (cmd.Label == "Download the entire page")
+            {
+                string retrieve = string.Format("select * from (select Row_Number() over (order by TIMESUBMIT) as RowIndex, * from LORA_TABLE) as Sub Where Sub.RowIndex >= {0} and Sub.RowIndex <= {1};", 0, norows);
 
-            await GetLogging.DownloadCSV(dustrecords1);
-            await GetLogging.DownloadCSV(uvrecords1);
-            await GetLogging.DownloadCSV(temprecords1);
-            await GetLogging.DownloadCSV(pressrecords1);
-            await GetLogging.DownloadCSV(humrecords1);
-            await GetLogging.DownloadCSV(RSSIrecords1);
+                List<string> datasets = new List<string>();
+
+                //build conenction string
+                sql.DataSource = "lorawan-hank.database.windows.net";
+                sql.UserID = "Hank";
+                sql.Password = "Lorawan1234";
+                sql.InitialCatalog = "LoraWan Database";
+
+                using (SqlConnection sqlConn = new SqlConnection(sql.ConnectionString))
+                {
+                    SqlCommand sqlCommand = new SqlCommand(retrieve, sqlConn);
+                    try
+                    {
+                        sqlConn.Open();
+                        sqlCommand.ExecuteNonQuery();
+                        SqlDataReader reader = sqlCommand.ExecuteReader();
+                        if (reader.HasRows)
+                        {
+                            while (reader.Read())
+                            {
+                                DateTime time = reader.GetDateTime(3);
+
+                                string dataset = string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8}",
+                                    reader.GetString(1), reader.GetValue(2), time, reader.GetValue(4), reader.GetValue(5),
+                                    reader.GetValue(6), reader.GetValue(7), reader.GetValue(8), reader.GetValue(9));
+
+                                datasets.Add(dataset);
+                            }
+                        }
+                    }
+                    catch (SqlException ex)
+                    {
+                        DisplaySqlErrors(ex);
+                    }
+                    sqlConn.Close();
+                    await GetLogging.DownloadCSV(datasets);
+                }
+            }
+
+            ProgressSave.IsActive = false;
         }
     }
 }
