@@ -113,8 +113,9 @@
   <ItemGroup>
     <Content Include="Assets\lora.png" />
     <Content Include="Assets\lora2.png" />
-    <Content Include="Assets\trans.png" />
-    <Content Include="Assets\giphy.gif" />
+    <Content Include="Assets\connect.gif" />
+    <Content Include="Assets\trans4.png" />
+    <Content Include="Assets\disconnect.gif" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />

@@ -22,7 +22,7 @@ namespace LoraIntern
         DataReader dataReaderObject = null;
 
         //set this to false if you are running on rpi
-        public bool isdesktop = true;
+        public bool isdesktop = false;
 
         public bool ejectpendrive = false;
 
@@ -189,6 +189,8 @@ namespace LoraIntern
                 status.Text = "Reading task was cancelled, closing device and cleaning up";
                 if (!isdesktop)
                 {
+                    disconnectgif.Visibility = Visibility.Visible;
+                    connectgif.Visibility = Visibility.Collapsed;
                     await GetLogging.EmailSendLogs("Status Exception on Lora Rpi Gateway", status.Text);
                     await GetLogging.WritetoTxtFile(status.Text,ejectpendrive);
                 }
@@ -199,6 +201,8 @@ namespace LoraIntern
                 status.Text = ex.Message;
                 if (!isdesktop)
                 {
+                    disconnectgif.Visibility = Visibility.Visible;
+                    connectgif.Visibility = Visibility.Collapsed;
                     await GetLogging.EmailSendLogs("Status Exception on Lora Rpi Gateway, the Rpi will try restarting the App", status.Text + String.Format("\n{0}",rcvdText.Text));
                     await GetLogging.WritetoTxtFile(status.Text + String.Format("\n{0}", rcvdText.Text),ejectpendrive);
                     await Windows.ApplicationModel.Core.CoreApplication.RequestRestartAsync("-fastInit -level 1 -foo");
@@ -222,7 +226,7 @@ namespace LoraIntern
         /// <returns></returns>
         private async Task ReadAsync(CancellationToken cancellationToken)
         {
-
+            
             Task<UInt32> loadAsyncTask;
 
             uint ReadBufferLength = 1024;
@@ -242,6 +246,7 @@ namespace LoraIntern
                 UInt32 bytesRead = await loadAsyncTask;
                 if (bytesRead > 0)
                 {
+                    connectionring.IsActive = true;
                     status.Text = "Reading Bytes...";
                     sqlstatus.Text = "Sending Data To Server...";
                     // Starts string manipulation to receive the infos
@@ -300,6 +305,10 @@ namespace LoraIntern
                         
                         SendQuerytoSql();
                         sqlstatus.Text = "Data Sent!";
+
+                        connectionring.IsActive = false;
+                        disconnectgif.Visibility = Visibility.Collapsed;
+                        connectgif.Visibility = Visibility.Visible;
                     }
                 }
             }
@@ -385,6 +394,8 @@ namespace LoraIntern
             }
             if (!isdesktop)
             {
+                disconnectgif.Visibility = Visibility.Visible;
+                connectgif.Visibility = Visibility.Collapsed;
                 await GetLogging.EmailSendLogs("Status Exception on Lora Rpi Gateway, the Rpi will try restarting the App", sqlstatus.Text);
                 await GetLogging.WritetoTxtFile(sqlstatus.Text, ejectpendrive);
                 await Windows.ApplicationModel.Core.CoreApplication.RequestRestartAsync("-fastInit -level 1 -foo");

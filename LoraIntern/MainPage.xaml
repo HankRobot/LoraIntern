@@ -37,6 +37,20 @@
             <ColumnDefinition Width="0.2*"/>
         </Grid.ColumnDefinitions>
 
+        <Grid Grid.Row="10" Canvas.ZIndex="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="0.7*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="1.5*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <ProgressRing x:Name="connectionring" IsActive="False" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Canvas.ZIndex="0"/>
+        </Grid>
+        
         <Button x:Name="Eject" Grid.Column="0" Grid.Row="8" FontSize="24" Content="Eject Pendrive" HorizontalAlignment="Center" VerticalAlignment="Stretch" RequestedTheme="Light" Click="Eject_Click"/>
         <TextBlock Text="USB Status:" Grid.Row="8" Grid.Column="1" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" RequestedTheme="Light"/>
         <TextBox x:Name="USBLabel" Grid.Row="8" Grid.Column="2" TextWrapping="Wrap" IsReadOnly="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" BorderBrush="White" FontSize="16" RequestedTheme="Dark"/>
@@ -52,8 +66,10 @@
         <TextBlock Text ="Raspberry Pi Status:" FontSize="24" Grid.Row="6" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" RequestedTheme="Light" TextAlignment="Center" FocusVisualPrimaryBrush="#FF48AED4" FocusVisualSecondaryBrush="#FF48AED4" SelectionHighlightColor="#FF47314E"/>
         <TextBox x:Name="status" Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="4" TextWrapping="Wrap" IsReadOnly="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" BorderBrush="White" FontSize="24" RequestedTheme="Dark"/>
 
-        <Image Grid.Row="10" Grid.Column="0" gif:AnimationBehavior.SourceUri="Assets/giphy.gif"/>
+        <Image x:Name="connectgif" Visibility="Collapsed" Grid.Row="10" Grid.Column="0" gif:AnimationBehavior.SourceUri="Assets/connect.gif"/>
+        <Image x:Name="disconnectgif" Visibility="Visible"  Grid.Row="10" Grid.Column="0" gif:AnimationBehavior.SourceUri="Assets/disconnect.gif"/>
         
+
         <TextBlock Text="Devices Available:" FontSize="24" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" RequestedTheme="Light" FocusVisualPrimaryBrush="#FF48AED4" FocusVisualSecondaryBrush="#FF48AED4" SelectionHighlightColor="#FF48AED4"/>
         <ListBox x:Name="ConnectDevices" ScrollViewer.HorizontalScrollMode="Enabled" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="4" ScrollViewer.HorizontalScrollBarVisibility="Visible" ItemsSource="{Binding Source={StaticResource DeviceListSource}}" Background="Gray" HorizontalAlignment="Left" RequestedTheme="Dark">
             <ListBox.ItemTemplate>
