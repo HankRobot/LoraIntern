@@ -10,88 +10,90 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" RequestedTheme="Light">
 
     <Grid Background="White">
-        
+
         <Grid.RowDefinitions>
-            <RowDefinition Height="3*"/>
             <RowDefinition Height="0.5*"/>
             <RowDefinition Height="3*"/>
             <RowDefinition Height="0.5*"/>
             <RowDefinition Height="3*"/>
             <RowDefinition Height="0.5*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="0.5*"/>
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.2*"/>
+            <ColumnDefinition Width="0.4*"/>
+            <ColumnDefinition Width="0.6*"/>
+            <ColumnDefinition Width="0.6*"/>
+            <ColumnDefinition Width="0.6*"/>
+            <ColumnDefinition Width="0.6*"/>
+            <ColumnDefinition Width="7.5*"/>
+            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="7.5*"/>
-            <ColumnDefinition Width="7.5*"/>
-            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Charting:Chart Grid.Column="1" x:Name="dustChart" Title="Dust(kg/m^3)" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="0" RequestedTheme="Light" >
+        <Charting:Chart Grid.Column="1" Grid.ColumnSpan="6" x:Name="dustChart" Title="Dust(kg/m^3)" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" RequestedTheme="Light" >
             <Charting:LineSeries Title="Hank" IndependentValuePath="Name" DependentValuePath="Amount" IsSelectionEnabled="True" RequestedTheme="Light"/>
             <Charting:LineSeries Title="Lora" IndependentValuePath="Name" DependentValuePath="Amount" IsSelectionEnabled="True" RequestedTheme="Light"/>
         </Charting:Chart>
 
-        <Charting:Chart Grid.Column="1" x:Name="uvChart" Title="UV(mW/cm^2)" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="2" RequestedTheme="Light" >
+        <Charting:Chart Grid.Column="1" Grid.ColumnSpan="6" x:Name="uvChart" Title="UV(mW/cm^2)" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="3" RequestedTheme="Light" >
             <Charting:LineSeries Title="Hank" IndependentValuePath="Name" DependentValuePath="Amount" IsSelectionEnabled="True" RequestedTheme="Light"/>
             <Charting:LineSeries Title="Lora" IndependentValuePath="Name" DependentValuePath="Amount" IsSelectionEnabled="True" RequestedTheme="Light"/>
         </Charting:Chart>
 
-        <Charting:Chart Grid.Column="1" x:Name="temperatureChart" Title="Temperature(°C)" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="4" RequestedTheme="Light" >
+        <Charting:Chart Grid.Column="1" Grid.ColumnSpan="6" x:Name="temperatureChart" Title="Temperature(°C)" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="5" RequestedTheme="Light" >
             <Charting:LineSeries Title="Hank" IndependentValuePath="Name" DependentValuePath="Amount" IsSelectionEnabled="True" RequestedTheme="Light"/>
             <Charting:LineSeries Title="Lora" IndependentValuePath="Name" DependentValuePath="Amount" IsSelectionEnabled="True" RequestedTheme="Light"/>
         </Charting:Chart>
 
-        <Charting:Chart Grid.Column="2" x:Name="pressureChart" Title="Pressure(Pa)" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="0" RequestedTheme="Light" >
+        <Charting:Chart Grid.Column="7" Grid.ColumnSpan="3" x:Name="pressureChart" Title="Pressure(Pa)" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" RequestedTheme="Light" >
             <Charting:LineSeries Title="Hank" IndependentValuePath="Name" DependentValuePath="Amount" IsSelectionEnabled="True" RequestedTheme="Light"/>
             <Charting:LineSeries Title="Lora" IndependentValuePath="Name" DependentValuePath="Amount" IsSelectionEnabled="True" RequestedTheme="Light"/>
         </Charting:Chart>
 
-        <Charting:Chart Grid.Column="2" x:Name="humidityChart" Title="Humidity(%)" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="2" RequestedTheme="Light" >
+        <Charting:Chart Grid.Column="7" Grid.ColumnSpan="3" x:Name="humidityChart" Title="Humidity(%)" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="3" RequestedTheme="Light" >
             <Charting:LineSeries Title="Hank" IndependentValuePath="Name" DependentValuePath="Amount" IsSelectionEnabled="True" RequestedTheme="Light"/>
             <Charting:LineSeries Title="Lora" IndependentValuePath="Name" DependentValuePath="Amount" IsSelectionEnabled="True" RequestedTheme="Light"/>
         </Charting:Chart>
 
-        <Charting:Chart Grid.Column="2" x:Name="RSSIChart" Title="RSSI" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="4" RequestedTheme="Light" >
+        <Charting:Chart Grid.Column="7" Grid.ColumnSpan="3" x:Name="RSSIChart" Title="RSSI" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="5" RequestedTheme="Light" >
             <Charting:LineSeries Title="Hank" IndependentValuePath="Name" DependentValuePath="Amount" IsSelectionEnabled="True" RequestedTheme="Light"/>
             <Charting:LineSeries Title="Lora" IndependentValuePath="Name" DependentValuePath="Amount" IsSelectionEnabled="True" RequestedTheme="Light"/>
         </Charting:Chart>
 
-        <Grid Grid.Row="6" Grid.Column="2">
+        <Grid Grid.Row="6" Grid.Column="5" Grid.ColumnSpan="3">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.5*"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="0.7*"/>
+                <ColumnDefinition Width="0.2*"/>
                 <ColumnDefinition Width="0.9*"/>
                 <ColumnDefinition Width="0.5*"/>
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="1" Text=" Current Date:" FontSize="36" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
-            <TextBlock x:Name="CurrentDate" Grid.Column="2" Text="" FontSize="36" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+            
         </Grid>
-        <Grid Grid.Row="0" Grid.Column="0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <Button x:Name="Connection" Grid.Row="0" Click="Connection_Click" Content="&#xE80F;" FontFamily="Segoe MDL2 Assets" Background="#FFC4F5FF" FontSize="72" HorizontalAlignment="Stretch" VerticalAlignment="Top" RequestedTheme="Light"/>
-            <Button x:Name="Save" Grid.Row="1" Content="&#xE792;" FontFamily="Segoe MDL2 Assets" Background="#FFC4F5FF" FontSize="72" HorizontalAlignment="Stretch" VerticalAlignment="Center" RequestedTheme="Light" Click="Save_Click"/>
-            <ProgressRing x:Name="ProgressSave" Grid.Row="1" IsActive="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-        </Grid>
-        
 
-        <Button Grid.Row="0" Grid.RowSpan="5" Grid.Column="3" x:Name="Next" HorizontalAlignment="Stretch" VerticalAlignment="Center" Click="Next_Click" Content="&#xE72A;" FontFamily="Segoe MDL2 Assets" Background="#FFC4F5FF" FontSize="72"/>
-        <Button Grid.Row="0" Grid.RowSpan="5" Grid.Column="0" x:Name="Back" HorizontalAlignment="Stretch" VerticalAlignment="Center" Content="&#xE72B;" FontFamily="Segoe MDL2 Assets" Background="#FFC4F5FF" FontSize="72" Click="Back_Click"/>
-        <Grid Grid.Row="6" Grid.Column="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="8*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+        <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="7">
             <Grid.RowDefinitions>
-                <RowDefinition Height="5*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <TextBox Grid.Column="0" x:Name="TypeDate" Text="" FontSize="36" VerticalAlignment="Stretch" PlaceholderText="Search Time (dd/mm/yy hh:mm)" />
-            <Button Grid.Column="1" x:Name="SearchDate" Content="&#xE721;" FontFamily="Segoe MDL2 Assets" Background="#FFC4F5FF" FontSize="24" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="SearchDate_Click"/>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="9.4*"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="Connection" Grid.Row="0" Grid.Column="0" Click="Connection_Click" Content="&#xE80F;" FontFamily="Segoe MDL2 Assets" FontSize="20" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" RequestedTheme="Light" Background="#33FFFFFF"/>
+            <Button x:Name="Save" Grid.Row="0" Grid.Column="1" Content="&#xE792;" FontFamily="Segoe MDL2 Assets" FontSize="20" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" RequestedTheme="Light" Click="Save_Click" Background="#33FFFFFF"/>
+            <ProgressRing x:Name="ProgressSave" Grid.Row="0" Grid.Column="1" IsActive="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <Button Grid.Row="0" Grid.Column="3" x:Name="Next" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="Next_Click" Content="&#xE761;" FontFamily="Segoe MDL2 Assets" Background="White" FontSize="20"/>
+            <Button Grid.Row="0" Grid.Column="2" x:Name="Back" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="&#xE760;" FontFamily="Segoe MDL2 Assets" Background="White" FontSize="20" Click="Back_Click"/>
+            <Button Grid.Column="4" Content="&#xE787;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="#33FFFFFF" Click="SearchDate_Click"/>
+            <TextBlock Grid.Column="5" Text="" x:Name="CurrentDate" FontSize="13" VerticalAlignment="Center" HorizontalAlignment="Left"/>
         </Grid>
     </Grid>
 </Page>

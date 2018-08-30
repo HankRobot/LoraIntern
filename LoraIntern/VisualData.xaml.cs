@@ -120,6 +120,7 @@ namespace LoraIntern
                         {
                             DateTime time = reader.GetDateTime(3);
                             CurrentDate.Text = time.ToShortDateString();
+                            CurrentDate.Text = time.ToShortDateString();
                             if (reader.GetString(1) == "HANK")
                                 {
                                     dustrecords.Add(new SensorData()
@@ -270,11 +271,24 @@ namespace LoraIntern
         //function for searching 
         private async void SearchDate_Click(object sender, RoutedEventArgs e)
         {
-            if (TypeDate.Text!=null)
+            TextBox inputTextBox = new TextBox();
+            inputTextBox.AcceptsReturn = false;
+            inputTextBox.Height = 32;
+            ContentDialog dialog = new ContentDialog();
+            dialog.Content = inputTextBox;
+            dialog.Title = "Search for a DateTime";
+            inputTextBox.PlaceholderText = "Search Time (dd/mm/yy hh:mm)";
+            dialog.IsSecondaryButtonEnabled = true;
+            dialog.PrimaryButtonText = "Ok";
+            dialog.SecondaryButtonText = "Cancel";
+
+            await dialog.ShowAsync();
+
+            if (inputTextBox.Text!=null)
             {
                 try
                 {
-                    DateTime sqlDatetime = Convert.ToDateTime(TypeDate.Text);
+                    DateTime sqlDatetime = Convert.ToDateTime(inputTextBox.Text);
                     Debug.WriteLine(sqlDatetime.ToShortDateString(),"It worked!");
                     findsqlDate(sqlDatetime);
                 }
@@ -466,7 +480,6 @@ namespace LoraIntern
 
         private async void Save_Click(object sender, RoutedEventArgs e)
         {
-            filepicked = false;
             ProgressSave.IsActive = true;
             MessageDialog dialog = new MessageDialog("Saving Lora Datasets...");
             dialog.Commands.Add(new UICommand("Download This Page Only", null));

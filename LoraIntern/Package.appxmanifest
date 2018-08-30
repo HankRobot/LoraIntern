@@ -24,7 +24,7 @@
           </uap:FileTypeAssociation>
         </uap:Extension>
       </Extensions>
-      <uap:VisualElements DisplayName="LoraIntern" Square150x150Logo="Assets\lora.png" Square44x44Logo="Assets\lora.png" Description="LoraIntern" BackgroundColor="white">
+      <uap:VisualElements DisplayName="LoRa Internship" Square150x150Logo="Assets\lora.png" Square44x44Logo="Assets\lora.png" Description="LoraIntern" BackgroundColor="white">
         <uap:DefaultTile Wide310x150Logo="Assets\lora.png">
         </uap:DefaultTile>
         <uap:SplashScreen Image="Assets\lora2.png" />
