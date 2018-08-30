@@ -18,6 +18,7 @@ namespace LoraIntern
         /// <summary>
         /// Private variables
         /// </summary>
+        /// sucks my dick
         private SerialDevice serialPort = null;
         DataReader dataReaderObject = null;
 
