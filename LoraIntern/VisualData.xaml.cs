@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Diagnostics;
-using System.IO;
-using Windows.Foundation.Metadata;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -25,8 +23,8 @@ namespace LoraIntern
         {
             this.InitializeComponent();
             readnumberofrows();
-            DateTime today = System.DateTime.Now.Date;
-            Debug.WriteLine("This is the date today!",today.ToShortDateString());
+            DateTime today = DateTime.Now.Date;
+            Debug.WriteLine("This is the date today!",today.ToString(""));
             findsqlDate(today);
         }
 
@@ -271,38 +269,33 @@ namespace LoraIntern
         //function for searching 
         private async void SearchDate_Click(object sender, RoutedEventArgs e)
         {
-            TextBox inputTextBox = new TextBox();
-            inputTextBox.AcceptsReturn = false;
-            inputTextBox.Height = 32;
-            ContentDialog dialog = new ContentDialog();
-            dialog.Content = inputTextBox;
             dialog.Title = "Search for a DateTime";
-            inputTextBox.PlaceholderText = "Search Time (dd/mm/yy hh:mm)";
             dialog.IsSecondaryButtonEnabled = true;
             dialog.PrimaryButtonText = "Ok";
             dialog.SecondaryButtonText = "Cancel";
 
             await dialog.ShowAsync();
 
-            if (inputTextBox.Text!=null)
+            var date = datepicker.Date;
+            DateTime datesl = date.Value.DateTime;
+            string formateddate = datesl.ToString("dd/MM/yyyy");  //mm stands for minute, MM stands for month, beware
+
+            string time = timepicker.Time.ToString();
+            Debug.WriteLine(formateddate + " " + time); 
+
+            if ((formateddate + " " + time) != "")
             {
                 try
                 {
-                    DateTime sqlDatetime = Convert.ToDateTime(inputTextBox.Text);
-                    Debug.WriteLine(sqlDatetime.ToShortDateString(),"It worked!");
+                    DateTime sqlDatetime = Convert.ToDateTime(formateddate + " " + time);
+                    Debug.WriteLine(sqlDatetime.ToString(), "It worked!");
                     findsqlDate(sqlDatetime);
                 }
                 catch (Exception ex)
                 {
-
-                    MessageDialog popup = new MessageDialog(ex.ToString(),"Wrong DateTime Format");
+                    MessageDialog popup = new MessageDialog(ex.ToString(), "Wrong DateTime Format");
                     await popup.ShowAsync();
                 }
-            }
-            else
-            {
-                MessageDialog popup = new MessageDialog("Please Enter a Date or Time", "No Entry");
-                await popup.ShowAsync();
             }
         }
 
@@ -316,7 +309,7 @@ namespace LoraIntern
 
             //string retrieve = String.Format("select * from (select Row_Number() over (order by TIMESUBMIT) as RowIndex, * from LORA_TABLE) as Sub Where Sub.RowIndex >= {0} and Sub.RowIndex <= {1};", 0, norows);
             string retrieve = String.Format("SET ROWCOUNT 60; select * from(select Row_Number() over (order by TIMESUBMIT) as RowIndex, * from LORA_TABLE) " +
-                "as Sub where TimeSubmit between '{0}' and '{0} 23:59:59';", DateTime.Parse(date.ToShortDateString()).ToString("MM-dd-yyyy"));
+                "as Sub where TimeSubmit >= '{0}';", date.ToString("MM-dd-yyyy HH:mm:ss"));
             Debug.WriteLine("interesting", retrieve);
             
             //list for client "HANK"
@@ -354,9 +347,8 @@ namespace LoraIntern
                         while (reader.Read())
                         {
                             DateTime time = reader.GetDateTime(3);
-                            //Debug.WriteLine("Lul",time);
-                            //Debug.WriteLine("lal", date.ToShortDateString());
-                            //time = time.Remove(time.LastIndexOf("/")) + "(" + reader.GetDateTime(3).ToString("HH:mm") + ")";
+                            CurrentDate.Text = time.ToShortDateString();
+
                             if (reader.GetDateTime(3)>=date && dustrecords.Count<(31))
                             {
                                 CurrentDate.Text = time.ToShortDateString();
@@ -469,7 +461,6 @@ namespace LoraIntern
             (pressureChart.Series[1] as LineSeries).ItemsSource = pressrecords1;
             (humidityChart.Series[1] as LineSeries).ItemsSource = humrecords1;
             (RSSIChart.Series[1] as LineSeries).ItemsSource = RSSIrecords1;
-            
         }
 
         //function for going back to main page
@@ -483,7 +474,9 @@ namespace LoraIntern
             ProgressSave.IsActive = true;
             MessageDialog dialog = new MessageDialog("Saving Lora Datasets...");
             dialog.Commands.Add(new UICommand("Download This Page Only", null));
+            dialog.Commands.Add(new UICommand("Download Between Dates", null));
             dialog.Commands.Add(new UICommand("Download the entire database", null));
+            //dialog.Commands.Add(new UICommand("Cancel", null));
             dialog.DefaultCommandIndex = 0;
             dialog.CancelCommandIndex = 1;
             var cmd = await dialog.ShowAsync();
@@ -574,6 +567,85 @@ namespace LoraIntern
                 }
             }
 
+            if (cmd.Label == "Download Between Dates")
+            {
+                TextBox date1 = new TextBox();
+                date1.AcceptsReturn = false;
+                date1.Height = 32;
+                TextBox date2 = new TextBox();
+                date2.AcceptsReturn = false;
+                date2.Height = 32;
+
+                ContentDialog dialog1 = new ContentDialog();
+                dialog1.Content = date1;
+                dialog1.Content = date2;
+                dialog1.Title = "Download between Dates";
+
+                date1.PlaceholderText = "From (dd/mm/yy hh:mm)";
+                date2.PlaceholderText = "To (dd/mm/yy hh:mm)";
+
+                dialog1.IsSecondaryButtonEnabled = true;
+                dialog1.PrimaryButtonText = "Ok";
+                dialog1.SecondaryButtonText = "Cancel";
+
+                await dialog1.ShowAsync();
+
+                if (date1.Text != "" && date2.Text !="")
+                {
+                    try
+                    {
+                        DateTime sqlDatetime = Convert.ToDateTime(date1.Text);
+                        Debug.WriteLine(sqlDatetime.ToShortDateString(), "It worked!");
+                        findsqlDate(sqlDatetime);
+                    }
+                    catch (Exception ex)
+                    {
+
+                        MessageDialog popup = new MessageDialog(ex.ToString(), "Wrong DateTime Format");
+                        await popup.ShowAsync();
+                    }
+                }
+
+                string retrieve = string.Format("select * from (select Row_Number() over (order by TIMESUBMIT) as RowIndex, * from LORA_TABLE) as Sub Where Sub.RowIndex >= {0} and Sub.RowIndex <= {1};", 0, norows);
+
+                List<string> datasets = new List<string>();
+
+                //build conenction string
+                sql.DataSource = "lorawan-hank.database.windows.net";
+                sql.UserID = "Hank";
+                sql.Password = "Lorawan1234";
+                sql.InitialCatalog = "LoraWan Database";
+
+                using (SqlConnection sqlConn = new SqlConnection(sql.ConnectionString))
+                {
+                    SqlCommand sqlCommand = new SqlCommand(retrieve, sqlConn);
+                    try
+                    {
+                        sqlConn.Open();
+                        sqlCommand.ExecuteNonQuery();
+                        SqlDataReader reader = sqlCommand.ExecuteReader();
+                        if (reader.HasRows)
+                        {
+                            while (reader.Read())
+                            {
+                                DateTime time = reader.GetDateTime(3);
+
+                                string dataset = string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8}",
+                                    reader.GetString(1), reader.GetValue(2), time, reader.GetValue(4), reader.GetValue(5),
+                                    reader.GetValue(6), reader.GetValue(7), reader.GetValue(8), reader.GetValue(9));
+
+                                datasets.Add(dataset);
+                            }
+                        }
+                    }
+                    catch (SqlException ex)
+                    {
+                        DisplaySqlErrors(ex);
+                    }
+                    sqlConn.Close();
+                    await GetLogging.DownloadCSV(datasets);
+                }
+            }
             ProgressSave.IsActive = false;
         }
     }
