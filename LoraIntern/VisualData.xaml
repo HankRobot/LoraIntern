@@ -45,6 +45,23 @@
             </Grid>
         </ContentDialog>
 
+        <ContentDialog Grid.RowSpan="100" Grid.ColumnSpan="100" Width="300" Height="120" x:Name="dialogsave" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Grid Height="100">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="From:" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"/>
+                <TextBlock Text="To:" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"/>
+                <CalendarDatePicker x:Name="fromdate" Grid.Row="0" Grid.Column="1"/>
+                <CalendarDatePicker x:Name="todate"  Grid.Row="1" Grid.Column="1"/>
+            </Grid>
+        </ContentDialog>
+
 
         <Charting:Chart Grid.Column="1" Grid.ColumnSpan="6" x:Name="dustChart" Title="Dust(kg/m^3)" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" RequestedTheme="Light" >
             <Charting:LineSeries Title="Hank" IndependentValuePath="Name" DependentValuePath="Amount" IsSelectionEnabled="True" RequestedTheme="Light"/>

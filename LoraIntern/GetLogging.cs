@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using LightBuzz.SMTP;
@@ -10,7 +11,7 @@ using Windows.UI.Popups;
 
 namespace LoraIntern
 {
-    class GetLogging
+    public class GetLogging
     {
         public async static Task EmailSendLogs(string title,string message)
         {
@@ -57,24 +58,58 @@ namespace LoraIntern
             }
         }
 
-        public async static Task DownloadCSV(List<string> message)
+        public async static Task DownloadCSV(string sqlquery)
         {
             FileSavePicker picker = new FileSavePicker();
             picker.FileTypeChoices.Add("file style", new string[] { ".csv" });
             picker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
             picker.SuggestedFileName = "LoraGateWayDatasets";
             StorageFile file = await picker.PickSaveFileAsync();
-            
+
             if (file != null)
             {
-                string labels = string.Format("Lora ID,Transmission No,Time Submitted,Dust(kg/m^-3),UV Reading(mW/cm^-2),Temperature(°C),Pressure(Pa),Humidty(%),RSSI");
-                await FileIO.AppendTextAsync(file, labels + System.Environment.NewLine);
-                foreach (var item in message)
+                SqlConnectionStringBuilder sql = new SqlConnectionStringBuilder();
+
+                string retrieve = sqlquery;
+                //build connenction string
+                
+                sql.DataSource = "lorawan-hank.database.windows.net";
+                sql.UserID = "Hank";
+                sql.Password = "Lorawan1234";
+                sql.InitialCatalog = "LoraWan Database";
+
+                using (SqlConnection sqlConn = new SqlConnection(sql.ConnectionString))
                 {
-                    await FileIO.AppendTextAsync(file, item + System.Environment.NewLine);
+                    SqlCommand sqlCommand = new SqlCommand(retrieve, sqlConn);
+                    try
+                    {
+                        sqlConn.Open();
+                        sqlCommand.ExecuteNonQuery();
+                        SqlDataReader reader = sqlCommand.ExecuteReader();
+                        if (reader.HasRows)
+                        {
+
+                            while (reader.Read())
+                            {
+                                DateTime time = reader.GetDateTime(3);
+
+                                string dataset = string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8}",
+                                    reader.GetString(1), reader.GetValue(2), time, reader.GetValue(4), reader.GetValue(5),
+                                    reader.GetValue(6), reader.GetValue(7), reader.GetValue(8), reader.GetValue(9));
+
+                                await FileIO.AppendTextAsync(file, dataset + System.Environment.NewLine);
+                            }
+                        }
+                    }
+                    catch (SqlException ex)
+                    {
+                        VisualData.DisplaySqlErrors(ex);
+                    }
+                    sqlConn.Close();
+
+                    MessageDialog popup = new MessageDialog("Datasets downloaded", "Your CSV file is ready");
+                    await popup.ShowAsync();
                 }
-                MessageDialog popup = new MessageDialog("Datasets downloaded", "Your CSV file is ready");
-                await popup.ShowAsync();
             }
             else
             {

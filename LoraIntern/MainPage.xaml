@@ -58,12 +58,14 @@
         <TextBlock Text="Sql Status:" Grid.Row="8" Grid.Column="3" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" RequestedTheme="Light"/>
         <TextBox x:Name="sqlstatus" Grid.Row="8" Grid.Column="4" TextWrapping="Wrap" IsReadOnly="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" BorderBrush="White" FontSize="16" RequestedTheme="Dark"/>
 
+        <Image />
         <TextBlock x:Name="pageTitle" Text="Raspberry Pi Lora Gateway " HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="48" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="6" TextAlignment="Center" RequestedTheme="Light"/>
 
         <TextBlock Text="Read Data:" FontSize="24" Grid.Row="4" Grid.Column="0" HorizontalAlignment="Stretch" TextAlignment="Center" VerticalAlignment="Center" RequestedTheme="Light" FocusVisualPrimaryBrush="#FF48AED4" FocusVisualSecondaryBrush="#FF48AED4" SelectionHighlightColor="#FF48AED4"/>
         <TextBox x:Name="rcvdText" RequestedTheme="Dark" FontSize="16" IsReadOnly="True" Text="Your Serial writes here" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="4"/>
 
-        <TextBlock Text ="Raspberry Pi Status:" FontSize="24" Grid.Row="6" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" RequestedTheme="Light" TextAlignment="Center" FocusVisualPrimaryBrush="#FF48AED4" FocusVisualSecondaryBrush="#FF48AED4" SelectionHighlightColor="#FF47314E"/>
+        <Image x:Name="rpiicon" Source="Assets/rpicon.jpeg" Grid.Row="6" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" RequestedTheme="Light" FocusVisualPrimaryBrush="#FF48AED4" FocusVisualSecondaryBrush="#FF48AED4"/>
+
         <TextBox x:Name="status" Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="4" TextWrapping="Wrap" IsReadOnly="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" BorderBrush="White" FontSize="24" RequestedTheme="Dark"/>
 
         <Image x:Name="connectgif" Visibility="Collapsed" Grid.Row="10" Grid.Column="0" gif:AnimationBehavior.SourceUri="Assets/connect.gif"/>

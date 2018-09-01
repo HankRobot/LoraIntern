@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Data.SqlTypes;
 using System.Diagnostics;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace LoraIntern
 {
@@ -78,7 +79,6 @@ namespace LoraIntern
             {
                 if (!isdesktop)
                 {
-                    Console.WriteLine("lul");
                     await GetLogging.EmailSendLogs("Lora Gateway has started.", string.Format("Rpi Started on {0}", DateTime.Now));
                     await GetLogging.WritetoTxtFile("Lora Gateway has started",ejectpendrive);
                 }
@@ -101,6 +101,7 @@ namespace LoraIntern
                 status.Text = ex.Message;
                 if (!isdesktop)
                 {
+                    rpiicon.Source = new BitmapImage(new Uri("ms-appx:///Assets/rpidiscon.jpeg"));
                     await GetLogging.EmailSendLogs("Status Exception on Lora Rpi Gateway, the Rpi will try restarting the App", status.Text);
                     await GetLogging.WritetoTxtFile(status.Text,ejectpendrive);
                     await Windows.ApplicationModel.Core.CoreApplication.RequestRestartAsync("-fastInit -level 1 -foo");      
@@ -156,6 +157,7 @@ namespace LoraIntern
                 status.Text = ex.Message;
                 if (!isdesktop)
                 {
+                    rpiicon.Source = new BitmapImage(new Uri("ms-appx:///Assets/rpidiscon.jpeg"));
                     await GetLogging.EmailSendLogs("Status Exception on Lora Rpi Gateway, the Rpi will try restarting the App", status.Text + String.Format("\n{0}", rcvdText.Text));
                     await GetLogging.WritetoTxtFile(status.Text + String.Format("\n{0}", rcvdText.Text),ejectpendrive);
                     await Windows.ApplicationModel.Core.CoreApplication.RequestRestartAsync("-fastInit -level 1 -foo");
@@ -189,6 +191,7 @@ namespace LoraIntern
                 status.Text = "Reading task was cancelled, closing device and cleaning up";
                 if (!isdesktop)
                 {
+                    rpiicon.Source = new BitmapImage(new Uri("ms-appx:///Assets/rpidiscon.jpeg"));
                     disconnectgif.Visibility = Visibility.Visible;
                     connectgif.Visibility = Visibility.Collapsed;
                     await GetLogging.EmailSendLogs("Status Exception on Lora Rpi Gateway", status.Text);
@@ -201,6 +204,7 @@ namespace LoraIntern
                 status.Text = ex.Message;
                 if (!isdesktop)
                 {
+                    rpiicon.Source = new BitmapImage(new Uri("ms-appx:///Assets/rpidiscon.jpeg"));
                     disconnectgif.Visibility = Visibility.Visible;
                     connectgif.Visibility = Visibility.Collapsed;
                     await GetLogging.EmailSendLogs("Status Exception on Lora Rpi Gateway, the Rpi will try restarting the App", status.Text + String.Format("\n{0}",rcvdText.Text));
@@ -226,7 +230,6 @@ namespace LoraIntern
         /// <returns></returns>
         private async Task ReadAsync(CancellationToken cancellationToken)
         {
-            
             Task<UInt32> loadAsyncTask;
 
             uint ReadBufferLength = 1024;
@@ -394,6 +397,7 @@ namespace LoraIntern
             }
             if (!isdesktop)
             {
+                rpiicon.Source = new BitmapImage(new Uri("ms-appx:///Assets/rpidiscon.jpeg"));
                 disconnectgif.Visibility = Visibility.Visible;
                 connectgif.Visibility = Visibility.Collapsed;
                 await GetLogging.EmailSendLogs("Status Exception on Lora Rpi Gateway, the Rpi will try restarting the App", sqlstatus.Text);
