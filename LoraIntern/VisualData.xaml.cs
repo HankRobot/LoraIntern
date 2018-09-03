@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Diagnostics;
-using Windows.Storage;
-using Windows.Storage.Pickers;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -33,13 +31,13 @@ namespace LoraIntern
         //variable and data type class for Lora Client
         public class SensorData
         {
-            public DateTime Name
+            public DateTime Time
             {
                 get;
                 set;
             }
 
-            public object Amount
+            public object Data
             {
                 get;
                 set;
@@ -125,76 +123,76 @@ namespace LoraIntern
                                 {
                                     dustrecords.Add(new SensorData()
                                     {
-                                        Name = time,
-                                        Amount = reader.GetValue(4)
+                                        Time = time,
+                                        Data = reader.GetValue(4)
                                     });
 
                                     uvrecords.Add(new SensorData()
                                     {
-                                        Name = time,
-                                        Amount = reader.GetValue(5)
+                                        Time = time,
+                                        Data = reader.GetValue(5)
                                     });
 
                                     temprecords.Add(new SensorData()
                                     {
-                                        Name = time,
-                                        Amount = reader.GetValue(6)
+                                        Time = time,
+                                        Data = reader.GetValue(6)
                                     });
 
                                     pressrecords.Add(new SensorData()
                                     {
-                                        Name = time,
-                                        Amount = reader.GetValue(7)
+                                        Time = time,
+                                        Data = reader.GetValue(7)
                                     });
 
                                     humrecords.Add(new SensorData()
                                     {
-                                        Name = time,
-                                        Amount = reader.GetValue(8)
+                                        Time = time,
+                                        Data = reader.GetValue(8)
                                     });
 
                                     RSSIrecords.Add(new SensorData()
                                     {
-                                        Name = time,
-                                        Amount = reader.GetValue(9)
+                                        Time = time,
+                                        Data = reader.GetValue(9)
                                     });
                                 }
                             if (reader.GetString(1) == "LORA")
                                 {
                                     dustrecords1.Add(new SensorData()
                                     {
-                                        Name = time,
-                                        Amount = reader.GetValue(4)
+                                        Time = time,
+                                        Data = reader.GetValue(4)
                                     });
 
                                     uvrecords1.Add(new SensorData()
                                     {
-                                        Name = time,
-                                        Amount = reader.GetValue(5)
+                                        Time = time,
+                                        Data = reader.GetValue(5)
                                     });
 
                                     temprecords1.Add(new SensorData()
                                     {
-                                        Name = time,
-                                        Amount = reader.GetValue(6)
+                                        Time = time,
+                                        Data = reader.GetValue(6)
                                     });
 
                                     pressrecords1.Add(new SensorData()
                                     {
-                                        Name = time,
-                                        Amount = reader.GetValue(7)
+                                        Time = time,
+                                        Data = reader.GetValue(7)
                                     });
 
                                     humrecords1.Add(new SensorData()
                                     {
-                                        Name = time,
-                                        Amount = reader.GetValue(8)
+                                        Time = time,
+                                        Data = reader.GetValue(8)
                                     });
 
                                     RSSIrecords1.Add(new SensorData()
                                     {
-                                        Name = time,
-                                        Amount = reader.GetValue(9)
+                                        Time = time,
+                                        Data = reader.GetValue(9)
                                     });
                                 }
                         }
@@ -372,76 +370,76 @@ namespace LoraIntern
                                 {
                                     dustrecords.Add(new SensorData()
                                     {
-                                        Name = time,
-                                        Amount = reader.GetValue(4)
+                                        Time = time,
+                                        Data = reader.GetValue(4)
                                     });
 
                                     uvrecords.Add(new SensorData()
                                     {
-                                        Name = time,
-                                        Amount = reader.GetValue(5)
+                                        Time = time,
+                                        Data = reader.GetValue(5)
                                     });
 
                                     temprecords.Add(new SensorData()
                                     {
-                                        Name = time,
-                                        Amount = reader.GetValue(6)
+                                        Time = time,
+                                        Data = reader.GetValue(6)
                                     });
 
                                     pressrecords.Add(new SensorData()
                                     {
-                                        Name = time,
-                                        Amount = reader.GetValue(7)
+                                        Time = time,
+                                        Data = reader.GetValue(7)
                                     });
 
                                     humrecords.Add(new SensorData()
                                     {
-                                        Name = time,
-                                        Amount = reader.GetValue(8)
+                                        Time = time,
+                                        Data = reader.GetValue(8)
                                     });
 
                                     RSSIrecords.Add(new SensorData()
                                     {
-                                        Name = time,
-                                        Amount = reader.GetValue(9)
+                                        Time = time,
+                                        Data = reader.GetValue(9)
                                     });
                                 }
                                 if (reader.GetString(1) == "LORA")
                                 {
                                     dustrecords1.Add(new SensorData()
                                     {
-                                        Name = time,
-                                        Amount = reader.GetValue(4)
+                                        Time = time,
+                                        Data = reader.GetValue(4)
                                     });
 
                                     uvrecords1.Add(new SensorData()
                                     {
-                                        Name = time,
-                                        Amount = reader.GetValue(5)
+                                        Time = time,
+                                        Data = reader.GetValue(5)
                                     });
 
                                     temprecords1.Add(new SensorData()
                                     {
-                                        Name = time,
-                                        Amount = reader.GetValue(6)
+                                        Time = time,
+                                        Data = reader.GetValue(6)
                                     });
 
                                     pressrecords1.Add(new SensorData()
                                     {
-                                        Name = time,
-                                        Amount = reader.GetValue(7)
+                                        Time = time,
+                                        Data = reader.GetValue(7)
                                     });
 
                                     humrecords1.Add(new SensorData()
                                     {
-                                        Name = time,
-                                        Amount = reader.GetValue(8)
+                                        Time = time,
+                                        Data = reader.GetValue(8)
                                     });
 
                                     RSSIrecords1.Add(new SensorData()
                                     {
-                                        Name = time,
-                                        Amount = reader.GetValue(9)
+                                        Time = time,
+                                        Data = reader.GetValue(9)
                                     });
                                 }
 
