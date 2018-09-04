@@ -68,15 +68,10 @@ namespace LoraIntern
 
             if (file != null)
             {
-                SqlConnectionStringBuilder sql = new SqlConnectionStringBuilder();
-
                 string retrieve = sqlquery;
                 //build connenction string
-                
-                sql.DataSource = "lorawan-hank.database.windows.net";
-                sql.UserID = "Hank";
-                sql.Password = "Lorawan1234";
-                sql.InitialCatalog = "LoraWan Database";
+
+                SqlConnectionStringBuilder sql = LoraSQLConnect.ConnectionString();
 
                 using (SqlConnection sqlConn = new SqlConnection(sql.ConnectionString))
                 {
@@ -103,7 +98,7 @@ namespace LoraIntern
                     }
                     catch (SqlException ex)
                     {
-                        VisualData.DisplaySqlErrors(ex);
+                        LoraSQLConnect.DisplaySqlErrors(ex);
                     }
                     sqlConn.Close();
 
