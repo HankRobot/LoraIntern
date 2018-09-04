@@ -62,35 +62,34 @@
             </Grid>
         </ContentDialog>
 
-
         <Charting:Chart Grid.Column="1" Grid.ColumnSpan="6" x:Name="dustChart" Title="Dust(kg/m^3)" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" RequestedTheme="Light" >
-            <Charting:LineSeries Title="Hank" IndependentValuePath="Name" DependentValuePath="Amount" IsSelectionEnabled="True" RequestedTheme="Light"/>
-            <Charting:LineSeries Title="Lora" IndependentValuePath="Name" DependentValuePath="Amount" IsSelectionEnabled="True" RequestedTheme="Light"/>
+            <Charting:LineSeries Title="Hank" IndependentValuePath="Time" DependentValuePath="Data" IsSelectionEnabled="True" RequestedTheme="Light"/>
+            <Charting:LineSeries Title="Lora" IndependentValuePath="Time" DependentValuePath="Data" IsSelectionEnabled="True" RequestedTheme="Light"/>
         </Charting:Chart>
 
         <Charting:Chart Grid.Column="1" Grid.ColumnSpan="6" x:Name="uvChart" Title="UV(mW/cm^2)" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="3" RequestedTheme="Light" >
-            <Charting:LineSeries Title="Hank" IndependentValuePath="Name" DependentValuePath="Amount" IsSelectionEnabled="True" RequestedTheme="Light"/>
-            <Charting:LineSeries Title="Lora" IndependentValuePath="Name" DependentValuePath="Amount" IsSelectionEnabled="True" RequestedTheme="Light"/>
+            <Charting:LineSeries Title="Hank" IndependentValuePath="Time" DependentValuePath="Data" IsSelectionEnabled="True" RequestedTheme="Light"/>
+            <Charting:LineSeries Title="Lora" IndependentValuePath="Time" DependentValuePath="Data" IsSelectionEnabled="True" RequestedTheme="Light"/>
         </Charting:Chart>
 
         <Charting:Chart Grid.Column="1" Grid.ColumnSpan="6" x:Name="temperatureChart" Title="Temperature(°C)" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="5" RequestedTheme="Light" >
-            <Charting:LineSeries Title="Hank" IndependentValuePath="Name" DependentValuePath="Amount" IsSelectionEnabled="True" RequestedTheme="Light"/>
-            <Charting:LineSeries Title="Lora" IndependentValuePath="Name" DependentValuePath="Amount" IsSelectionEnabled="True" RequestedTheme="Light"/>
+            <Charting:LineSeries Title="Hank" IndependentValuePath="Time" DependentValuePath="Data" IsSelectionEnabled="True" RequestedTheme="Light"/>
+            <Charting:LineSeries Title="Lora" IndependentValuePath="Time" DependentValuePath="Data" IsSelectionEnabled="True" RequestedTheme="Light"/>
         </Charting:Chart>
 
         <Charting:Chart Grid.Column="7" Grid.ColumnSpan="3" x:Name="pressureChart" Title="Pressure(Pa)" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" RequestedTheme="Light" >
-            <Charting:LineSeries Title="Hank" IndependentValuePath="Name" DependentValuePath="Amount" IsSelectionEnabled="True" RequestedTheme="Light"/>
-            <Charting:LineSeries Title="Lora" IndependentValuePath="Name" DependentValuePath="Amount" IsSelectionEnabled="True" RequestedTheme="Light"/>
+            <Charting:LineSeries Title="Hank" IndependentValuePath="Time" DependentValuePath="Data" IsSelectionEnabled="True" RequestedTheme="Light"/>
+            <Charting:LineSeries Title="Lora" IndependentValuePath="Time" DependentValuePath="Data" IsSelectionEnabled="True" RequestedTheme="Light"/>
         </Charting:Chart>
 
         <Charting:Chart Grid.Column="7" Grid.ColumnSpan="3" x:Name="humidityChart" Title="Humidity(%)" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="3" RequestedTheme="Light" >
-            <Charting:LineSeries Title="Hank" IndependentValuePath="Name" DependentValuePath="Amount" IsSelectionEnabled="True" RequestedTheme="Light"/>
-            <Charting:LineSeries Title="Lora" IndependentValuePath="Name" DependentValuePath="Amount" IsSelectionEnabled="True" RequestedTheme="Light"/>
+            <Charting:LineSeries Title="Hank" IndependentValuePath="Time" DependentValuePath="Data" IsSelectionEnabled="True" RequestedTheme="Light"/>
+            <Charting:LineSeries Title="Lora" IndependentValuePath="Time" DependentValuePath="Data" IsSelectionEnabled="True" RequestedTheme="Light"/>
         </Charting:Chart>
 
         <Charting:Chart Grid.Column="7" Grid.ColumnSpan="3" x:Name="RSSIChart" Title="RSSI" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="5" RequestedTheme="Light" >
-            <Charting:LineSeries Title="Hank" IndependentValuePath="Name" DependentValuePath="Amount" IsSelectionEnabled="True" RequestedTheme="Light"/>
-            <Charting:LineSeries Title="Lora" IndependentValuePath="Name" DependentValuePath="Amount" IsSelectionEnabled="True" RequestedTheme="Light"/>
+            <Charting:LineSeries Title="Hank" IndependentValuePath="Time" DependentValuePath="Data" IsSelectionEnabled="True" RequestedTheme="Light"/>
+            <Charting:LineSeries Title="Lora" IndependentValuePath="Time" DependentValuePath="Data" IsSelectionEnabled="True" RequestedTheme="Light"/>
         </Charting:Chart>
 
         <Grid Grid.Row="6" Grid.Column="5" Grid.ColumnSpan="3">
