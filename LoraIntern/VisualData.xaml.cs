@@ -118,7 +118,6 @@ namespace LoraIntern
                         {
                             DateTime time = reader.GetDateTime(3);
                             CurrentDate.Text = time.ToShortDateString();
-                            CurrentDate.Text = time.ToShortDateString();
                             if (reader.GetString(1) == "HANK")
                                 {
                                     dustrecords.Add(new SensorData()
