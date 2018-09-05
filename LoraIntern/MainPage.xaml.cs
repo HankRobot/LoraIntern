@@ -23,7 +23,7 @@ namespace LoraIntern
         DataReader dataReaderObject = null;
 
         //set this to false if you are running on rpi
-        public bool isdesktop = false;
+        public bool isdesktop = true;
 
         public bool ejectpendrive = false;
 
@@ -51,9 +51,7 @@ namespace LoraIntern
 
         private ObservableCollection<DeviceInformation> listOfDevices;
         private CancellationTokenSource ReadCancellationTokenSource;
-
-        SqlConnectionStringBuilder sql = new SqlConnectionStringBuilder();
-
+        
         public MainPage()
         {
             this.InitializeComponent();
@@ -104,9 +102,8 @@ namespace LoraIntern
                     rpiicon.Source = new BitmapImage(new Uri("ms-appx:///Assets/rpidiscon.jpeg"));
                     await GetLogging.EmailSendLogs("Status Exception on Lora Rpi Gateway", status.Text);
                     await GetLogging.WritetoTxtFile(status.Text,ejectpendrive);
-                    ListAvailablePorts();
-                    Visualize.IsEnabled = false;
-                    listOfDevices = new ObservableCollection<DeviceInformation>();
+
+                    ReadRestart();
                 }
             }
         }
@@ -162,9 +159,8 @@ namespace LoraIntern
                     rpiicon.Source = new BitmapImage(new Uri("ms-appx:///Assets/rpidiscon.jpeg"));
                     await GetLogging.EmailSendLogs("Status Exception on Lora Rpi Gateway", status.Text + String.Format("\n{0}", rcvdText.Text));
                     await GetLogging.WritetoTxtFile(status.Text + String.Format("\n{0}", rcvdText.Text),ejectpendrive);
-                    ListAvailablePorts();
-                    Visualize.IsEnabled = false;
-                    listOfDevices = new ObservableCollection<DeviceInformation>();
+
+                    ReadRestart();
                 }
             }
         }
@@ -200,9 +196,8 @@ namespace LoraIntern
                     connectgif.Visibility = Visibility.Collapsed;
                     await GetLogging.EmailSendLogs("Status Exception on Lora Rpi Gateway", status.Text);
                     await GetLogging.WritetoTxtFile(status.Text,ejectpendrive);
-                    ListAvailablePorts();
-                    Visualize.IsEnabled = false;
-                    listOfDevices = new ObservableCollection<DeviceInformation>();
+
+                    ReadRestart();
                 }
                 CloseDevice();
             }
@@ -216,9 +211,8 @@ namespace LoraIntern
                     connectgif.Visibility = Visibility.Collapsed;
                     await GetLogging.EmailSendLogs("Status Exception on Lora Rpi Gateway", status.Text + String.Format("\n{0}",rcvdText.Text));
                     await GetLogging.WritetoTxtFile(status.Text + String.Format("\n{0}", rcvdText.Text),ejectpendrive);
-                    ListAvailablePorts();
-                    Visualize.IsEnabled = false;
-                    listOfDevices = new ObservableCollection<DeviceInformation>();
+
+                    ReadRestart();
                 }
             }
             finally
@@ -372,11 +366,8 @@ namespace LoraIntern
             {
                 await GetLogging.WritetoTxtFile("SQLQuery:" + sendQuery, ejectpendrive);
             }
-            
-            sql.DataSource = "lorawan-hank.database.windows.net";
-            sql.UserID = "Hank";
-            sql.Password = "Lorawan1234";
-            sql.InitialCatalog = "LoraWan Database";
+
+            SqlConnectionStringBuilder sql = LoraSQLConnect.ConnectionString();
 
             using (SqlConnection sqlConn = new SqlConnection(sql.ConnectionString))
             {
@@ -389,34 +380,12 @@ namespace LoraIntern
                 }
                 catch (SqlException ex)
                 {
-                    DisplaySqlErrors(ex);
+                    LoraSQLConnect.DisplaySqlErrors(ex);
+                    ReadRestart();
                 }
             }
         }
-
-        //This is for catching sql errors in case they show up :)
-        private async void DisplaySqlErrors(SqlException exception)
-        {
-            for (int i = 0; i < exception.Errors.Count; i++)
-            {
-                sqlstatus.Text += "Index #" + i + "\n" +
-                    "Error: " + exception.Errors[i].ToString() + "\n";
-                Debug.WriteLine("Index #" + i + "\n" +
-                    "Error: " + exception.Errors[i].ToString() + "\n");
-            }
-            if (!isdesktop)
-            {
-                rpiicon.Source = new BitmapImage(new Uri("ms-appx:///Assets/rpidiscon.jpeg"));
-                disconnectgif.Visibility = Visibility.Visible;
-                connectgif.Visibility = Visibility.Collapsed;
-                await GetLogging.EmailSendLogs("Status Exception on Lora Rpi Gateway", sqlstatus.Text);
-                await GetLogging.WritetoTxtFile(sqlstatus.Text, ejectpendrive);
-                ListAvailablePorts();
-                Visualize.IsEnabled = false;
-                listOfDevices = new ObservableCollection<DeviceInformation>();
-            }
-        }
-
+        
         //go to next page
         private void Visualize_Click(object sender, RoutedEventArgs e)
         {
@@ -436,6 +405,14 @@ namespace LoraIntern
                 ejectpendrive = true;
                 USBLabel.Text = "You can now safely remove your pendrive";
             }
+        }
+
+        private void ReadRestart()
+        {
+            CancelReadTask();
+            CloseDevice();
+            ListAvailablePorts();
+            listOfDevices = new ObservableCollection<DeviceInformation>();
         }
     }
 }
