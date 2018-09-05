@@ -15,8 +15,8 @@ namespace LoraIntern
         public int start = 0; //the first row to start iterate
         public int end = 59;  //the last row after iteration
         public int norows;    //total number of rows in the server
-        public DateTime empty;
-        public bool filepicked;
+        public DateTime empty; //leave this empty for certain functions
+        public bool filepicked; //to check if csv file is selected by user
 
         public VisualData()
         {

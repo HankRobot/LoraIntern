@@ -23,7 +23,7 @@ namespace LoraIntern
         DataReader dataReaderObject = null;
 
         //set this to false if you are running on rpi
-        public bool isdesktop = true;
+        public bool isdesktop = false;
 
         public bool ejectpendrive = false;
 
@@ -102,9 +102,11 @@ namespace LoraIntern
                 if (!isdesktop)
                 {
                     rpiicon.Source = new BitmapImage(new Uri("ms-appx:///Assets/rpidiscon.jpeg"));
-                    await GetLogging.EmailSendLogs("Status Exception on Lora Rpi Gateway, the Rpi will try restarting the App", status.Text);
+                    await GetLogging.EmailSendLogs("Status Exception on Lora Rpi Gateway", status.Text);
                     await GetLogging.WritetoTxtFile(status.Text,ejectpendrive);
-                    await Windows.ApplicationModel.Core.CoreApplication.RequestRestartAsync("-fastInit -level 1 -foo");      
+                    ListAvailablePorts();
+                    Visualize.IsEnabled = false;
+                    listOfDevices = new ObservableCollection<DeviceInformation>();
                 }
             }
         }
@@ -158,9 +160,11 @@ namespace LoraIntern
                 if (!isdesktop)
                 {
                     rpiicon.Source = new BitmapImage(new Uri("ms-appx:///Assets/rpidiscon.jpeg"));
-                    await GetLogging.EmailSendLogs("Status Exception on Lora Rpi Gateway, the Rpi will try restarting the App", status.Text + String.Format("\n{0}", rcvdText.Text));
+                    await GetLogging.EmailSendLogs("Status Exception on Lora Rpi Gateway", status.Text + String.Format("\n{0}", rcvdText.Text));
                     await GetLogging.WritetoTxtFile(status.Text + String.Format("\n{0}", rcvdText.Text),ejectpendrive);
-                    await Windows.ApplicationModel.Core.CoreApplication.RequestRestartAsync("-fastInit -level 1 -foo");
+                    ListAvailablePorts();
+                    Visualize.IsEnabled = false;
+                    listOfDevices = new ObservableCollection<DeviceInformation>();
                 }
             }
         }
@@ -196,6 +200,9 @@ namespace LoraIntern
                     connectgif.Visibility = Visibility.Collapsed;
                     await GetLogging.EmailSendLogs("Status Exception on Lora Rpi Gateway", status.Text);
                     await GetLogging.WritetoTxtFile(status.Text,ejectpendrive);
+                    ListAvailablePorts();
+                    Visualize.IsEnabled = false;
+                    listOfDevices = new ObservableCollection<DeviceInformation>();
                 }
                 CloseDevice();
             }
@@ -207,9 +214,11 @@ namespace LoraIntern
                     rpiicon.Source = new BitmapImage(new Uri("ms-appx:///Assets/rpidiscon.jpeg"));
                     disconnectgif.Visibility = Visibility.Visible;
                     connectgif.Visibility = Visibility.Collapsed;
-                    await GetLogging.EmailSendLogs("Status Exception on Lora Rpi Gateway, the Rpi will try restarting the App", status.Text + String.Format("\n{0}",rcvdText.Text));
+                    await GetLogging.EmailSendLogs("Status Exception on Lora Rpi Gateway", status.Text + String.Format("\n{0}",rcvdText.Text));
                     await GetLogging.WritetoTxtFile(status.Text + String.Format("\n{0}", rcvdText.Text),ejectpendrive);
-                    await Windows.ApplicationModel.Core.CoreApplication.RequestRestartAsync("-fastInit -level 1 -foo");
+                    ListAvailablePorts();
+                    Visualize.IsEnabled = false;
+                    listOfDevices = new ObservableCollection<DeviceInformation>();
                 }
             }
             finally
@@ -400,9 +409,11 @@ namespace LoraIntern
                 rpiicon.Source = new BitmapImage(new Uri("ms-appx:///Assets/rpidiscon.jpeg"));
                 disconnectgif.Visibility = Visibility.Visible;
                 connectgif.Visibility = Visibility.Collapsed;
-                await GetLogging.EmailSendLogs("Status Exception on Lora Rpi Gateway, the Rpi will try restarting the App", sqlstatus.Text);
+                await GetLogging.EmailSendLogs("Status Exception on Lora Rpi Gateway", sqlstatus.Text);
                 await GetLogging.WritetoTxtFile(sqlstatus.Text, ejectpendrive);
-                await Windows.ApplicationModel.Core.CoreApplication.RequestRestartAsync("-fastInit -level 1 -foo");
+                ListAvailablePorts();
+                Visualize.IsEnabled = false;
+                listOfDevices = new ObservableCollection<DeviceInformation>();
             }
         }
 

@@ -87,7 +87,7 @@ namespace LoraIntern
                             while (reader.Read())
                             {
                                 DateTime time = reader.GetDateTime(3);
-
+                                
                                 string dataset = string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8}",
                                     reader.GetString(1), reader.GetValue(2), time, reader.GetValue(4), reader.GetValue(5),
                                     reader.GetValue(6), reader.GetValue(7), reader.GetValue(8), reader.GetValue(9));

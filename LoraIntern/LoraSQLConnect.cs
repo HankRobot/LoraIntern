@@ -41,7 +41,7 @@ namespace LoraIntern
             List<SensorData> RSSIrecords1 = new List<SensorData>();
 
             //build conenction string
-            SqlConnectionStringBuilder sql = LoraSQLConnect.ConnectionString();
+            SqlConnectionStringBuilder sql = ConnectionString();
 
             using (SqlConnection sqlConn = new SqlConnection(sql.ConnectionString))
             {
