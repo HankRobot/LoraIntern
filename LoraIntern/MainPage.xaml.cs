@@ -157,6 +157,7 @@ namespace LoraIntern
                 if (!isdesktop)
                 {
                     rpiicon.Source = new BitmapImage(new Uri("ms-appx:///Assets/rpidiscon.jpeg"));
+
                     await GetLogging.EmailSendLogs("Status Exception on Lora Rpi Gateway", status.Text + String.Format("\n{0}", rcvdText.Text));
                     await GetLogging.WritetoTxtFile(status.Text + String.Format("\n{0}", rcvdText.Text),ejectpendrive);
 
@@ -413,6 +414,7 @@ namespace LoraIntern
             CloseDevice();
             ListAvailablePorts();
             listOfDevices = new ObservableCollection<DeviceInformation>();
+            rpiicon.Source = new BitmapImage(new Uri("ms-appx:///Assets/rpicon.jpeg"));
         }
     }
 }

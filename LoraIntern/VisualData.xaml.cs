@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
@@ -68,7 +69,7 @@ namespace LoraIntern
             var lorarecords = loradata.Item2;
 
             var today = hankrecords.SelectMany(i => i.dust).ToList();
-            CurrentDate.Text = today.Select(i => i.Time.ToShortDateString()).Last();
+            CurrentDate.Text = today.Select(i => i.Time.ToShortDateString()).First();
 
             (dustChart.Series[0] as LineSeries).ItemsSource = hankrecords.SelectMany(i => i.dust).ToList();
             (uvChart.Series[0] as LineSeries).ItemsSource = hankrecords.SelectMany(i => i.uv).ToList(); 
@@ -190,7 +191,7 @@ namespace LoraIntern
             end += Convert.ToInt32(lastrow)-counter+1;
 
             var today = hankrecords.SelectMany(i => i.dust).ToList();
-            CurrentDate.Text = today.Select(i => i.Time.ToShortDateString()).Last();
+            CurrentDate.Text = today.Select(i => i.Time.ToShortDateString()).First();
 
             (dustChart.Series[0] as LineSeries).ItemsSource = hankrecords.SelectMany(i => i.dust).ToList();
             (uvChart.Series[0] as LineSeries).ItemsSource = hankrecords.SelectMany(i => i.uv).ToList();
@@ -272,7 +273,7 @@ namespace LoraIntern
 
                             string retrieve = string.Format("select * from(select Row_Number() over (order by TIMESUBMIT) as RowIndex, * from LORA_TABLE) " +
                                                             "as Sub where TimeSubmit >= '{0}' and TimeSubmit <='{1}';",
-                                                            date1.ToString("MM-dd-yyyy HH:mm:ss"), date2.ToString("MM-dd-yyyy HH:mm:ss"));
+                                                            date1.ToString("MM-dd-yyyy 00:00:00"), date2.ToString("MM-dd-yyyy 23:59:59"));
 
                             await GetLogging.DownloadCSV(retrieve);
                         }
