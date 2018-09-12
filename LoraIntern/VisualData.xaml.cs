@@ -83,8 +83,8 @@ namespace LoraIntern
             (uvChart.Series[1] as LineSeries).ItemsSource = lorarecords.SelectMany(i => i.uv).ToList(); 
             (temperatureChart.Series[1] as LineSeries).ItemsSource = lorarecords.SelectMany(i => i.temperature).ToList(); 
             (pressureChart.Series[1] as LineSeries).ItemsSource = lorarecords.SelectMany(i => i.pressure).ToList(); 
-            (humidityChart.Series[1] as LineSeries).ItemsSource = lorarecords.SelectMany(i => i.dust).ToList(); 
-            (RSSIChart.Series[1] as LineSeries).ItemsSource = lorarecords.SelectMany(i => i.dust).ToList(); 
+            (humidityChart.Series[1] as LineSeries).ItemsSource = lorarecords.SelectMany(i => i.humidity).ToList(); 
+            (RSSIChart.Series[1] as LineSeries).ItemsSource = lorarecords.SelectMany(i => i.rssi).ToList(); 
 
         }
         
@@ -192,8 +192,8 @@ namespace LoraIntern
             (uvChart.Series[1] as LineSeries).ItemsSource = lorarecords.SelectMany(i => i.uv).ToList();
             (temperatureChart.Series[1] as LineSeries).ItemsSource = lorarecords.SelectMany(i => i.temperature).ToList();
             (pressureChart.Series[1] as LineSeries).ItemsSource = lorarecords.SelectMany(i => i.pressure).ToList();
-            (humidityChart.Series[1] as LineSeries).ItemsSource = lorarecords.SelectMany(i => i.dust).ToList();
-            (RSSIChart.Series[1] as LineSeries).ItemsSource = lorarecords.SelectMany(i => i.dust).ToList();
+            (humidityChart.Series[1] as LineSeries).ItemsSource = lorarecords.SelectMany(i => i.humidity).ToList();
+            (RSSIChart.Series[1] as LineSeries).ItemsSource = lorarecords.SelectMany(i => i.rssi).ToList();
         }
 
         //function for going back to main page
