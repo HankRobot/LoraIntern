@@ -22,9 +22,11 @@ namespace LoraIntern
             return sql;
         }
 
-        public static Tuple<List<SensorDatas>,List<SensorDatas>,int,object> GetLoraDatabaseData(string retrieve, 
+        public static Tuple<List<SensorDatas>,List<SensorDatas>,int,object,string> GetLoraDatabaseData(string retrieve, 
             bool sqlsearchdate, DateTime date,int counter, object lastrow)
         {
+            DateTime time = DateTime.Now.Date;
+
             List<SensorData> dustrecords = new List<SensorData>();
             List<SensorData> uvrecords = new List<SensorData>();
             List<SensorData> temprecords = new List<SensorData>();
@@ -55,7 +57,7 @@ namespace LoraIntern
                     {
                         while (reader.Read())
                         {
-                            DateTime time = reader.GetDateTime(3);
+                            time = reader.GetDateTime(3);
                             if (reader.GetDateTime(3) >= date && dustrecords.Count < (31))
                             {
                                 if (reader.GetString(1) == "HANK")
@@ -145,7 +147,7 @@ namespace LoraIntern
                 }
                 catch (SqlException ex)
                 {
-                    DisplaySqlErrors(ex);
+                    DisplaySqlErrors(ex,true);
                 }
                 sqlConn.Close();
             }
@@ -172,17 +174,20 @@ namespace LoraIntern
                 rssi = RSSIrecords1
             });
 
-            return Tuple.Create(hankrecords, lorarecords,counter,lastrow);;
+            return Tuple.Create(hankrecords,lorarecords,counter,lastrow,time.ToShortDateString());;
         }
 
         //display sql errors and display it on screen
-        public async static void DisplaySqlErrors(SqlException exception)
+        public async static void DisplaySqlErrors(SqlException exception,bool isdesktop)
         {
-            for (int i = 0; i < exception.Errors.Count; i++)
+            if (isdesktop)
             {
-                MessageDialog popup = new MessageDialog("Index #" + i + "\n" +
-                    "Error: " + exception.Errors[i].ToString() + "\n", "Wrong DateTime Format");
-                await popup.ShowAsync();
+                for (int i = 0; i < exception.Errors.Count; i++)
+                {
+                    MessageDialog popup = new MessageDialog("Index #" + i + "\n" +
+                        "Error: " + exception.Errors[i].ToString() + "\n", "Wrong DateTime Format");
+                    await popup.ShowAsync();
+                }
             }
         }
 
@@ -240,6 +245,5 @@ namespace LoraIntern
                 set;
             }
         }
-
     }
 }

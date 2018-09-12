@@ -24,8 +24,9 @@ namespace LoraIntern
             this.InitializeComponent();
             readnumberofrows();
             DateTime today = DateTime.Now.Date;
+            CurrentDate.Text = today.ToShortDateString();
             Debug.WriteLine("This is the date today!",today.ToString(""));
-            findsqlDate(today,empty,false);
+            findsqlDate(today);
         }
 
         //number of rows the SQL table currently has
@@ -53,7 +54,7 @@ namespace LoraIntern
                 }
                 catch (SqlException ex)
                 {
-                    LoraSQLConnect.DisplaySqlErrors(ex);
+                    LoraSQLConnect.DisplaySqlErrors(ex,true);
                 }
             }
         }
@@ -67,10 +68,10 @@ namespace LoraIntern
        
             var hankrecords = loradata.Item1;
             var lorarecords = loradata.Item2;
+            CurrentDate.Text = loradata.Item5;
 
             var today = hankrecords.SelectMany(i => i.dust).ToList();
-            CurrentDate.Text = today.Select(i => i.Time.ToShortDateString()).First();
-
+            
             (dustChart.Series[0] as LineSeries).ItemsSource = hankrecords.SelectMany(i => i.dust).ToList();
             (uvChart.Series[0] as LineSeries).ItemsSource = hankrecords.SelectMany(i => i.uv).ToList(); 
             (temperatureChart.Series[0] as LineSeries).ItemsSource = hankrecords.SelectMany(i => i.temperature).ToList(); 
@@ -145,7 +146,7 @@ namespace LoraIntern
                     {
                         DateTime sqlDatetime = Convert.ToDateTime(formateddate + " " + time);
                         Debug.WriteLine(sqlDatetime.ToString(), "It worked!");
-                        findsqlDate(sqlDatetime, empty, false);
+                        findsqlDate(sqlDatetime);
                     }
                     catch (Exception ex)
                     {
@@ -157,42 +158,29 @@ namespace LoraIntern
         }
 
         //function for search date and retrieve sensor data from server
-        private void findsqlDate(DateTime date, DateTime date2, bool searchbetweendates)
+        private void findsqlDate(DateTime date)
         {
             start = 0;
             end = 59;
             object lastrow = 0;
             int counter = 0;
 
-            string retrieve;
-
-            if (searchbetweendates)
-            {
-                retrieve = String.Format("SET ROWCOUNT 60; select * from(select Row_Number() over (order by TIMESUBMIT) as RowIndex, * from LORA_TABLE) " +
-                "as Sub where TimeSubmit >= '{0}' and <='{1}';", date.ToString("MM-dd-yyyy HH:mm:ss"),date2.ToString("MM-dd-yyyy HH:mm:ss"));
-                Debug.WriteLine("interesting", retrieve);
-            }
-            else
-            {
-                retrieve = String.Format("SET ROWCOUNT 60; select * from(select Row_Number() over (order by TIMESUBMIT) as RowIndex, * from LORA_TABLE) " +
+            string retrieve = String.Format("SET ROWCOUNT 60; select * from(select Row_Number() over (order by TIMESUBMIT) as RowIndex, * from LORA_TABLE) " +
                     "as Sub where TimeSubmit >= '{0}';", date.ToString("MM-dd-yyyy HH:mm:ss"));
-                Debug.WriteLine("interesting", retrieve);
-            }
+            Debug.WriteLine("interesting", retrieve);
 
             var loradata = LoraSQLConnect.GetLoraDatabaseData(retrieve, true, date, counter, lastrow);
 
             var hankrecords = loradata.Item1;
             var lorarecords = loradata.Item2;
+            CurrentDate.Text = loradata.Item5;
 
             counter = loradata.Item3;
             lastrow = loradata.Item4;
 
             start += Convert.ToInt32(lastrow)-counter+1;
             end += Convert.ToInt32(lastrow)-counter+1;
-
-            var today = hankrecords.SelectMany(i => i.dust).ToList();
-            CurrentDate.Text = today.Select(i => i.Time.ToShortDateString()).First();
-
+            
             (dustChart.Series[0] as LineSeries).ItemsSource = hankrecords.SelectMany(i => i.dust).ToList();
             (uvChart.Series[0] as LineSeries).ItemsSource = hankrecords.SelectMany(i => i.uv).ToList();
             (temperatureChart.Series[0] as LineSeries).ItemsSource = hankrecords.SelectMany(i => i.temperature).ToList();

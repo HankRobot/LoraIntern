@@ -39,7 +39,7 @@ namespace LoraIntern
 
         public async static Task WritetoTxtFile(string message,bool ejectstatus)
         {
-            if (ejectstatus)
+            if (!ejectstatus)
             {
                 int i = 0;
                 StorageFolder externalDevices = KnownFolders.RemovableDevices;
@@ -98,7 +98,7 @@ namespace LoraIntern
                     }
                     catch (SqlException ex)
                     {
-                        LoraSQLConnect.DisplaySqlErrors(ex);
+                        LoraSQLConnect.DisplaySqlErrors(ex,true);
                     }
                     sqlConn.Close();
 
