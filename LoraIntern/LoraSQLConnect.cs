@@ -191,6 +191,7 @@ namespace LoraIntern
             }
         }
 
+        //variable and data type class for Lora Client
         public class SensorDatas
         {
             public List<SensorData> dust
@@ -229,8 +230,7 @@ namespace LoraIntern
                 set;
             }
         }
-
-        //variable and data type class for Lora Client
+        
         public class SensorData
         {
             public DateTime Time

@@ -69,8 +69,6 @@ namespace LoraIntern
             var hankrecords = loradata.Item1;
             var lorarecords = loradata.Item2;
             CurrentDate.Text = loradata.Item5;
-
-            var today = hankrecords.SelectMany(i => i.dust).ToList();
             
             (dustChart.Series[0] as LineSeries).ItemsSource = hankrecords.SelectMany(i => i.dust).ToList();
             (uvChart.Series[0] as LineSeries).ItemsSource = hankrecords.SelectMany(i => i.uv).ToList(); 
@@ -85,7 +83,6 @@ namespace LoraIntern
             (pressureChart.Series[1] as LineSeries).ItemsSource = lorarecords.SelectMany(i => i.pressure).ToList(); 
             (humidityChart.Series[1] as LineSeries).ItemsSource = lorarecords.SelectMany(i => i.humidity).ToList(); 
             (RSSIChart.Series[1] as LineSeries).ItemsSource = lorarecords.SelectMany(i => i.rssi).ToList(); 
-
         }
         
         //function for next page button for next extra sets of sensor data to display
