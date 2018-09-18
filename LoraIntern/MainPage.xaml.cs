@@ -25,6 +25,7 @@ namespace LoraIntern
         //set these to false if you are running on rpi
         public bool isdesktop = true;
         public bool ejectpendrive = true;
+        //whatwever
 
         //these are variables for displaying the data
         public string transmission { get; set; }
