@@ -25,7 +25,6 @@ namespace LoraIntern
         //set these to false if you are running on rpi
         public bool isdesktop = true;
         public bool ejectpendrive = true;
-        //whatwever
 
         //these are variables for displaying the data
         public string transmission { get; set; }
@@ -75,7 +74,7 @@ namespace LoraIntern
         {
             try
             {
-                if (!isdesktop)
+                if (!isdesktop && USBLabel.Text != "Writing Logs")
                 {
                     await GetLogging.EmailSendLogs("Lora Gateway has started.", string.Format("Rpi Started on {0}", DateTime.Now));
                     await GetLogging.WritetoTxtFile("Lora Gateway has started",ejectpendrive);
@@ -97,7 +96,7 @@ namespace LoraIntern
             catch (Exception ex)
             {
                 status.Text = ex.Message;
-                if (!isdesktop)
+                if (!isdesktop && USBLabel.Text != "Writing Logs")
                 {
                     rpiicon.Source = new BitmapImage(new Uri("ms-appx:///Assets/rpidiscon.jpeg"));
                     await GetLogging.EmailSendLogs("Status Exception on Lora Rpi Gateway", status.Text);
@@ -154,7 +153,7 @@ namespace LoraIntern
             catch (Exception ex)
             {
                 status.Text = ex.Message;
-                if (!isdesktop)
+                if (!isdesktop && USBLabel.Text != "Writing Logs")
                 {
                     rpiicon.Source = new BitmapImage(new Uri("ms-appx:///Assets/rpidiscon.jpeg"));
 
@@ -190,7 +189,7 @@ namespace LoraIntern
             catch (TaskCanceledException tce)
             {
                 status.Text = "Reading task was cancelled, closing device and cleaning up";
-                if (!isdesktop)
+                if (!isdesktop && USBLabel.Text != "Writing Logs")
                 {
                     rpiicon.Source = new BitmapImage(new Uri("ms-appx:///Assets/rpidiscon.jpeg"));
                     disconnectgif.Visibility = Visibility.Visible;
@@ -205,7 +204,7 @@ namespace LoraIntern
             catch (Exception ex)
             {
                 status.Text = ex.Message;
-                if (!isdesktop)
+                if (!isdesktop && USBLabel.Text != "Writing Logs")
                 {
                     rpiicon.Source = new BitmapImage(new Uri("ms-appx:///Assets/rpidiscon.jpeg"));
                     disconnectgif.Visibility = Visibility.Visible;
@@ -304,7 +303,7 @@ namespace LoraIntern
                         status.Text = "Bytes read successfully!";
 
                         //Add a pendrive into the rpi before running this code, otherwise an exception will be thrown
-                        if (!isdesktop)
+                        if (!isdesktop && USBLabel.Text != "Writing Logs")
                         {
                             USBLabel.Text = "Writing Logs";
                             await GetLogging.WritetoTxtFile("Sent Data: "+ transmission + " " + id + " " + date + " " + dust + " " + uv + " " + temp + " " + press + " " + hum + " " + RSSI, ejectpendrive);
@@ -364,7 +363,7 @@ namespace LoraIntern
                 "VALUES ({0},{1},{2},{3},{4},{5},{6},{7},{8});"
                 ,("'"+id+"'"),transn,"'"+daten+"'",dustn,uvn,tempn,pressn,humn,RSSIn);
 
-            if (!isdesktop)
+            if (!isdesktop && USBLabel.Text != "Writing Logs")
             {
                 await GetLogging.WritetoTxtFile("SQLQuery:" + sendQuery, ejectpendrive);
             }
