@@ -11,6 +11,8 @@ using System.Data.SqlClient;
 using System.Data.SqlTypes;
 using System.Diagnostics;
 using Windows.UI.Xaml.Media.Imaging;
+using Windows.UI.Popups;
+using Windows.System;
 
 namespace LoraIntern
 {
@@ -23,8 +25,8 @@ namespace LoraIntern
         DataReader dataReaderObject = null;
 
         //set these to false if you are running on rpi
-        public bool isdesktop = false;
-        public bool ejectpendrive = false;
+        public bool isdesktop = true;
+        public bool ejectpendrive = true;
 
         //these are variables for displaying the data
         public string transmission { get; set; }
@@ -446,6 +448,42 @@ namespace LoraIntern
             CloseDevice();
             ListAvailablePorts();
             listOfDevices = new ObservableCollection<DeviceInformation>();
+        }
+
+        private async void ShutDown_Click(object sender, RoutedEventArgs e)
+        {
+            MessageDialog dialog = new MessageDialog("Are you sure you want to Shutdown?");
+            dialog.Title = "Shutting Down?";
+            dialog.Commands.Add(new UICommand("Yes", null));
+            dialog.Commands.Add(new UICommand("No", null));
+            dialog.DefaultCommandIndex = 0;
+            dialog.CancelCommandIndex = 1;
+
+            var cmd = await dialog.ShowAsync();
+
+            if (cmd.Label == "Yes")
+            {
+                // Shutdowns the device immediately:
+                ShutdownManager.BeginShutdown(ShutdownKind.Shutdown, TimeSpan.FromSeconds(5));
+            }
+
+        }
+
+        private async void Restart_Click(object sender, RoutedEventArgs e)
+        {
+            MessageDialog dialog = new MessageDialog("Restart Lora Gateway App?");
+            dialog.Title = "Restart App?";
+            dialog.Commands.Add(new UICommand("Yes", null));
+            dialog.Commands.Add(new UICommand("No", null));
+            dialog.DefaultCommandIndex = 0;
+            dialog.CancelCommandIndex = 1;
+
+            var cmd = await dialog.ShowAsync();
+
+            if (cmd.Label == "Yes")
+            {
+                await Windows.ApplicationModel.Core.CoreApplication.RequestRestartAsync("-fastInit -level 1 -foo");
+            }
         }
     }
 }
