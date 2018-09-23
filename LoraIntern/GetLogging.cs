@@ -19,7 +19,7 @@ namespace LoraIntern
             {
                 Windows.UI.ViewManagement.ApplicationView.GetForCurrentView();
 
-                using (SmtpClient client = new SmtpClient("smtp-mail.outlook.com", 587, false, "thc1n17@soton.ac.uk", "loYhuilam0323"))
+                using (SmtpClient client = new SmtpClient("smtp-mail.outlook.com", 587, false, "your email", "your email password"))
                 {
                     EmailMessage emailMessage = new EmailMessage();
 
