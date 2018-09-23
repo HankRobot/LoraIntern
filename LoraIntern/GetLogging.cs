@@ -23,7 +23,7 @@ namespace LoraIntern
                 {
                     EmailMessage emailMessage = new EmailMessage();
 
-                    emailMessage.To.Add(new EmailRecipient("thc1n17@soton.ac.uk"));
+                    emailMessage.To.Add(new EmailRecipient("your email"));
                     emailMessage.Subject = title;
                     emailMessage.Body = message;
                     emailMessage.Importance = EmailImportance.High;
