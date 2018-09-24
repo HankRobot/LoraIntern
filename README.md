@@ -17,6 +17,8 @@ The folder Arduino Code contains the code for Arduino, please check the README f
 4. Wait, remote device usually takes a longer time :)
 
 # Contribute (Will write this when I am finishing my internship)
-1. 
+1. Unable to track if a Lora Node has been transmitting on time or correct periods.
+2. Tranmission range is only 100 metres max.
+3. An unknown error "The process cannot access the file because it is being used by another process." occasionally pops up.
 
 #HAPPY CODING!!! :heart:
