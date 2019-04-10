@@ -25,8 +25,8 @@ namespace LoraIntern
         DataReader dataReaderObject = null;
 
         //set these to false if you are running on rpi
-        public bool isdesktop = false;
-        public bool ejectpendrive = false;
+        public bool isdesktop = true;
+        public bool ejectpendrive = true;
 
         //these are variables for displaying the data
         public string transmission { get; set; }
@@ -290,6 +290,9 @@ namespace LoraIntern
                         press = word.Remove(word.IndexOf('p') + 2).Remove(0, word.LastIndexOf('c') + 2).Replace('p', 'P');
                         hum = word.Remove(word.IndexOf('%') + 1).Remove(0, word.IndexOf('p') + 3);
                         RSSI = word.Remove(0, word.IndexOf('%') + 2).Replace('m', ' ');
+
+                        string format = "yyyy-MM-dd HH:mm:ss";
+                        date = DateTime.Now.ToString(format);
 
                         //this counter is to verify the number of transmission is changing and transmission is true for the sql to upload data
                         setter = Int32.Parse(transmission);
