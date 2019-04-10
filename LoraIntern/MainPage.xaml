@@ -44,8 +44,8 @@
                 <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
 
-            <Button x:Name="ShutDown" Grid.Row="0" Grid.Column="0" Content="&#xE7E8;" FontFamily="Segoe MDL2 Assets" RequestedTheme="Light" Background="White" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="ShutDown_Click" FontSize="15"/>
-            <Button x:Name="Restart" Grid.Row="0" Grid.Column="1" Content="&#xE72C;" FontFamily="Segoe MDL2 Assets" RequestedTheme="Light" Background="White" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="Restart_Click" FontSize="15"/>
+            <Button x:Name="ShutDown" Grid.Row="0" Grid.Column="0" Content="&#xE7E8;" FontFamily="Segoe MDL2 Assets" RequestedTheme="Light" Background="White" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="ShutDown_Click" FontSize="20"/>
+            <Button x:Name="Restart" Grid.Row="0" Grid.Column="1" Content="&#xE72C;" FontFamily="Segoe MDL2 Assets" RequestedTheme="Light" Background="White" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="Restart_Click" FontSize="20"/>
         </Grid>
 
         <Grid Grid.Row="10" Canvas.ZIndex="1">
@@ -62,17 +62,17 @@
             <ProgressRing x:Name="connectionring" IsActive="False" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Canvas.ZIndex="0"/>
         </Grid>
 
-        <Button x:Name="Eject" Grid.Column="0" Grid.Row="8" FontSize="14" Content="Eject Pendrive" HorizontalAlignment="Center" VerticalAlignment="Stretch" RequestedTheme="Light" Click="Eject_Click"/>
-        <TextBlock Text="USB Status:" Grid.Row="8" Grid.Column="1" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" RequestedTheme="Light"/>
+        <Button x:Name="Eject" Grid.Column="0" Grid.Row="8" FontSize="20" Content="Eject Pendrive" HorizontalAlignment="Center" VerticalAlignment="Stretch" RequestedTheme="Light" Click="Eject_Click"/>
+        <TextBlock Text="USB Status:" Grid.Row="8" Grid.Column="1" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" RequestedTheme="Light"/>
         <TextBox x:Name="USBLabel" Grid.Row="8" Grid.Column="2" TextWrapping="Wrap" IsReadOnly="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" BorderBrush="White" FontSize="10" RequestedTheme="Dark"/>
 
-        <TextBlock Text="Sql Status:" Grid.Row="8" Grid.Column="3" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" RequestedTheme="Light"/>
+        <TextBlock Text="Sql Status:" Grid.Row="8" Grid.Column="3" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" RequestedTheme="Light"/>
         <TextBox x:Name="sqlstatus" Grid.Row="8" Grid.Column="4" TextWrapping="Wrap" IsReadOnly="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" BorderBrush="White" FontSize="10" RequestedTheme="Dark"/>
 
         <Image />
         <TextBlock x:Name="pageTitle" Text="Raspberry Pi Lora Gateway " HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="6" TextAlignment="Center" RequestedTheme="Light"/>
 
-        <TextBlock Text="Read Data:" FontSize="15" Grid.Row="4" Grid.Column="0" HorizontalAlignment="Stretch" TextAlignment="Center" VerticalAlignment="Center" RequestedTheme="Light" FocusVisualPrimaryBrush="#FF48AED4" FocusVisualSecondaryBrush="#FF48AED4" SelectionHighlightColor="#FF48AED4"/>
+        <TextBlock Text="Read Data:" FontSize="20" Grid.Row="4" Grid.Column="0" HorizontalAlignment="Stretch" TextAlignment="Center" VerticalAlignment="Center" RequestedTheme="Light" FocusVisualPrimaryBrush="#FF48AED4" FocusVisualSecondaryBrush="#FF48AED4" SelectionHighlightColor="#FF48AED4"/>
         <TextBox x:Name="rcvdText" RequestedTheme="Dark" FontSize="14" IsReadOnly="True" Text="Your Serial writes here" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="4"/>
 
         <Image x:Name="rpiicon" Source="Assets/rpicon.jpeg" Grid.Row="6" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" RequestedTheme="Light" FocusVisualPrimaryBrush="#FF48AED4" FocusVisualSecondaryBrush="#FF48AED4"/>
@@ -83,7 +83,7 @@
         <Image x:Name="disconnectgif" Visibility="Visible"  Grid.Row="10" Grid.Column="0" gif:AnimationBehavior.SourceUri="Assets/disconnect.gif"/>
 
 
-        <TextBlock Text="Devices Available:" FontSize="14" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" RequestedTheme="Light" FocusVisualPrimaryBrush="#FF48AED4" FocusVisualSecondaryBrush="#FF48AED4" SelectionHighlightColor="#FF48AED4"/>
+        <TextBlock Text="Devices Available:" FontSize="20" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" RequestedTheme="Light" FocusVisualPrimaryBrush="#FF48AED4" FocusVisualSecondaryBrush="#FF48AED4" SelectionHighlightColor="#FF48AED4"/>
         <ListBox x:Name="ConnectDevices" FontSize="15" ScrollViewer.HorizontalScrollMode="Enabled" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="4" ScrollViewer.HorizontalScrollBarVisibility="Visible" ItemsSource="{Binding Source={StaticResource DeviceListSource}}" Background="Gray" HorizontalAlignment="Left" RequestedTheme="Dark">
             <ListBox.ItemTemplate>
                 <DataTemplate>
@@ -110,25 +110,25 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <TextBlock Grid.Row="0" Grid.Column="0" TextWrapping="Wrap" Text="   Transmission" FontSize="12" TextAlignment="Center" HorizontalAlignment="Left" RequestedTheme="Light" VerticalAlignment="Center"/>
-            <TextBlock Grid.Row="1" Grid.Column="0" TextWrapping="Wrap" Text="   Lora ID" FontSize="12" TextAlignment="Center"  HorizontalAlignment="Left" RequestedTheme="Light" VerticalAlignment="Center"/>
-            <TextBlock Grid.Row="2" Grid.Column="0" TextWrapping="Wrap" Text="   Time Submitted" FontSize="12" TextAlignment="Center"  HorizontalAlignment="Left" SelectionHighlightColor="White" RequestedTheme="Light" VerticalAlignment="Center"/>
-            <TextBlock Grid.Row="3" Grid.Column="0" TextWrapping="Wrap" Text="   Dust Reading" FontSize="12" TextAlignment="Center"  HorizontalAlignment="Left" RequestedTheme="Light" VerticalAlignment="Center"/>
-            <TextBlock Grid.Row="4" Grid.Column="0" TextWrapping="Wrap" Text="   UV Reading" FontSize="12" TextAlignment="Center"  HorizontalAlignment="Left" RequestedTheme="Light" VerticalAlignment="Center"/>
-            <TextBlock Grid.Row="5" Grid.Column="0" TextWrapping="Wrap" Text="   Temperature" FontSize="12"  RequestedTheme="Light" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-            <TextBlock Grid.Row="6" Grid.Column="0" TextWrapping="Wrap" Text="   Pressure" FontSize="12" TextAlignment="Center"  VerticalAlignment="Center" Padding="0" HorizontalAlignment="Left" RequestedTheme="Light"/>
-            <TextBlock Grid.Row="7" Grid.Column="0" TextWrapping="Wrap" Text="   Humidity" FontSize="12" TextAlignment="Center"  HorizontalAlignment="Left" RequestedTheme="Light" VerticalAlignment="Center"/>
-            <TextBlock Grid.Row="8" Grid.Column="0" TextWrapping="Wrap" Text="   RSSI" TextAlignment="Left"  FontSize="12" HorizontalAlignment="Left" Width="129" RequestedTheme="Light" VerticalAlignment="Center"/>
+            <TextBlock Grid.Row="0" Grid.Column="0" TextWrapping="Wrap" Text="   Transmission" FontSize="20" TextAlignment="Center" HorizontalAlignment="Left" RequestedTheme="Light" VerticalAlignment="Center"/>
+            <TextBlock Grid.Row="1" Grid.Column="0" TextWrapping="Wrap" Text="   Lora ID" FontSize="20" TextAlignment="Center"  HorizontalAlignment="Left" RequestedTheme="Light" VerticalAlignment="Center"/>
+            <TextBlock Grid.Row="2" Grid.Column="0" TextWrapping="Wrap" Text="   Time Submitted" FontSize="20" TextAlignment="Center"  HorizontalAlignment="Left" SelectionHighlightColor="White" RequestedTheme="Light" VerticalAlignment="Center"/>
+            <TextBlock Grid.Row="3" Grid.Column="0" TextWrapping="Wrap" Text="   Dust Reading" FontSize="20" TextAlignment="Center"  HorizontalAlignment="Left" RequestedTheme="Light" VerticalAlignment="Center"/>
+            <TextBlock Grid.Row="4" Grid.Column="0" TextWrapping="Wrap" Text="   UV Reading" FontSize="20" TextAlignment="Center"  HorizontalAlignment="Left" RequestedTheme="Light" VerticalAlignment="Center"/>
+            <TextBlock Grid.Row="5" Grid.Column="0" TextWrapping="Wrap" Text="   Temperature" FontSize="20"  RequestedTheme="Light" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            <TextBlock Grid.Row="6" Grid.Column="0" TextWrapping="Wrap" Text="   Pressure" FontSize="20" TextAlignment="Center"  VerticalAlignment="Center" Padding="0" HorizontalAlignment="Left" RequestedTheme="Light"/>
+            <TextBlock Grid.Row="7" Grid.Column="0" TextWrapping="Wrap" Text="   Humidity" FontSize="20" TextAlignment="Center"  HorizontalAlignment="Left" RequestedTheme="Light" VerticalAlignment="Center"/>
+            <TextBlock Grid.Row="8" Grid.Column="0" TextWrapping="Wrap" Text="   RSSI" TextAlignment="Left"  FontSize="20" HorizontalAlignment="Left" Width="129" RequestedTheme="Light" VerticalAlignment="Center"/>
 
-            <TextBlock Grid.Row="0" Grid.Column="1" x:Name="transmissiont" TextWrapping="Wrap" Text="No.0"  FontSize="12" TextAlignment="Center" VerticalAlignment="Center"/>
-            <TextBlock Grid.Row="1" Grid.Column="1" x:Name="idt" HorizontalAlignment="Stretch" TextWrapping="Wrap" Text="???" VerticalAlignment="Center"  FontSize="12" TextAlignment="Center"/>
-            <TextBlock Grid.Row="2" Grid.Column="1" x:Name="datet" HorizontalAlignment="Stretch" TextWrapping="Wrap" Text="???" VerticalAlignment="Center" FontSize="12" TextAlignment="Center"/>
-            <TextBlock Grid.Row="3" Grid.Column="1" x:Name="dustt" HorizontalAlignment="Stretch" TextWrapping="Wrap" Text="0kg/m^3" VerticalAlignment="Center" FontSize="12" TextAlignment="Center"/>
-            <TextBlock Grid.Row="4" Grid.Column="1" x:Name="uvt" TextWrapping="Wrap" Text="0mW/m^2" FontSize="12" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <TextBlock Grid.Row="5" Grid.Column="1" x:Name="tempt" TextWrapping="Wrap" Text="0°C" FontSize="12" TextAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
-            <TextBlock Grid.Row="6" Grid.Column="1" x:Name="presst" TextWrapping="Wrap" Text="0Pa" FontSize="12" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Stretch" />
-            <TextBlock Grid.Row="7" Grid.Column="1" x:Name="humt" HorizontalAlignment="Center" TextWrapping="Wrap" Text="0%" VerticalAlignment="Center" FontSize="12"  TextAlignment="Center"/>
-            <TextBlock Grid.Row="8" Grid.Column="1" x:Name="RSSIt" TextWrapping="Wrap" Text="0" TextAlignment="Center" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock Grid.Row="0" Grid.Column="1" x:Name="transmissiont" TextWrapping="Wrap" Text="No.0"  FontSize="20" TextAlignment="Center" RequestedTheme="Light" VerticalAlignment="Center"/>
+            <TextBlock Grid.Row="1" Grid.Column="1" x:Name="idt" HorizontalAlignment="Stretch" TextWrapping="Wrap" Text="???" VerticalAlignment="Center"  FontSize="20" RequestedTheme="Light" TextAlignment="Center"/>
+            <TextBlock Grid.Row="2" Grid.Column="1" x:Name="datet" HorizontalAlignment="Stretch" TextWrapping="Wrap" Text="???" VerticalAlignment="Center" FontSize="20" RequestedTheme="Light" TextAlignment="Center"/>
+            <TextBlock Grid.Row="3" Grid.Column="1" x:Name="dustt" HorizontalAlignment="Stretch" TextWrapping="Wrap" Text="0kg/m^3" VerticalAlignment="Center" FontSize="20" RequestedTheme="Light" TextAlignment="Center"/>
+            <TextBlock Grid.Row="4" Grid.Column="1" x:Name="uvt" TextWrapping="Wrap" Text="0mW/m^2" FontSize="20" TextAlignment="Center" HorizontalAlignment="Center" RequestedTheme="Light" VerticalAlignment="Center"/>
+            <TextBlock Grid.Row="5" Grid.Column="1" x:Name="tempt" TextWrapping="Wrap" Text="0°C" FontSize="20" TextAlignment="Center" HorizontalAlignment="Stretch" RequestedTheme="Light" VerticalAlignment="Center"/>
+            <TextBlock Grid.Row="6" Grid.Column="1" x:Name="presst" TextWrapping="Wrap" Text="0Pa" FontSize="20" TextAlignment="Center" VerticalAlignment="Center" RequestedTheme="Light" HorizontalAlignment="Stretch" />
+            <TextBlock Grid.Row="7" Grid.Column="1" x:Name="humt" HorizontalAlignment="Center" TextWrapping="Wrap" Text="0%" VerticalAlignment="Center" FontSize="20" RequestedTheme="Light" TextAlignment="Center"/>
+            <TextBlock Grid.Row="8" Grid.Column="1" x:Name="RSSIt" TextWrapping="Wrap" Text="0" TextAlignment="Center" FontSize="20" HorizontalAlignment="Center" RequestedTheme="Light" VerticalAlignment="Center"/>
 
         </Grid>
 

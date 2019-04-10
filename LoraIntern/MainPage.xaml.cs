@@ -283,12 +283,12 @@ namespace LoraIntern
                         Debug.WriteLine(word);
                         transmission = word.Remove(word.IndexOf('f') - 1);
                         id = word.Remove(word.IndexOf('d') - 1).Remove(0, word.IndexOf('m') + 2);
-                        date = DateTime.Now.ToShortDateString();  //word.Remove(word.IndexOf('k') - 5).Remove(0, word.IndexOf('m') + 2 + id.Length + 2);
-                        dust = "0";   //word.Remove(word.IndexOf('k') + 6).Remove(0, word.IndexOf('d') + date.Length + 1);
-                        uv = "0";   // word.Remove(word.IndexOf('w') + 6).Remove(0, word.IndexOf('k') + 6).Replace('w', 'W');
-                        temp = "0";   //= word.Remove(word.LastIndexOf('c') + 1).Remove(0, word.IndexOf('b') + 1).Replace("c", "°C");
-                        press = "0";   //word.Remove(word.IndexOf('p') + 2).Remove(0, word.LastIndexOf('c') + 2).Replace('p', 'P');
-                        hum = "0";   //word.Remove(word.IndexOf('%') + 1).Remove(0, word.IndexOf('p') + 3);
+                        date = word.Remove(word.IndexOf('k') - 5).Remove(0, word.IndexOf('m') + 2 + id.Length + 2);
+                        dust = word.Remove(word.IndexOf('k') + 6).Remove(0, word.IndexOf('d') + date.Length + 1);
+                        uv = word.Remove(word.IndexOf('w') + 6).Remove(0, word.IndexOf('k') + 6).Replace('w', 'W');
+                        temp = word.Remove(word.LastIndexOf('c') + 1).Remove(0, word.IndexOf('b') + 1).Replace("c", "°C");
+                        press = word.Remove(word.IndexOf('p') + 2).Remove(0, word.LastIndexOf('c') + 2).Replace('p', 'P');
+                        hum = word.Remove(word.IndexOf('%') + 1).Remove(0, word.IndexOf('p') + 3);
                         RSSI = word.Remove(0, word.IndexOf('%') + 2).Replace('m', ' ');
 
                         //this counter is to verify the number of transmission is changing and transmission is true for the sql to upload data
@@ -310,11 +310,11 @@ namespace LoraIntern
                         // id is a string, no need change number
                         daten = Convert.ToDateTime(date);
 
-                        dustn = 0;// Convert.ToDouble(dust.Remove(dust.Length - 6));
-                        uvn = 0;// Convert.ToDouble(uv.Remove(uv.Length - 7));
-                        tempn = 0;// Convert.ToDouble(temp.Remove(temp.Length - 2));
-                        pressn = 0;// Convert.ToDouble(press.Remove(press.Length - 2));
-                        humn = 0;//Convert.ToDouble(hum.Remove(hum.Length - 1));
+                        dustn = Convert.ToDouble(dust.Remove(dust.Length - 6));
+                        uvn = Convert.ToDouble(uv.Remove(uv.Length - 7));
+                        tempn = Convert.ToDouble(temp.Remove(temp.Length - 2));
+                        pressn = Convert.ToDouble(press.Remove(press.Length - 2));
+                        humn = Convert.ToDouble(hum.Remove(hum.Length - 1));
                         RSSIn = Convert.ToDouble(RSSI.Remove(RSSI.Length - 1));
 
                         status.Text = "Bytes read successfully!";
