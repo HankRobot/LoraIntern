@@ -209,17 +209,18 @@ void loop()
 {
 	bool send_status = false;
 	Serial.println("Sending to rf95_server");
-	UVread();
-	BMEread();
-	dustread();
-	rtcread();
+	//UVread();
+	//BMEread();
+	//dustread();
+	//rtcread();
   
   //if NAN condition occurs
+  /*
   while(isnan(temp)||isnan(pa)||isnan(hum))
   {
     BMEread();
   }
-
+  */
   // Send a message to rf95_server
 	String radiopacket = "No.";
 	radiopacket += String(packetnum++);   //number of successful transmissions

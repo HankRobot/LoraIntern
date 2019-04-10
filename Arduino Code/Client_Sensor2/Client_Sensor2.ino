@@ -22,7 +22,7 @@
 #define RFM95_CS 10
 #define RFM95_RST 7
 #define RFM95_INT 2
-#define node_id "LORA"   //change the name of this if u wanna add new clients
+#define node_id "HANK"   //change the name of this if u wanna add new clients
  
 // Change to 434.0 or other frequency, must match RX's freq!
 #define RF95_FREQ 915.0
