@@ -14,10 +14,17 @@ namespace LoraIntern
         {
             SqlConnectionStringBuilder sql = new SqlConnectionStringBuilder();
 
+            /*
             sql.DataSource = "loraintern.database.windows.net";
             sql.UserID = "lora";
             sql.Password = "intern1234@";
             sql.InitialCatalog = "LoraIntern";
+            */
+
+            sql.DataSource = "lorashp.database.windows.net";
+            sql.UserID = "shp";
+            sql.Password = "Loraintern1234";
+            sql.InitialCatalog = "lorashp";
 
             return sql;
         }

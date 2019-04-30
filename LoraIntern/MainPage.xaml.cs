@@ -25,8 +25,8 @@ namespace LoraIntern
         DataReader dataReaderObject = null;
 
         //set these to false if you are running on rpi
-        public bool isdesktop = true;
-        public bool ejectpendrive = true;
+        public bool isdesktop = false;
+        public bool ejectpendrive = false;
 
         //these are variables for displaying the data
         public string transmission { get; set; }
@@ -80,7 +80,7 @@ namespace LoraIntern
                 {
                     await GetLogging.EmailSendLogs("Lora Gateway has started.", string.Format("Rpi Started on {0}", DateTime.Now));
                     USBLabel.Text = "Writing Logs";
-                    await GetLogging.WritetoTxtFile("Lora Gateway has started",ejectpendrive);
+                    await GetLogging.WritetoTxtFile("Lora Gateway has started",ejectpendrive, "Logs.txt",true);
                     USBLabel.Text = "Logs Written";
                     status.Text = "Sending Email";
                 }
@@ -108,7 +108,7 @@ namespace LoraIntern
                     await GetLogging.EmailSendLogs("Status Exception on Lora Rpi Gateway", status.Text);
 
                     USBLabel.Text = "Writing Logs";
-                    await GetLogging.WritetoTxtFile(status.Text,ejectpendrive);
+                    await GetLogging.WritetoTxtFile(status.Text,ejectpendrive, "Logs.txt", true);
                     USBLabel.Text = "Logs Written";
 
                     ReadRestart();
@@ -168,7 +168,7 @@ namespace LoraIntern
                     await GetLogging.EmailSendLogs("Status Exception on Lora Rpi Gateway", status.Text + String.Format("\n{0}", rcvdText.Text));
 
                     USBLabel.Text = "Writing Logs";
-                    await GetLogging.WritetoTxtFile(status.Text + String.Format("\n{0}", rcvdText.Text),ejectpendrive);
+                    await GetLogging.WritetoTxtFile(status.Text + String.Format("\n{0}", rcvdText.Text),ejectpendrive, "Logs.txt", true);
                     USBLabel.Text = "Logs Written";
 
                     ReadRestart();
@@ -208,7 +208,7 @@ namespace LoraIntern
                     await GetLogging.EmailSendLogs("Status Exception on Lora Rpi Gateway", status.Text);
 
                     USBLabel.Text = "Writing Logs";
-                    await GetLogging.WritetoTxtFile(status.Text,ejectpendrive);
+                    await GetLogging.WritetoTxtFile(status.Text,ejectpendrive, "Logs.txt", true);
                     USBLabel.Text = "Logs Written";
 
                     ReadRestart();
@@ -227,7 +227,7 @@ namespace LoraIntern
                     await GetLogging.EmailSendLogs("Status Exception on Lora Rpi Gateway", status.Text + String.Format("\n{0}",rcvdText.Text));
 
                     USBLabel.Text = "Writing Logs";
-                    await GetLogging.WritetoTxtFile(status.Text + String.Format("\n{0}", rcvdText.Text),ejectpendrive);
+                    await GetLogging.WritetoTxtFile(status.Text + String.Format("\n{0}", rcvdText.Text),ejectpendrive, "Logs.txt", true);
                     USBLabel.Text = "Logs Written";
 
                     ReadRestart();
@@ -326,7 +326,7 @@ namespace LoraIntern
                         if (!isdesktop && USBLabel.Text != "Writing Logs")
                         {
                             USBLabel.Text = "Writing Logs";
-                            await GetLogging.WritetoTxtFile("Sent Data: "+ transmission + " " + id + " " + date + " " + dust + " " + uv + " " + temp + " " + press + " " + hum + " " + RSSI, ejectpendrive);
+                            await GetLogging.WritetoTxtFile(transmission + "," + id + "," + date + "," + dust + "," + uv + "," + temp + "," + press + "," + hum + "," + RSSI, ejectpendrive, "data.txt", false);
                             USBLabel.Text = "Logs Written";
                         }
                         
@@ -385,7 +385,7 @@ namespace LoraIntern
 
             if (!isdesktop && USBLabel.Text != "Writing Logs")
             {
-                await GetLogging.WritetoTxtFile("SQLQuery:" + sendQuery, ejectpendrive);
+                await GetLogging.WritetoTxtFile("SQLQuery:" + sendQuery, ejectpendrive, "Logs.txt", true);
             }
 
             SqlConnectionStringBuilder sql = LoraSQLConnect.ConnectionString();
@@ -405,19 +405,22 @@ namespace LoraIntern
                 }
                 catch (SqlException ex)
                 {
-                    LoraSQLConnect.DisplaySqlErrors(ex,isdesktop);
-                    for (int i = 0; i < ex.Errors.Count; i++)
+                    if (!isdesktop && USBLabel.Text != "Writing Logs")
                     {
-                        USBLabel.Text = "Writing Logs";
-                        await GetLogging.WritetoTxtFile("Index #" + i + "\n" +
-                            "Error: " + ex.Errors[i].ToString() + "\n", ejectpendrive);
-                        USBLabel.Text = "Logs Written";
+                        LoraSQLConnect.DisplaySqlErrors(ex, isdesktop);
+                        for (int i = 0; i < ex.Errors.Count; i++)
+                        {
+                            USBLabel.Text = "Writing Logs";
+                            await GetLogging.WritetoTxtFile("Index #" + i + "\n" +
+                                "Error: " + ex.Errors[i].ToString() + "\n", ejectpendrive, "Logs.txt", true);
+                            USBLabel.Text = "Logs Written";
 
-                        await GetLogging.EmailSendLogs("SQL Status Exception on Lora Rpi Gateway", "Index #" + i + "\n" +
-                            "Error: " + ex.Errors[i].ToString() + "\n");
+                            await GetLogging.EmailSendLogs("SQL Status Exception on Lora Rpi Gateway", "Index #" + i + "\n" +
+                                "Error: " + ex.Errors[i].ToString() + "\n");
+                        }
+                        sqlstatus.Text = "Disconnected.";
+                        ReadRestart();
                     }
-                    sqlstatus.Text = "Disconnected.";
-                    ReadRestart();
                 }
                 sqlConn.Close();
             }

@@ -37,7 +37,7 @@ namespace LoraIntern
             }
         }
 
-        public async static Task WritetoTxtFile(string message,bool ejectstatus)
+        public async static Task WritetoTxtFile(string message,bool ejectstatus,string filename,bool datetimelog)
         {
             if (!ejectstatus)
             {
@@ -53,8 +53,16 @@ namespace LoraIntern
                 }
 
                 var testFolder = await drive0.CreateFolderAsync("RpiLogs", CreationCollisionOption.OpenIfExists);
-                var testFile = await testFolder.CreateFileAsync("Logs.txt", CreationCollisionOption.OpenIfExists);
-                await FileIO.AppendTextAsync(testFile, "[" + DateTime.Now + "] " + message + System.Environment.NewLine);
+                //var testFile = await testFolder.CreateFileAsync("Logs.txt", CreationCollisionOption.OpenIfExists);
+                var testFile = await testFolder.CreateFileAsync(filename, CreationCollisionOption.OpenIfExists);
+                if (datetimelog)
+                {
+                    await FileIO.AppendTextAsync(testFile, "[" + DateTime.Now + "] " + message + System.Environment.NewLine);
+                }
+                else
+                {
+                    await FileIO.AppendTextAsync(testFile, message + System.Environment.NewLine);
+                }
             }
         }
 
