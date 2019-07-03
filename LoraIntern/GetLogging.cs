@@ -19,11 +19,11 @@ namespace LoraIntern
             {
                 Windows.UI.ViewManagement.ApplicationView.GetForCurrentView();
 
-                using (SmtpClient client = new SmtpClient("smtp-mail.outlook.com", 587, false, "thc1n17@soton.ac.uk", "lOyhuilam0323"))
+                using (SmtpClient client = new SmtpClient("smtp-mail.outlook.com", 587, false, "", ""))
                 {
                     EmailMessage emailMessage = new EmailMessage();
 
-                    emailMessage.To.Add(new EmailRecipient("yayscience2@gmail.com")); 
+                    emailMessage.To.Add(new EmailRecipient("")); 
                     emailMessage.Subject = title;
                     emailMessage.Body = message;
                     emailMessage.Importance = EmailImportance.High;
